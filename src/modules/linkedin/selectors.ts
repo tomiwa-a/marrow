@@ -55,44 +55,44 @@ export const linkedinSelectors = {
     cards: {
       postCard: 'div[data-urn*="urn:li:activity"]',
       postContainer: '.feed-shared-update-v2',
-      postAuthor: '.update-components-actor__name',
+      postAuthor: '.update-components-actor__title',
       postContent: '.feed-shared-update-v2__description',
-      postImage: '.feed-shared-image__image',
-      postVideo: '.feed-shared-update-v2__content video',
+      postImage: '.update-components-image__image',
+      postVideo: '.update-components-video__video, video',
     },
     buttons: {
-      likeButton: 'button[aria-label*="React"]',
-      commentButton: 'button[aria-label*="Comment"]',
-      repostButton: 'button[aria-label*="Repost"]',
-      shareButton: 'button[aria-label*="Share"]',
-      sendButton: 'button[aria-label*="Send"]',
+      likeButton: 'button.react-button__trigger',
+      commentButton: 'button.comment-button',
+      repostButton: 'button.repost-button, button[aria-label*="Repost"]',
+      shareButton: 'button.share-button, button[aria-label*="Share"]',
+      sendButton: 'button.send-privately-button',
     },
     inputs: {
-      postBox: '.share-box-feed-entry__trigger',
-      commentBox: '.comments-comment-texteditor',
+      postBox: '.share-box-feed-entry__top-bar button',
+      commentBox: '.comments-comment-box__editor-text-area',
     },
     details: {
-      reactionCount: '.social-details-social-counts__reactions',
+      reactionCount: '.social-details-social-counts__reactions-count',
       commentCount: '.social-details-social-counts__comments',
-      timestamp: 'time.update-components-actor__sub-description',
+      timestamp: '.update-components-actor__sub-description',
     },
   },
   
   myNetwork: {
     cards: {
-      invitationCard: 'li[data-view-name*="invitation"]',
-      suggestionCard: 'div[data-view-name*="pymk-card"]',
-      personName: 'span.discover-person-card__name',
-      personHeadline: 'p.discover-person-card__occupation',
+      invitationCard: 'div[data-view-name="invitation-card"]',
+      suggestionCard: 'div[data-view-name="cohort-card"]',
+      personName: 'span[aria-hidden="true"]',
+      personHeadline: 'div.artdeco-entity-lockup__subtitle, p:not(:has(span))',
     },
     buttons: {
-      acceptButton: 'button:contains("Accept")',
-      ignoreButton: 'button:contains("Ignore")',
-      connectButton: 'button:contains("Connect")',
+      acceptButton: 'button[aria-label*="Accept"]',
+      ignoreButton: 'button[aria-label*="Ignore"]',
+      connectButton: 'button[aria-label*="Invite"]',
     },
     navigation: {
-      invitationsTab: 'a:contains("Invitations")',
-      connectionsTab: 'a:contains("Connections")',
+      invitationsTab: 'button[data-view-name="my-network-grow-sub-tab"]',
+      connectionsTab: 'a[href*="/mynetwork/invite-connect/connections/"]',
     },
   },
   
@@ -106,7 +106,7 @@ export const linkedinSelectors = {
     cards: {
       conversationCard: '.msg-conversation-card',
       participantName: '.msg-conversation-listitem__participant-names',
-      lastMessage: '.msg-conversation-listitem__message-snippet',
+      lastMessage: '.msg-conversation-card__message-snippet',
       timestamp: '.msg-conversation-listitem__time-stamp',
     },
     inputs: {
@@ -116,20 +116,20 @@ export const linkedinSelectors = {
     buttons: {
       sendButton: '.msg-form__send-button',
       attachButton: 'button[aria-label*="Attach"]',
-      emojiButton: 'button[aria-label*="emoji"]',
+      emojiButton: 'button.msg-form__footer-action', // General class for footer actions, need to be specific if possible or take the first/specific one
     },
   },
   
   global: {
     navigation: {
-      homeTab: 'a[href="https://www.linkedin.com/"]',
-      jobsTab: 'a[href="https://www.linkedin.com/jobs/"]',
-      networkTab: 'a[href="https://www.linkedin.com/mynetwork/"]',
-      messagingTab: 'a[href="https://www.linkedin.com/messaging/"]',
-      notificationsTab: 'a[href="https://www.linkedin.com/notifications/"]',
-      meDropdown: 'button[aria-expanded][data-view-name="navigation-settings"]',
-      forBusinessDropdown: 'button[aria-label*="For Business"]',
-      linkedInLogo: 'svg[id="linkedin-bug-blue-medium"]',
+      homeTab: 'a.global-nav__primary-link[href*="linkedin.com/feed"]',
+      jobsTab: 'a.global-nav__primary-link[href*="linkedin.com/jobs"]',
+      networkTab: 'a.global-nav__primary-link[href*="linkedin.com/mynetwork"]',
+      messagingTab: 'a.global-nav__primary-link[href*="linkedin.com/messaging"]',
+      notificationsTab: 'a.global-nav__primary-link[href*="linkedin.com/notifications"]',
+      meDropdown: 'button.global-nav__primary-link-me-menu-trigger',
+      forBusinessDropdown: 'button.global-nav__primary-link-app-launcher-menu-trigger',
+      linkedInLogo: 'li.global-nav__primary-item a[href*="/feed"] svg, .global-nav__logo svg',
     },
   },
 };
