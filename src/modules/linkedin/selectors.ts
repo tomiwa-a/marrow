@@ -45,6 +45,58 @@ export const LinkedInSelectors = {
     jobDescription: '.show-more-less-html__markup',
   },
   
+  feed: {
+    cards: {
+      postCard: 'div[data-urn*="urn:li:activity"]',
+      postAuthor: 'span.update-components-actor__name',
+      postContent: 'div.feed-shared-update-v2__description',
+      postImage: 'img.feed-shared-image__image',
+    },
+    buttons: {
+      likeButton: 'button[aria-label*="Like"]',
+      commentButton: 'button[aria-label*="Comment"]',
+      shareButton: 'button[aria-label*="Share"]',
+      postButton: 'button:contains("Post")',
+    },
+    inputs: {
+      postBox: 'div[aria-label*="share"]',
+      commentBox: 'div[aria-label*="comment"]',
+    },
+  },
+  
+  myNetwork: {
+    cards: {
+      invitationCard: 'li[data-view-name*="invitation"]',
+      suggestionCard: 'div[data-view-name*="pymk-card"]',
+      personName: 'span.discover-person-card__name',
+      personHeadline: 'p.discover-person-card__occupation',
+    },
+    buttons: {
+      acceptButton: 'button:contains("Accept")',
+      ignoreButton: 'button:contains("Ignore")',
+      connectButton: 'button:contains("Connect")',
+    },
+    navigation: {
+      invitationsTab: 'a:contains("Invitations")',
+      connectionsTab: 'a:contains("Connections")',
+    },
+  },
+  
+  messaging: {
+    lists: {
+      conversationList: 'ul[aria-label*="Conversations"]',
+      conversationItem: 'li[data-view-name*="conversation"]',
+    },
+    inputs: {
+      messageBox: 'div[aria-label*="message"]',
+      searchBox: 'input[placeholder*="Search"]',
+    },
+    buttons: {
+      sendButton: 'button[aria-label*="Send"]',
+      newMessageButton: 'button:contains("Write a message")',
+    },
+  },
+  
   global: {
     navigation: {
       homeTab: 'a[href="https://www.linkedin.com/"]',

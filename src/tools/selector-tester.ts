@@ -57,7 +57,7 @@ export class SelectorTester {
   }
 
   private testSelector(
-    $: cheerio.CheerioAPI,
+    $: cheerio.Root,
     name: string,
     selector: string,
   ): SelectorTestResult {
