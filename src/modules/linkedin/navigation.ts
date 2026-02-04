@@ -1,6 +1,7 @@
 import { Page } from "playwright";
 import { linkedinSelectors } from "./selectors";
 import { linkedinUrls, JobSearchParams } from "./urls";
+import { StealthEngine } from "../../browser/stealth";
 
 export interface JobListing {
   title: string;
@@ -11,11 +12,17 @@ export interface JobListing {
 }
 
 export class LinkedInNavigator {
-  constructor(private page: Page) {}
+  private stealth: StealthEngine;
+
+  constructor(private page: Page) {
+    this.stealth = new StealthEngine(page);
+  }
 
   async goToJobs(): Promise<void> {
     await this.page.goto(linkedinUrls.jobs());
-    await this.page.waitForLoadState("load");
+    await this.page.waitForLoadState("domcontentloaded");
+    await this.stealth.randomDelay(2000, 4000);
+    
     await this.page.waitForSelector(linkedinSelectors.jobSearch.jobsList, {
       timeout: 10000,
     });
@@ -24,24 +31,25 @@ export class LinkedInNavigator {
   async searchJobs(params: JobSearchParams): Promise<void> {
     const url = linkedinUrls.jobSearch(params);
     console.log(`Navigating to: ${url}`);
-    await this.page.goto(url, { waitUntil: "load" });
+    await this.page.goto(url, { waitUntil: "domcontentloaded" });
+    
+    await this.stealth.randomDelay(3000, 5000);
+
     await this.page.waitForSelector(linkedinSelectors.jobSearch.jobCard, {
       timeout: 15000,
     });
-    await this.page.waitForTimeout(2000);
   }
 
   async scrollJobsList(scrollCount: number = 3): Promise<void> {
     for (let i = 0; i < scrollCount; i++) {
-      await this.page.evaluate(() => {
-        (window as any).scrollBy(0, 500);
-      });
+      await this.stealth.scroll('down', 'random');
       console.log(`Scrolled page (${i + 1}/${scrollCount})`);
-      await this.page.waitForTimeout(1500);
     }
   }
 
   async getVisibleJobs(): Promise<JobListing[]> {
+    await this.stealth.randomDelay(1000, 2000);
+
     const jobCards = await this.page
       .locator(linkedinSelectors.jobSearch.jobCard)
       .all();
@@ -55,17 +63,19 @@ export class LinkedInNavigator {
         const company = await card
           .locator(linkedinSelectors.jobSearch.companyName)
           .textContent();
-        const location = await card
-          .locator(linkedinSelectors.jobSearch.location)
-          .first()
-          .textContent();
+        
+        const locationLocator = card.locator(linkedinSelectors.jobSearch.location);
+        const location = (await locationLocator.count()) > 0 
+            ? await locationLocator.first().textContent() 
+            : "Unknown";
+            
         const link = await card.locator("a").first().getAttribute("href");
 
-        if (title && company && location) {
+        if (title && company) {
           jobs.push({
             title: title.trim(),
             company: company.trim(),
-            location: location.trim(),
+            location: location?.trim() || "Unknown",
             url: link || "",
           });
         }
@@ -81,14 +91,19 @@ export class LinkedInNavigator {
     const jobCards = await this.page
       .locator(linkedinSelectors.jobSearch.jobCard)
       .all();
+      
     if (jobCards[index]) {
-      await jobCards[index].click();
-      await this.page.waitForTimeout(1500);
+      const cardSelector = `${linkedinSelectors.jobSearch.jobCard}:nth-of-type(${index + 1})`;
+      console.log(`Clicking job card ${index + 1}...`);
+      await this.stealth.click(cardSelector);
     }
   }
 
   async getJobDescription(): Promise<string> {
     try {
+      await this.page.waitForSelector(linkedinSelectors.jobSearch.jobDescription, { timeout: 5000 });
+      await this.stealth.randomDelay(1000, 2500);
+      
       const description = await this.page
         .locator(linkedinSelectors.jobSearch.jobDescription)
         .textContent();
@@ -106,7 +121,55 @@ export class LinkedInNavigator {
   }
 
   async clickEasyApply(): Promise<void> {
-    await this.page.click(linkedinSelectors.jobSearch.easyApplyButton);
-    await this.page.waitForTimeout(2000);
+    if (await this.hasEasyApply()) {
+        console.log("Clicking Easy Apply...");
+        await this.stealth.click(linkedinSelectors.jobSearch.easyApplyButton);
+    } else {
+        console.log("Easy Apply button not found.");
+    }
+  }
+
+  /**
+   * Clicks the "Next" button in the application modal
+   */
+  async nextStep(): Promise<void> {
+    const nextButton = this.page.locator('button[aria-label="Continue to next step"]');
+    if (await nextButton.isVisible()) {
+        await this.stealth.click('button[aria-label="Continue to next step"]');
+        await this.stealth.randomDelay(1000, 2000);
+    }
+  }
+
+  /**
+   * Clicks "Review" if available
+   */
+  async reviewApplication(): Promise<void> {
+    const reviewButton = this.page.locator('button[aria-label="Review your application"]');
+    if (await reviewButton.isVisible()) {
+        await this.stealth.click('button[aria-label="Review your application"]');
+        await this.stealth.randomDelay(1000, 2000);
+    }
+  }
+
+  /**
+   * Submits the application
+   */
+  async submitApplication(): Promise<void> {
+    const submitButton = this.page.locator('button[aria-label="Submit application"]');
+    if (await submitButton.isVisible()) {
+        console.log("Submitting application...");
+        await this.stealth.click('button[aria-label="Submit application"]');
+        await this.stealth.randomDelay(2000, 4000);
+    }
+  }
+
+  /**
+   * Dismisses the success modal or application window
+   */
+  async dismissModal(): Promise<void> {
+    const closeButton = this.page.locator('button[aria-label="Dismiss"]');
+    if (await closeButton.isVisible()) {
+        await this.stealth.click('button[aria-label="Dismiss"]');
+    }
   }
 }
