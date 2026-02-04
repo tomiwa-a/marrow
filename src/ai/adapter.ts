@@ -1,11 +1,17 @@
 import { AIProvider, AIProviderType } from "./types";
 import { OllamaProvider } from "./providers/ollama";
+import { GeminiProvider } from "./providers/gemini";
 
 export class AIAdapter {
-  private provider: AIProvider;
+  private visionProvider: AIProvider;
+  private reasoningProvider: AIProvider;
 
-  constructor(providerType: AIProviderType = "ollama") {
-    this.provider = this.createProvider(providerType);
+  constructor(
+    visionProvider: AIProviderType = "gemini",
+    reasoningProvider: AIProviderType = "ollama",
+  ) {
+    this.visionProvider = this.createProvider(visionProvider);
+    this.reasoningProvider = this.createProvider(reasoningProvider);
   }
 
   private createProvider(type: AIProviderType): AIProvider {
@@ -16,7 +22,10 @@ export class AIAdapter {
           process.env.OLLAMA_MODEL,
         );
       case "gemini":
-        throw new Error("Gemini provider not implemented yet");
+        return new GeminiProvider(
+          process.env.GEMINI_API_KEY,
+          process.env.GEMINI_MODEL,
+        );
       case "openai":
         throw new Error("OpenAI provider not implemented yet");
       default:
@@ -25,10 +34,10 @@ export class AIAdapter {
   }
 
   async chat(prompt: string): Promise<string> {
-    return this.provider.chat([{ role: "user", content: prompt }]);
+    return this.reasoningProvider.chat([{ role: "user", content: prompt }]);
   }
 
   async chatWithImage(prompt: string, imageBase64: string): Promise<string> {
-    return this.provider.chatWithImage(prompt, imageBase64);
+    return this.visionProvider.chatWithImage(prompt, imageBase64);
   }
 }

@@ -47,7 +47,7 @@ export async function run() {
   const screenshotBase64 = (screenshot as Buffer).toString("base64");
 
   console.log("Analyzing page with vision AI...");
-  const ai = new AIAdapter("ollama");
+  const ai = new AIAdapter("gemini", "ollama");
   const response = await ai.chatWithImage(
     "Describe what you see in this LinkedIn page. What elements are visible?",
     screenshotBase64,
