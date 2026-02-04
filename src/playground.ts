@@ -25,9 +25,13 @@ async function playground() {
       case "linkedin":
         await runLinkedin(page, pageName);
         break;
+      case "demo":
+        const { run: runDemo } = await import("./playground/linkedin-demo");
+        await runDemo(page);
+        break;
       default:
         console.error(`Unknown module: ${moduleName}`);
-        console.log("Available modules: linkedin");
+        console.log("Available modules: linkedin, demo");
         break;
     }
   } catch (error) {
