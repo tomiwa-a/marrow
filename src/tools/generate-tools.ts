@@ -24,6 +24,7 @@ interface ToolParameter {
   enum?: string[];
   properties?: Record<string, ToolParameter>;
   required?: string[];
+  items?: ToolParameter;
 }
 
 interface ToolDefinition {
@@ -74,6 +75,14 @@ function generateTools() {
                   enum: parts.map(p => (p as ts.StringLiteralType).value) 
               };
           }
+      }
+
+      const arrayElementType = checker.getIndexTypeOfType(type, ts.IndexKind.Number);
+      if (arrayElementType) {
+          return {
+              type: "array",
+              items: generateSchema(arrayElementType, node)
+          };
       }
 
       if (type.isClassOrInterface() || (flags & ts.TypeFlags.Object)) {

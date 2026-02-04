@@ -1,10 +1,17 @@
 export interface JobSearchParams {
+  /** Job title or keywords (e.g., 'Software Engineer') */
   keywords?: string;
+  /** Location (e.g., 'United States', 'Remote') */
   location?: string;
+  /** Geographic ID for more precise location targeting */
   geoId?: string;
+  /** Radius distance in miles (if applicable) */
   distance?: number;
+  /** Filter for remote jobs only */
   remote?: boolean;
+  /** Filter by time posted (e.g. past 24 hours) */
   timePosted?: "r86400" | "r604800" | "r2592000";
+  /** Filter by experience level */
   experienceLevel?: string[];
 }
 
