@@ -48,19 +48,27 @@ export const LinkedInSelectors = {
   feed: {
     cards: {
       postCard: 'div[data-urn*="urn:li:activity"]',
-      postAuthor: 'span.update-components-actor__name',
-      postContent: 'div.feed-shared-update-v2__description',
-      postImage: 'img.feed-shared-image__image',
+      postContainer: '.feed-shared-update-v2',
+      postAuthor: '.update-components-actor__name',
+      postContent: '.feed-shared-update-v2__description',
+      postImage: '.feed-shared-image__image',
+      postVideo: '.feed-shared-update-v2__content video',
     },
     buttons: {
-      likeButton: 'button[aria-label*="Like"]',
+      likeButton: 'button[aria-label*="React"]',
       commentButton: 'button[aria-label*="Comment"]',
+      repostButton: 'button[aria-label*="Repost"]',
       shareButton: 'button[aria-label*="Share"]',
-      postButton: 'button:contains("Post")',
+      sendButton: 'button[aria-label*="Send"]',
     },
     inputs: {
-      postBox: 'div[aria-label*="share"]',
-      commentBox: 'div[aria-label*="comment"]',
+      postBox: '.share-box-feed-entry__trigger',
+      commentBox: '.comments-comment-texteditor',
+    },
+    details: {
+      reactionCount: '.social-details-social-counts__reactions',
+      commentCount: '.social-details-social-counts__comments',
+      timestamp: 'time.update-components-actor__sub-description',
     },
   },
   
@@ -84,16 +92,25 @@ export const LinkedInSelectors = {
   
   messaging: {
     lists: {
-      conversationList: 'ul[aria-label*="Conversations"]',
-      conversationItem: 'li[data-view-name*="conversation"]',
+      conversationList: '.msg-conversations-container__conversations-list',
+      conversationItem: '.msg-conversation-listitem',
+      messageList: '.msg-s-message-list',
+      messageItem: '.msg-s-message-list__event',
+    },
+    cards: {
+      conversationCard: '.msg-conversation-card',
+      participantName: '.msg-conversation-listitem__participant-names',
+      lastMessage: '.msg-conversation-listitem__message-snippet',
+      timestamp: '.msg-conversation-listitem__time-stamp',
     },
     inputs: {
-      messageBox: 'div[aria-label*="message"]',
-      searchBox: 'input[placeholder*="Search"]',
+      messageBox: '.msg-form__contenteditable',
+      searchBox: 'input[placeholder*="Search messages"]',
     },
     buttons: {
-      sendButton: 'button[aria-label*="Send"]',
-      newMessageButton: 'button:contains("Write a message")',
+      sendButton: '.msg-form__send-button',
+      attachButton: 'button[aria-label*="Attach"]',
+      emojiButton: 'button[aria-label*="emoji"]',
     },
   },
   
