@@ -95,27 +95,19 @@ export class ModuleDiscovery {
 
   async loadModuleUrls(moduleName: string): Promise<any> {
     const moduleInfo = this.listModules().find((m) => m.name === moduleName);
-
     if (!moduleInfo) {
-      throw new Error(`Module "${moduleName}" not found`);
+      throw new Error(`Module not found: ${moduleName}`);
     }
 
     const urlsModule = await import(path.join(moduleInfo.path, "urls"));
-    
-    const possibleNames = [
-      `${moduleName.charAt(0).toUpperCase()}${moduleName.slice(1)}Urls`,
-      `${moduleName.toUpperCase()}Urls`,
-      "LinkedInUrls",
-    ];
+    const urlsClassName = `${moduleName}Urls`;
 
-    for (const className of possibleNames) {
-      if (urlsModule[className]) {
-        return urlsModule[className];
-      }
+    if (!urlsModule[urlsClassName]) {
+      throw new Error(
+        `No Urls class found in urls.ts. Expected: ${urlsClassName}. Export name must match module folder name.`,
+      );
     }
 
-    throw new Error(
-      `No Urls class found in urls.ts. Tried: ${possibleNames.join(", ")}`,
-    );
+    return new urlsModule[urlsClassName]();
   }
 }

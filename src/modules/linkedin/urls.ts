@@ -8,7 +8,7 @@ export interface JobSearchParams {
   experienceLevel?: string[];
 }
 
-export class LinkedInUrls {
+export class linkedinUrls {
   private static BASE = "https://www.linkedin.com";
 
   static jobs(): string {
