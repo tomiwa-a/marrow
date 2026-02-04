@@ -17,7 +17,8 @@ Marrow is a CLI-based autonomous agent that navigates job sites like LinkedIn, m
 - **Swarm Intelligence**: Spawns parallel worker agents that share findings
 - **Stealth Browsing**: Masked browser fingerprints and human-like interactions
 - **Interactive CLI**: Real-time logs showing the agent's thought process
-  etup & Installation
+
+## Setup & Installation
 
 ### Prerequisites
 
@@ -57,6 +58,29 @@ npm start
 # 2. Let Marrow browse and apply
 # 3. Review results in data/session.json
 ```
+
+## Development Tools
+
+### Snapshot & Selector Testing
+
+Speed up development by capturing LinkedIn pages locally and testing selectors offline:
+
+```bash
+# Capture a page snapshot
+npm run snapshot jobs
+
+# Test selectors offline (instant, no browser)
+npm run test-selectors jobs
+
+# Test specific selector
+npm run test-selectors jobs jobCard
+```
+
+Benefits:
+
+- **Instant feedback** - No browser overhead
+- **Offline development** - Work without LinkedIn access
+- **Precise debugging** - Inspect captured HTML directly
 
 ## Why Marrow?
 

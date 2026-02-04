@@ -1,0 +1,112 @@
+import { Page } from "playwright";
+import { linkedinSelectors } from "./selectors";
+import { linkedinUrls, JobSearchParams } from "./urls";
+
+export interface JobListing {
+  title: string;
+  company: string;
+  location: string;
+  url: string;
+  postedTime?: string;
+}
+
+export class LinkedInNavigator {
+  constructor(private page: Page) {}
+
+  async goToJobs(): Promise<void> {
+    await this.page.goto(linkedinUrls.jobs());
+    await this.page.waitForLoadState("load");
+    await this.page.waitForSelector(linkedinSelectors.jobSearch.jobsList, {
+      timeout: 10000,
+    });
+  }
+
+  async searchJobs(params: JobSearchParams): Promise<void> {
+    const url = linkedinUrls.jobSearch(params);
+    console.log(`Navigating to: ${url}`);
+    await this.page.goto(url, { waitUntil: "load" });
+    await this.page.waitForSelector(linkedinSelectors.jobSearch.jobCard, {
+      timeout: 15000,
+    });
+    await this.page.waitForTimeout(2000);
+  }
+
+  async scrollJobsList(scrollCount: number = 3): Promise<void> {
+    for (let i = 0; i < scrollCount; i++) {
+      await this.page.evaluate(() => {
+        (window as any).scrollBy(0, 500);
+      });
+      console.log(`Scrolled page (${i + 1}/${scrollCount})`);
+      await this.page.waitForTimeout(1500);
+    }
+  }
+
+  async getVisibleJobs(): Promise<JobListing[]> {
+    const jobCards = await this.page
+      .locator(linkedinSelectors.jobSearch.jobCard)
+      .all();
+    const jobs: JobListing[] = [];
+
+    for (const card of jobCards) {
+      try {
+        const title = await card
+          .locator(linkedinSelectors.jobSearch.jobTitle)
+          .textContent();
+        const company = await card
+          .locator(linkedinSelectors.jobSearch.companyName)
+          .textContent();
+        const location = await card
+          .locator(linkedinSelectors.jobSearch.location)
+          .first()
+          .textContent();
+        const link = await card.locator("a").first().getAttribute("href");
+
+        if (title && company && location) {
+          jobs.push({
+            title: title.trim(),
+            company: company.trim(),
+            location: location.trim(),
+            url: link || "",
+          });
+        }
+      } catch (error) {
+        continue;
+      }
+    }
+
+    return jobs;
+  }
+
+  async clickJob(index: number): Promise<void> {
+    const jobCards = await this.page
+      .locator(linkedinSelectors.jobSearch.jobCard)
+      .all();
+    if (jobCards[index]) {
+      await jobCards[index].click();
+      await this.page.waitForTimeout(1500);
+    }
+  }
+
+  async getJobDescription(): Promise<string> {
+    try {
+      const description = await this.page
+        .locator(linkedinSelectors.jobSearch.jobDescription)
+        .textContent();
+      return description?.trim() || "";
+    } catch {
+      return "";
+    }
+  }
+
+  async hasEasyApply(): Promise<boolean> {
+    const easyApplyButton = this.page.locator(
+      linkedinSelectors.jobSearch.easyApplyButton,
+    );
+    return await easyApplyButton.isVisible();
+  }
+
+  async clickEasyApply(): Promise<void> {
+    await this.page.click(linkedinSelectors.jobSearch.easyApplyButton);
+    await this.page.waitForTimeout(2000);
+  }
+}
