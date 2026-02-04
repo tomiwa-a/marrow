@@ -17,7 +17,8 @@ Marrow is a CLI-based autonomous agent that navigates job sites like LinkedIn, m
 - **Swarm Intelligence**: Spawns parallel worker agents that share findings
 - **Stealth Browsing**: Masked browser fingerprints and human-like interactions
 - **Interactive CLI**: Real-time logs showing the agent's thought process
-  etup & Installation
+
+## Setup & Installation
 
 ### Prerequisites
 

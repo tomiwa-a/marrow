@@ -15,25 +15,28 @@ export class LinkedInNavigator {
 
   async goToJobs(): Promise<void> {
     await this.page.goto(LinkedInUrls.jobs());
-    await this.page.waitForLoadState("networkidle");
+    await this.page.waitForLoadState("load");
+    await this.page.waitForSelector(LinkedInSelectors.jobs.jobsList, {
+      timeout: 10000,
+    });
   }
 
   async searchJobs(params: JobSearchParams): Promise<void> {
     const url = LinkedInUrls.jobSearch(params);
     console.log(`Navigating to: ${url}`);
-    await this.page.goto(url);
-    await this.page.waitForLoadState("networkidle");
+    await this.page.goto(url, { waitUntil: "load" });
+    await this.page.waitForSelector(LinkedInSelectors.jobs.jobCard, {
+      timeout: 15000,
+    });
     await this.page.waitForTimeout(2000);
   }
 
   async scrollJobsList(scrollCount: number = 3): Promise<void> {
-    const jobsList = this.page.locator(LinkedInSelectors.jobs.jobsList);
-
     for (let i = 0; i < scrollCount; i++) {
-      await jobsList.evaluate((el) => {
-        el.scrollTop = el.scrollHeight;
+      await this.page.evaluate(() => {
+        (window as any).scrollBy(0, 500);
       });
-      console.log(`Scrolled jobs list (${i + 1}/${scrollCount})`);
+      console.log(`Scrolled page (${i + 1}/${scrollCount})`);
       await this.page.waitForTimeout(1500);
     }
   }
