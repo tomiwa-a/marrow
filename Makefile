@@ -1,4 +1,4 @@
-.PHONY: help install dev build ollama-ui stop-ui clean snapshot-list snapshot-pages snapshot
+.PHONY: help install dev build ollama-ui stop-ui clean snapshot-list snapshot-pages snapshot test-selectors
 
 help:
 	@echo "Marrow - AI Job Hunting Agent"
@@ -7,9 +7,10 @@ help:
 	@echo "  make install       - Install dependencies"
 	@echo "  make dev           - Run in development mode"
 	@echo "  make build         - Build TypeScript"
-	@echo "  make snapshot-list - List available modules"
-	@echo "  make snapshot-pages MODULE=linkedin - List pages in module"
-	@echo "  make snapshot MODULE=linkedin PAGE=jobs - Capture page snapshot"
+	@echo "  make snapshot-list - List all available modules"
+	@echo "  make snapshot-pages - List pages for a module: make snapshot-pages MODULE=linkedin"
+	@echo "  make snapshot      - Capture snapshots: make snapshot MODULE=linkedin [PAGE=jobs]"
+	@echo "  make test-selectors - Test selectors: make test-selectors MODULE=linkedin [PAGE=jobs]"
 	@echo "  make ollama-ui     - Start Ollama WebUI for debugging (requires Docker)"
 	@echo "  make stop-ui       - Stop Ollama WebUI"
 	@echo "  make clean         - Remove build artifacts"
@@ -50,6 +51,15 @@ snapshot:
 		npm run snapshot $(MODULE); \
 	else \
 		npm run snapshot $(MODULE) $(PAGE); \
+	fi
+
+test-selectors:
+	@if [ -z "$(MODULE)" ]; then \
+		npm run test-selectors -- --list; \
+	elif [ -z "$(PAGE)" ]; then \
+		npm run test-selectors $(MODULE); \
+	else \
+		npm run test-selectors $(MODULE) $(PAGE); \
 	fi
 
 clean:

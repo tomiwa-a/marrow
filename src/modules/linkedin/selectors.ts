@@ -1,4 +1,4 @@
-export const LinkedInSelectors = {
+export const linkedinSelectors = {
   jobs: {
     cards: {
       jobCard: 'a[href*="/jobs/view/"]',

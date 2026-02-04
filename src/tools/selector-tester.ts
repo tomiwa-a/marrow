@@ -1,158 +1,240 @@
 import * as cheerio from "cheerio";
 import * as fs from "fs";
 import * as path from "path";
-import { LinkedInSelectors } from "../modules/linkedin/selectors";
 import { SelectorTestResult } from "./types";
+
+interface FlattenedSelector {
+  path: string;
+  selector: string;
+}
 
 export class SelectorTester {
   private snapshotsDir: string;
+  private modulesDir: string;
 
   constructor() {
     this.snapshotsDir = path.join(process.cwd(), "snapshots");
+    this.modulesDir = path.join(process.cwd(), "src", "modules");
   }
 
-  testSelectors(pageName: string, specificSelector?: string): void {
-    const pageDir = path.join(this.snapshotsDir, pageName);
+  async testModule(moduleName: string, specificPage?: string): Promise<void> {
+    const selectors = await this.loadModuleSelectors(moduleName);
+    const pages = this.getModulePages(moduleName);
+
+    if (pages.length === 0) {
+      console.error(`\nNo snapshots found for module: ${moduleName}\n`);
+      return;
+    }
+
+    const pagesToTest = specificPage ? [specificPage] : pages;
+
+    console.log(`\nTesting module: ${moduleName}\n`);
+
+    for (const page of pagesToTest) {
+      if (!pages.includes(page)) {
+        console.error(`\nPage "${page}" not found in ${moduleName} snapshots\n`);
+        continue;
+      }
+
+      await this.testPage(moduleName, page, selectors);
+    }
+  }
+
+  private async testPage(
+    moduleName: string,
+    page: string,
+    selectors: any,
+  ): Promise<void> {
+    const pageDir = path.join(this.snapshotsDir, moduleName, page);
     const htmlPath = path.join(pageDir, "page.html");
 
     if (!fs.existsSync(htmlPath)) {
-      console.error(
-        `\nNo snapshot found for "${pageName}". Run: npm run snapshot ${pageName}\n`,
-      );
+      console.error(`\nSnapshot not found: ${htmlPath}\n`);
       return;
     }
 
     const html = fs.readFileSync(htmlPath, "utf-8");
     const $ = cheerio.load(html);
 
-    console.log(`\nTesting selectors for: ${pageName}`);
-    console.log(`   Snapshot: ${htmlPath}\n`);
-
-    const results: SelectorTestResult[] = [];
-
-    if (pageName === "jobs" || pageName === "job-detail") {
-      const jobSelectors = LinkedInSelectors.jobs;
-
-      if (specificSelector) {
-        if (specificSelector in jobSelectors) {
-          const selector =
-            jobSelectors[specificSelector as keyof typeof jobSelectors];
-          const result = this.testSelector($, specificSelector, selector);
-          results.push(result);
-        } else {
-          console.error(
-            `\nUnknown selector: ${specificSelector} for page: ${pageName}\n`,
-          );
-          return;
-        }
-      } else {
-        Object.entries(jobSelectors).forEach(([name, selector]) => {
-          const result = this.testSelector($, name, selector);
-          results.push(result);
-        });
-      }
-    }
-
-    this.printResults(results);
-  }
-
-  private testSelector(
-    $: cheerio.Root,
-    name: string,
-    selector: string,
-  ): SelectorTestResult {
-    try {
-      const elements = $(selector);
-      const count = elements.length;
-      const found = count > 0;
-
-      const sampleTexts: string[] = [];
-      elements.slice(0, 3).each((_, el) => {
-        const text = $(el).text().trim().substring(0, 50);
-        if (text) sampleTexts.push(text);
-      });
-
-      return {
-        selector: `${name} (${selector})`,
-        found,
-        count,
-        elements: sampleTexts,
-      };
-    } catch (error) {
-      return {
-        selector: `${name} (${selector})`,
-        found: false,
-        count: 0,
-      };
-    }
-  }
-
-  private printResults(results: SelectorTestResult[]): void {
-    console.log("Results:");
     console.log("─".repeat(80));
+    console.log(`Page: ${page} (${htmlPath})`);
+    console.log();
 
-    let passed = 0;
-    let failed = 0;
+    const pageSelectors = selectors[page] || {};
+    const flattened = this.flattenSelectors(pageSelectors);
 
-    results.forEach((result) => {
-      const status = result.found ? "[PASS]" : "[FAIL]";
-      const color = result.found ? "" : "";
+    if (flattened.length === 0) {
+      console.log(`  No selectors defined for page: ${page}\n`);
+      return;
+    }
 
-      console.log(
-        `${status} ${result.selector.padEnd(50)} ${result.count} elements`,
-      );
+    const results = this.testSelectors($, flattened);
+    this.printCategorizedResults(results);
+  }
 
-      if (result.elements && result.elements.length > 0) {
-        result.elements.forEach((text, i) => {
-          if (i < 2) {
-            console.log(`    └─ "${text}${text.length >= 50 ? "..." : ""}"`);
-          }
-        });
+  private flattenSelectors(
+    obj: any,
+    prefix: string = "",
+  ): FlattenedSelector[] {
+    const result: FlattenedSelector[] = [];
+
+    for (const [key, value] of Object.entries(obj)) {
+      const newPath = prefix ? `${prefix}.${key}` : key;
+
+      if (typeof value === "string") {
+        result.push({ path: newPath, selector: value });
+      } else if (typeof value === "object" && value !== null) {
+        result.push(...this.flattenSelectors(value, newPath));
       }
+    }
 
-      if (result.found) {
-        passed++;
-      } else {
-        failed++;
+    return result;
+  }
+
+  private testSelectors(
+    $: cheerio.Root,
+    selectors: FlattenedSelector[],
+  ): Map<string, SelectorTestResult[]> {
+    const results = new Map<string, SelectorTestResult[]>();
+
+    selectors.forEach(({ path, selector }) => {
+      const parts = path.split(".");
+      const category = parts[0];
+      const selectorName = parts.slice(1).join(".");
+
+      try {
+        const elements = $(selector);
+        const count = elements.length;
+        const found = count > 0;
+
+        const sampleTexts: string[] = [];
+        elements.slice(0, 2).each((_, el) => {
+          const text = $(el).text().trim().substring(0, 50);
+          if (text) sampleTexts.push(text);
+        });
+
+        const result: SelectorTestResult = {
+          selector: `${selectorName} (${selector})`,
+          found,
+          count,
+          elements: sampleTexts,
+        };
+
+        if (!results.has(category)) {
+          results.set(category, []);
+        }
+        results.get(category)!.push(result);
+      } catch (error) {
+        const result: SelectorTestResult = {
+          selector: `${selectorName} (${selector})`,
+          found: false,
+          count: 0,
+        };
+
+        if (!results.has(category)) {
+          results.set(category, []);
+        }
+        results.get(category)!.push(result);
       }
     });
 
-    console.log("─".repeat(80));
-    console.log(
-      `\nSummary: ${passed} passed, ${failed} failed (${results.length} total)\n`,
-    );
+    return results;
   }
 
-  listSnapshots(): void {
+  private printCategorizedResults(
+    results: Map<string, SelectorTestResult[]>,
+  ): void {
+    let totalPassed = 0;
+    let totalFailed = 0;
+
+    results.forEach((categoryResults, category) => {
+      console.log(`  ${category}:`);
+
+      categoryResults.forEach((result) => {
+        const status = result.found ? "✓" : "✗";
+        const name = result.selector.split(" (")[0];
+        const count = result.count > 0 ? `(${result.count})` : "";
+
+        console.log(`    ${status} ${name.padEnd(30)} ${count}`);
+
+        if (result.found) {
+          totalPassed++;
+        } else {
+          totalFailed++;
+        }
+      });
+
+      console.log();
+    });
+
+    const total = totalPassed + totalFailed;
+    const percentage = total > 0 ? Math.round((totalPassed / total) * 100) : 0;
+
+    console.log(`  Summary: ${totalPassed}/${total} passed (${percentage}%)\n`);
+  }
+
+  private async loadModuleSelectors(moduleName: string): Promise<any> {
+    const selectorsPath = path.join(
+      this.modulesDir,
+      moduleName,
+      "selectors.ts",
+    );
+
+    if (!fs.existsSync(selectorsPath)) {
+      throw new Error(`Selectors not found: ${selectorsPath}`);
+    }
+
+    const selectorsModule = await import(
+      path.join(this.modulesDir, moduleName, "selectors")
+    );
+
+    const selectorsExportName = `${moduleName}Selectors`;
+
+    if (!selectorsModule[selectorsExportName]) {
+      throw new Error(
+        `Could not find export "${selectorsExportName}" in ${selectorsPath}. Export name must match module folder name.`,
+      );
+    }
+
+    return selectorsModule[selectorsExportName];
+  }
+
+  private getModulePages(moduleName: string): string[] {
+    const moduleSnapshotsDir = path.join(this.snapshotsDir, moduleName);
+
+    if (!fs.existsSync(moduleSnapshotsDir)) {
+      return [];
+    }
+
+    return fs
+      .readdirSync(moduleSnapshotsDir)
+      .filter((file) =>
+        fs.statSync(path.join(moduleSnapshotsDir, file)).isDirectory(),
+      );
+  }
+
+  listModules(): void {
     if (!fs.existsSync(this.snapshotsDir)) {
       console.log("\nNo snapshots directory found.\n");
       return;
     }
 
-    const snapshots = fs
+    const modules = fs
       .readdirSync(this.snapshotsDir)
       .filter((file) =>
         fs.statSync(path.join(this.snapshotsDir, file)).isDirectory(),
       );
 
-    if (snapshots.length === 0) {
-      console.log("\nNo snapshots captured yet.\n");
+    if (modules.length === 0) {
+      console.log("\nNo modules with snapshots found.\n");
       return;
     }
 
-    console.log("\nAvailable snapshots:\n");
-    snapshots.forEach((snapshot) => {
-      const metadataPath = path.join(
-        this.snapshotsDir,
-        snapshot,
-        "metadata.json",
-      );
-      if (fs.existsSync(metadataPath)) {
-        const metadata = JSON.parse(fs.readFileSync(metadataPath, "utf-8"));
-        console.log(`   ${snapshot.padEnd(15)} - ${metadata.timestamp}`);
-      } else {
-        console.log(`   ${snapshot}`);
-      }
+    console.log("\nAvailable modules:\n");
+    modules.forEach((module) => {
+      const pages = this.getModulePages(module);
+      console.log(`   ${module.padEnd(15)} (${pages.length} pages)`);
+      pages.forEach((page) => console.log(`      - ${page}`));
     });
     console.log();
   }
@@ -162,24 +244,19 @@ async function main() {
   const args = process.argv.slice(2);
   const tester = new SelectorTester();
 
-  if (args.length === 0) {
-    tester.listSnapshots();
+  if (args.length === 0 || args[0] === "--list") {
+    tester.listModules();
     console.log("Usage:");
-    console.log("  npm run test-selectors jobs                    # Test all job selectors");
-    console.log("  npm run test-selectors jobs jobCard            # Test specific selector");
-    console.log("  npm run test-selectors --list                  # List snapshots\n");
+    console.log("  npm run test-selectors linkedin              # Test all pages");
+    console.log("  npm run test-selectors linkedin jobs         # Test specific page");
+    console.log("  npm run test-selectors --list                # List modules\n");
     return;
   }
 
-  const command = args[0];
+  const moduleName = args[0];
+  const specificPage = args[1];
 
-  if (command === "--list") {
-    tester.listSnapshots();
-  } else {
-    const pageName = args[0];
-    const specificSelector = args[1];
-    tester.testSelectors(pageName, specificSelector);
-  }
+  await tester.testModule(moduleName, specificPage);
 }
 
 if (require.main === module) {

@@ -1,5 +1,5 @@
 import { Page } from "playwright";
-import { LinkedInSelectors } from "./selectors";
+import { linkedinSelectors } from "./selectors";
 import { LinkedInUrls, JobSearchParams } from "./urls";
 
 export interface JobListing {
