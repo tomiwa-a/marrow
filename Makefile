@@ -74,6 +74,13 @@ playground:
 		npm run playground $(MODULE) $(PAGE); \
 	fi
 
+tools:
+	@if [ -z "$(MODULE)" ]; then \
+		echo "Error: MODULE required. Usage: make tools MODULE=linkedin"; \
+		exit 1; \
+	fi
+	npm run generate-tools $(MODULE)
+
 clean:
 	rm -rf dist node_modules
 	npm install

@@ -18,6 +18,9 @@ export class LinkedInNavigator {
     this.stealth = new StealthEngine(page);
   }
 
+  /**
+   * Navigates to the LinkedIn Jobs dashboard.
+   */
   async goToJobs(): Promise<void> {
     await this.page.goto(linkedinUrls.jobs());
     await this.page.waitForLoadState("domcontentloaded");
@@ -29,24 +32,37 @@ export class LinkedInNavigator {
     });
   }
 
+  /**
+   * Navigates to the main LinkedIn Feed.
+   */
   async goToFeed(): Promise<void> {
     await this.page.goto(linkedinUrls.feed());
     await this.page.waitForLoadState("domcontentloaded");
     await this.stealth.randomDelay(2000, 4000);
   }
 
+  /**
+   * Navigates to the Messaging section.
+   */
   async goToMessaging(): Promise<void> {
     await this.page.goto(linkedinUrls.messaging());
     await this.page.waitForLoadState("domcontentloaded");
     await this.stealth.randomDelay(2000, 4000);
   }
 
+  /**
+   * Navigates to the My Network section.
+   */
   async goToMyNetwork(): Promise<void> {
     await this.page.goto(linkedinUrls.myNetwork());
     await this.page.waitForLoadState("domcontentloaded");
     await this.stealth.randomDelay(2000, 4000);
   }
 
+  /**
+   * Performs a job search with specific filters.
+   * @param params - Search parameters including keywords, location, and filters.
+   */
   async searchJobs(params: JobSearchParams): Promise<void> {
     const url = linkedinUrls.jobSearch(params);
     console.log(`Navigating to: ${url}`);
@@ -59,6 +75,10 @@ export class LinkedInNavigator {
     });
   }
 
+  /**
+   * Scrolls the jobs list by a specified number of "pages".
+   * @param scrollCount - Number of times to scroll down (default: 3).
+   */
   async scrollJobsList(scrollCount: number = 3): Promise<void> {
     for (let i = 0; i < scrollCount; i++) {
       await this.scroll('down');
@@ -66,6 +86,10 @@ export class LinkedInNavigator {
     }
   }
 
+  /**
+   * Scrolls the page or specific container in a given direction.
+   * @param direction - Direction to scroll ('up' or 'down').
+   */
   async scroll(direction: 'up' | 'down'): Promise<void> {
       const jobsListSelector = linkedinSelectors.jobSearch.jobsList;
       
@@ -83,6 +107,10 @@ export class LinkedInNavigator {
       }
   }
 
+  /**
+   * Extracts job data from the currently visible list.
+   * @returns Array of found job listings.
+   */
   async getVisibleJobs(): Promise<JobListing[]> {
     await this.stealth.randomDelay(1000, 2000);
 
@@ -123,6 +151,10 @@ export class LinkedInNavigator {
     return jobs;
   }
 
+  /**
+   * Clicks on a specific job card by its index in the visible list.
+   * @param index - The 0-based index of the job to click.
+   */
   async clickJob(index: number): Promise<void> {
     const listSelector = linkedinSelectors.jobSearch.jobsList;
     const cardClass = linkedinSelectors.jobSearch.jobCard; 
@@ -139,6 +171,10 @@ export class LinkedInNavigator {
     }
   }
 
+  /**
+   * Extracts the full description text from the currently selected job.
+   * @returns The job description text.
+   */
   async getJobDescription(): Promise<string> {
     try {
       await this.page.waitForSelector(linkedinSelectors.jobSearch.jobDescription, { timeout: 5000 });
@@ -153,6 +189,10 @@ export class LinkedInNavigator {
     }
   }
 
+  /**
+   * Checks if the "Easy Apply" button is visible.
+   * @returns visible status.
+   */
   async hasEasyApply(): Promise<boolean> {
     const easyApplyButton = this.page.locator(
       linkedinSelectors.jobSearch.easyApplyButton,
@@ -160,6 +200,9 @@ export class LinkedInNavigator {
     return await easyApplyButton.isVisible();
   }
 
+  /**
+   * Clicks the "Easy Apply" button if available.
+   */
   async clickEasyApply(): Promise<void> {
     if (await this.hasEasyApply()) {
         console.log("Clicking Easy Apply...");
