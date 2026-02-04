@@ -61,9 +61,26 @@ export class LinkedInNavigator {
 
   async scrollJobsList(scrollCount: number = 3): Promise<void> {
     for (let i = 0; i < scrollCount; i++) {
-      await this.stealth.scroll('down', 'random');
+      await this.scroll('down');
       console.log(`Scrolled page (${i + 1}/${scrollCount})`);
     }
+  }
+
+  async scroll(direction: 'up' | 'down'): Promise<void> {
+      const jobsListSelector = linkedinSelectors.jobSearch.jobsList;
+      
+      try {
+          await this.page.hover(jobsListSelector);
+          
+          const deltaY = direction === 'up' ? -500 : 500;
+          await this.page.mouse.wheel(0, deltaY);
+          
+          await this.stealth.randomDelay(1000, 2000);
+          
+      } catch (e) {
+          console.log("   (Scroll fallback to window)");
+          await this.stealth.scroll(direction, 'random');
+      }
   }
 
   async getVisibleJobs(): Promise<JobListing[]> {
@@ -108,17 +125,16 @@ export class LinkedInNavigator {
 
   async clickJob(index: number): Promise<void> {
     const listSelector = linkedinSelectors.jobSearch.jobsList;
-    const cardClass = linkedinSelectors.jobSearch.jobCard; // 'div.job-card-container'
+    const cardClass = linkedinSelectors.jobSearch.jobCard; 
     
-    // Use :nth-child on the direct children (li) of the list (ul)
     const cardSelector = `${listSelector} > li:nth-child(${index + 1}) ${cardClass}`;
       
-    console.log(`Clicking job card ${index + 1} using selector: ${cardSelector}`);
+    console.log(`Clicking job #${index + 1}`);
     
     try {
         await this.stealth.click(cardSelector);
     } catch (e) {
-        console.error(`Failed to click job ${index + 1}. Fallback to generic locator...`);
+        console.error(`Failed to click job ${index + 1}.`);
         throw e;
     }
   }
