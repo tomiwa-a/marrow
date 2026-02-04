@@ -59,6 +59,29 @@ npm start
 # 3. Review results in data/session.json
 ```
 
+## Development Tools
+
+### Snapshot & Selector Testing
+
+Speed up development by capturing LinkedIn pages locally and testing selectors offline:
+
+```bash
+# Capture a page snapshot
+npm run snapshot jobs
+
+# Test selectors offline (instant, no browser)
+npm run test-selectors jobs
+
+# Test specific selector
+npm run test-selectors jobs jobCard
+```
+
+Benefits:
+
+- **Instant feedback** - No browser overhead
+- **Offline development** - Work without LinkedIn access
+- **Precise debugging** - Inspect captured HTML directly
+
 ## Why Marrow?
 
 Job hunting is repetitive. Marrow automates the boring parts while you focus on preparing for interviews.
