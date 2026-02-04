@@ -1,48 +1,54 @@
 export const linkedinSelectors = {
   jobs: {
-    cards: {
-      jobCard: 'a[href*="/jobs/view/"]',
-      jobCardContainer: 'div[componentkey][data-view-name="job-card"]',
-      jobTitle: 'p.d0cf87d0._5fe0d28d',
-      companyName: 'p.d0cf87d0._67499df2:has(+ p:contains("•"))',
-      location: 'p.d0cf87d0._67499df2:contains("•") ~ p.d0cf87d0._67499df2',
-      salary: 'p.d0cf87d0._67499df2:contains("$")',
-      companyLogo: 'img[data-loaded="true"]',
-      jobsList: 'div[data-testid="JobsHomeFeedModuleListCollection"]',
-    },
-    
-    buttons: {
-      easyApplyFilter: 'p:contains("Easy Apply")',
-      saveJob: 'button[aria-label*="Dismiss"][data-view-name="dismiss-job"]',
-      showAllButton: 'a:contains("Show all")',
-      searchNowButton: 'a:contains("Search now")',
-    },
-    
     inputs: {
       searchBox: 'input[placeholder*="title"]',
       locationInput: 'input[placeholder*="City"]',
     },
-    
+    buttons: {
+      searchNowButton: 'a:contains("Search now")',
+    },
+    navigation: {
+      preferencesLink: 'a[href*="/jobs/preferences/"]',
+      myJobsLink: 'a[href*="/my-items/saved-jobs/"]',
+      postJobLink: 'a[href*="/talent/job-posting"]',
+    },
+  },
+  
+  jobSearch: {
+    cards: {
+      jobCard: 'div.job-card-container',
+      jobCardLink: 'a.job-card-container__link',
+      jobTitle: '.job-card-list__title--link',
+      companyName: '.artdeco-entity-lockup__subtitle',
+      location: '.job-card-container__metadata-wrapper li',
+      companyLogo: '.job-card-container img',
+      jobsList: '.scaffold-layout__list ul',
+    },
+    buttons: {
+      easyApplyFilter: 'button[aria-label*="Easy Apply filter"]',
+      saveJob: 'button[aria-label*="Dismiss"]',
+    },
+    inputs: {
+      searchBox: 'input[id*="jobs-search-box-keyword"]',
+      locationInput: 'input[id*="jobs-search-box-location"]',
+    },
     filters: {
-      datePosted: 'button:has-text("Date posted")',
-      workType: 'button:has-text("Remote")',
-      experienceLevel: 'button:has-text("Experience level")',
+      datePosted: 'button[aria-label*="Date posted"]',
+      workType: 'button[aria-label*="Remote"]',
+      experienceLevel: 'button[aria-label*="Experience level"]',
     },
-    
     details: {
-      postedTime: 'p:contains("ago")',
-      earlyApplicant: 'p:contains("Be an early applicant")',
-      verifiedBadge: 'svg[id="verified-small"]',
-      activelyReviewing: 'svg[id="responsive-medium"]',
+      postedTime: '.job-card-container__footer-item:first-child time',
+      easyApplyBadge: 'li.job-card-container__footer-item--highlighted',
+      insightText: '.job-card-container__job-insight-text',
     },
-    
-    jobsList: 'div[data-testid="JobsHomeFeedModuleListCollection"]',
-    jobCard: 'a[href*="/jobs/view/"]',
-    jobTitle: 'p.d0cf87d0._5fe0d28d',
-    companyName: 'p.d0cf87d0._67499df2:has(+ p:contains("•"))',
-    location: 'p.d0cf87d0._67499df2:contains("•") ~ p.d0cf87d0._67499df2',
-    easyApplyButton: 'p:contains("Easy Apply")',
-    jobDescription: '.show-more-less-html__markup',
+    jobsList: '.scaffold-layout__list ul',
+    jobCard: 'div.job-card-container',
+    jobTitle: '.job-card-list__title--link',
+    companyName: '.artdeco-entity-lockup__subtitle',
+    location: '.job-card-container__metadata-wrapper li',
+    easyApplyButton: 'li.job-card-container__footer-item--highlighted',
+    jobDescription: '.jobs-description__content',
   },
   
   feed: {

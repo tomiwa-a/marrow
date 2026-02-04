@@ -16,7 +16,7 @@ export class LinkedInNavigator {
   async goToJobs(): Promise<void> {
     await this.page.goto(linkedinUrls.jobs());
     await this.page.waitForLoadState("load");
-    await this.page.waitForSelector(linkedinSelectors.jobs.jobsList, {
+    await this.page.waitForSelector(linkedinSelectors.jobSearch.jobsList, {
       timeout: 10000,
     });
   }
@@ -25,7 +25,7 @@ export class LinkedInNavigator {
     const url = linkedinUrls.jobSearch(params);
     console.log(`Navigating to: ${url}`);
     await this.page.goto(url, { waitUntil: "load" });
-    await this.page.waitForSelector(linkedinSelectors.jobs.jobCard, {
+    await this.page.waitForSelector(linkedinSelectors.jobSearch.jobCard, {
       timeout: 15000,
     });
     await this.page.waitForTimeout(2000);
@@ -43,20 +43,20 @@ export class LinkedInNavigator {
 
   async getVisibleJobs(): Promise<JobListing[]> {
     const jobCards = await this.page
-      .locator(linkedinSelectors.jobs.jobCard)
+      .locator(linkedinSelectors.jobSearch.jobCard)
       .all();
     const jobs: JobListing[] = [];
 
     for (const card of jobCards) {
       try {
         const title = await card
-          .locator(linkedinSelectors.jobs.jobTitle)
+          .locator(linkedinSelectors.jobSearch.jobTitle)
           .textContent();
         const company = await card
-          .locator(linkedinSelectors.jobs.companyName)
+          .locator(linkedinSelectors.jobSearch.companyName)
           .textContent();
         const location = await card
-          .locator(linkedinSelectors.jobs.location)
+          .locator(linkedinSelectors.jobSearch.location)
           .first()
           .textContent();
         const link = await card.locator("a").first().getAttribute("href");
@@ -79,7 +79,7 @@ export class LinkedInNavigator {
 
   async clickJob(index: number): Promise<void> {
     const jobCards = await this.page
-      .locator(linkedinSelectors.jobs.jobCard)
+      .locator(linkedinSelectors.jobSearch.jobCard)
       .all();
     if (jobCards[index]) {
       await jobCards[index].click();
@@ -90,7 +90,7 @@ export class LinkedInNavigator {
   async getJobDescription(): Promise<string> {
     try {
       const description = await this.page
-        .locator(linkedinSelectors.jobs.jobDescription)
+        .locator(linkedinSelectors.jobSearch.jobDescription)
         .textContent();
       return description?.trim() || "";
     } catch {
@@ -100,13 +100,13 @@ export class LinkedInNavigator {
 
   async hasEasyApply(): Promise<boolean> {
     const easyApplyButton = this.page.locator(
-      linkedinSelectors.jobs.easyApplyButton,
+      linkedinSelectors.jobSearch.easyApplyButton,
     );
     return await easyApplyButton.isVisible();
   }
 
   async clickEasyApply(): Promise<void> {
-    await this.page.click(linkedinSelectors.jobs.easyApplyButton);
+    await this.page.click(linkedinSelectors.jobSearch.easyApplyButton);
     await this.page.waitForTimeout(2000);
   }
 }
