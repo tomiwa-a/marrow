@@ -11,7 +11,7 @@ export interface SnapshotMetadata {
 
 export interface SnapshotData {
   html: string;
-  accessibilityTree: any;
+  domTree: any;
   metadata: SnapshotMetadata;
 }
 
