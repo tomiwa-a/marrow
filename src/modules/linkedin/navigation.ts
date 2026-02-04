@@ -28,6 +28,24 @@ export class LinkedInNavigator {
     });
   }
 
+  async goToFeed(): Promise<void> {
+    await this.page.goto(linkedinUrls.feed());
+    await this.page.waitForLoadState("domcontentloaded");
+    await this.stealth.randomDelay(2000, 4000);
+  }
+
+  async goToMessaging(): Promise<void> {
+    await this.page.goto(linkedinUrls.messaging());
+    await this.page.waitForLoadState("domcontentloaded");
+    await this.stealth.randomDelay(2000, 4000);
+  }
+
+  async goToMyNetwork(): Promise<void> {
+    await this.page.goto(linkedinUrls.myNetwork());
+    await this.page.waitForLoadState("domcontentloaded");
+    await this.stealth.randomDelay(2000, 4000);
+  }
+
   async searchJobs(params: JobSearchParams): Promise<void> {
     const url = linkedinUrls.jobSearch(params);
     console.log(`Navigating to: ${url}`);
@@ -88,14 +106,19 @@ export class LinkedInNavigator {
   }
 
   async clickJob(index: number): Promise<void> {
-    const jobCards = await this.page
-      .locator(linkedinSelectors.jobSearch.jobCard)
-      .all();
+    const listSelector = linkedinSelectors.jobSearch.jobsList;
+    const cardClass = linkedinSelectors.jobSearch.jobCard; // 'div.job-card-container'
+    
+    // Use :nth-child on the direct children (li) of the list (ul)
+    const cardSelector = `${listSelector} > li:nth-child(${index + 1}) ${cardClass}`;
       
-    if (jobCards[index]) {
-      const cardSelector = `${linkedinSelectors.jobSearch.jobCard}:nth-of-type(${index + 1})`;
-      console.log(`Clicking job card ${index + 1}...`);
-      await this.stealth.click(cardSelector);
+    console.log(`Clicking job card ${index + 1} using selector: ${cardSelector}`);
+    
+    try {
+        await this.stealth.click(cardSelector);
+    } catch (e) {
+        console.error(`Failed to click job ${index + 1}. Fallback to generic locator...`);
+        throw e;
     }
   }
 
