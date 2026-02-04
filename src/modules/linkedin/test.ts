@@ -2,6 +2,7 @@
 import { Page } from "playwright";
 import { linkedinSelectors } from "./selectors";
 import { linkedinUrls } from "./urls";
+import { StealthEngine } from "../../browser/stealth";
 
 function flattenSelectors(obj: any, prefix = ""): Record<string, string> {
   let result: Record<string, string> = {};
@@ -15,19 +16,10 @@ function flattenSelectors(obj: any, prefix = ""): Record<string, string> {
   return result;
 }
 
-
-function randomDelay(min: number, max: number) {
-  return Math.floor(Math.random() * (max - min + 1) + min);
-}
-
-async function humanDelay(page: Page) {
-  const delay = randomDelay(3000, 7000);
-  console.log(`   (Waiting ${delay}ms for safety...)`);
-  await page.waitForTimeout(delay);
-}
-
 export async function run(page: Page, targetPage?: string) {
-  console.log("Running Live Selector Tests...");
+  console.log("Running Live Selector Tests (Stealth Mode)...");
+  
+  const stealth = new StealthEngine(page);
 
   const pageConfigs: Record<string, () => string> = {
     jobs: () => linkedinUrls.jobs(),
@@ -46,7 +38,8 @@ export async function run(page: Page, targetPage?: string) {
 
     // Add safety delay between pages if not the first one or if we are iterating
     if (pagesToTest.length > 1) {
-        await humanDelay(page);
+        console.log("   (Stealth: Resting between pages...)");
+        await stealth.randomDelay(3000, 7000);
     }
 
     if (!pageConfigs[pageName]) {
@@ -63,15 +56,17 @@ export async function run(page: Page, targetPage?: string) {
     try {
       await page.goto(url);
       await page.waitForLoadState("domcontentloaded");
-      // Initial wait for dynamic content
-      await humanDelay(page);
+      
+      // Simulate human "orienting" themselves on the page
+      console.log("   (Stealth: Analyzing page content...)");
+      await stealth.randomDelay(2000, 4000);
+      await stealth.scroll('down', 'random');
 
       const selectors = (linkedinSelectors as any)[pageName];
       if (!selectors) {
         console.log(`⚠ No selectors defined for ${pageName}`);
         continue;
       }
-
 
       const flatSelectors = flattenSelectors(selectors);
       const total = Object.keys(flatSelectors).length;
@@ -107,7 +102,7 @@ export async function run(page: Page, targetPage?: string) {
      if (page.url() !== linkedinUrls.feed()) {
          await page.goto(linkedinUrls.feed());
          await page.waitForLoadState("domcontentloaded");
-         await page.waitForTimeout(3000);
+         await stealth.randomDelay(2000, 4000);
      }
 
      const flatSelectors = flattenSelectors(linkedinSelectors.global);

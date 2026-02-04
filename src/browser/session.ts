@@ -1,6 +1,7 @@
-import { Browser, BrowserContext, chromium } from "playwright";
+import { Browser, BrowserContext, chromium, Page } from "playwright";
 import fs from "fs";
 import path from "path";
+import { StealthEngine } from "./stealth";
 
 const SESSION_DIR = path.join(process.cwd(), "data");
 const LINKEDIN_SESSION_PATH = path.join(SESSION_DIR, "linkedin-auth.json");
@@ -8,6 +9,7 @@ const LINKEDIN_SESSION_PATH = path.join(SESSION_DIR, "linkedin-auth.json");
 export class SessionManager {
   private browser: Browser | null = null;
   private context: BrowserContext | null = null;
+  private stealthEngine: StealthEngine | null = null;
 
   async init(headless: boolean = false) {
     this.browser = await chromium.launch({
@@ -30,10 +32,27 @@ export class SessionManager {
     return this.context;
   }
 
+  getStealth(page: Page): StealthEngine {
+      return new StealthEngine(page);
+  }
+  
+  async close() {
+    if (this.browser) {
+      await this.browser.close();
+    }
+  }
+
+  getContext(): BrowserContext {
+    if (!this.context) {
+      throw new Error("Context not initialized");
+    }
+    return this.context;
+  }
+  
   sessionExists(): boolean {
     return fs.existsSync(LINKEDIN_SESSION_PATH);
   }
-
+  
   async saveSession() {
     if (!this.context) {
       throw new Error("No context to save");
@@ -53,17 +72,5 @@ export class SessionManager {
       console.log("Session deleted");
     }
   }
-
-  async close() {
-    if (this.browser) {
-      await this.browser.close();
-    }
-  }
-
-  getContext(): BrowserContext {
-    if (!this.context) {
-      throw new Error("Context not initialized");
-    }
-    return this.context;
-  }
 }
+
