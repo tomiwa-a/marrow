@@ -23,8 +23,8 @@ export class LinkedInNavigator {
     await this.page.waitForLoadState("domcontentloaded");
     await this.stealth.randomDelay(2000, 4000);
     
-    // Wait for search box instead of result list, as list might not exist on home
-    await this.page.waitForSelector(linkedinSelectors.jobSearch.inputs.searchBox, {
+    // Wait for "My Jobs" link which is always present on the dashboard
+    await this.page.waitForSelector(linkedinSelectors.jobs.navigation.myJobsLink, {
       timeout: 10000,
     });
   }
