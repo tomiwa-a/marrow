@@ -1,33 +1,59 @@
-import { chromium } from "playwright";
 import dotenv from "dotenv";
+import { SessionManager } from "./browser/session";
+import readline from "readline";
 
 dotenv.config();
+
+async function waitForUserInput(prompt: string): Promise<void> {
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+  });
+
+  return new Promise((resolve) => {
+    rl.question(prompt, () => {
+      rl.close();
+      resolve();
+    });
+  });
+}
 
 async function main() {
   console.log("Launching Marrow...\n");
 
-  const browser = await chromium.launch({
-    headless: process.env.HEADLESS === "true",
-    slowMo: 100,
-  });
+  const sessionManager = new SessionManager();
+  const context = await sessionManager.init(process.env.HEADLESS === "true");
 
-  console.log("Browser launched successfully");
+  const page = await context.newPage();
 
-  const page = await browser.newPage();
-  console.log("New page created");
+  if (!sessionManager.sessionExists()) {
+    console.log("Opening LinkedIn for manual login...");
+    await page.goto("https://www.linkedin.com/login");
 
-  await page.goto("https://example.com");
-  console.log("Navigated to: https://example.com");
+    console.log("\n=================================");
+    console.log("Please log in to LinkedIn manually");
+    console.log("Complete any 2FA if required");
+    console.log("=================================\n");
 
-  await page.waitForTimeout(3000);
+    await waitForUserInput("Press Enter after you've logged in...");
 
-  console.log("\nPhase 1 Complete - Browser opens visibly!");
+    await sessionManager.saveSession();
+    console.log("\nSession saved successfully!");
+  } else {
+    console.log("Using saved session...");
+    await page.goto("https://www.linkedin.com/feed/");
+    console.log("Navigated to LinkedIn feed");
 
-  await browser.close();
+    await page.waitForTimeout(3000);
+  }
+
+  console.log("\nPhase 2 Complete - LinkedIn session persisted!");
+
+  await sessionManager.close();
   console.log("Browser closed");
 }
 
 main().catch((error) => {
-  console.error("❌ Error:", error);
+  console.error("Error:", error);
   process.exit(1);
 });
