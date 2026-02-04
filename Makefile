@@ -11,6 +11,7 @@ help:
 	@echo "  make snapshot-pages - List pages for a module: make snapshot-pages MODULE=linkedin"
 	@echo "  make snapshot      - Capture snapshots: make snapshot MODULE=linkedin [PAGE=jobs]"
 	@echo "  make test-selectors - Test selectors: make test-selectors MODULE=linkedin [PAGE=jobs]"
+	@echo "  make playground    - Run playground: make playground MODULE=linkedin [PAGE=feed]"
 	@echo "  make ollama-ui     - Start Ollama WebUI for debugging (requires Docker)"
 	@echo "  make stop-ui       - Stop Ollama WebUI"
 	@echo "  make clean         - Remove build artifacts"
@@ -60,6 +61,17 @@ test-selectors:
 		npm run test-selectors $(MODULE); \
 	else \
 		npm run test-selectors $(MODULE) $(PAGE); \
+	fi
+
+playground:
+	@if [ -z "$(MODULE)" ]; then \
+		echo "Error: MODULE required. Usage: make playground MODULE=linkedin [PAGE=feed]"; \
+		exit 1; \
+	fi
+	@if [ -z "$(PAGE)" ]; then \
+		npm run playground $(MODULE); \
+	else \
+		npm run playground $(MODULE) $(PAGE); \
 	fi
 
 clean:
