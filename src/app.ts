@@ -43,14 +43,14 @@ export async function run() {
   }
 
   console.log("\nCapturing screenshot...");
-  const screenshot = await page.screenshot();
+  const screenshot = await page.screenshot({ type: "jpeg", quality: 60 });
   const screenshotBase64 = (screenshot as Buffer).toString("base64");
 
   console.log("Analyzing page with vision AI...");
   const ai = new AIAdapter("ollama");
   const response = await ai.chatWithImage(
     "Describe what you see in this LinkedIn page. What elements are visible?",
-    screenshotBase64
+    screenshotBase64,
   );
 
   console.log("\nAI Vision Response:");

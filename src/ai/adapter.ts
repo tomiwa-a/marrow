@@ -13,7 +13,7 @@ export class AIAdapter {
       case "ollama":
         return new OllamaProvider(
           process.env.OLLAMA_URL,
-          process.env.OLLAMA_MODEL
+          process.env.OLLAMA_MODEL,
         );
       case "gemini":
         throw new Error("Gemini provider not implemented yet");
