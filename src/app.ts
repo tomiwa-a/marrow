@@ -1,4 +1,5 @@
 import { SessionManager } from "./browser/session";
+import { AIAdapter } from "./ai/adapter";
 import readline from "readline";
 
 async function waitForUserInput(prompt: string): Promise<void> {
@@ -39,12 +40,21 @@ export async function run() {
   } else {
     console.log("Using saved session...");
     await page.goto("https://www.linkedin.com/feed/");
-    console.log("Navigated to LinkedIn feed");
-
-    await page.waitForTimeout(3000);
   }
 
-  console.log("\nLinkedIn session persisted!");
+  console.log("\nCapturing screenshot...");
+  const screenshot = await page.screenshot();
+  const screenshotBase64 = (screenshot as Buffer).toString("base64");
+
+  console.log("Analyzing page with vision AI...");
+  const ai = new AIAdapter("ollama");
+  const response = await ai.chatWithImage(
+    "Describe what you see in this LinkedIn page. What elements are visible?",
+    screenshotBase64
+  );
+
+  console.log("\nAI Vision Response:");
+  console.log(response);
 
   await sessionManager.close();
   console.log("Browser closed");
