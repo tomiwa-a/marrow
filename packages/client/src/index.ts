@@ -1,8 +1,8 @@
 import { ConvexHttpClient } from "convex/browser";
-import { MapperClient, PageSchema, PageStructure } from "../../../apps/mapper/src";
-import { ContextExtractor } from "../../../apps/cartographer/src";
-import { buildDiscoveryPrompt } from "../../../apps/mapper/src/prompts/discovery";
-
+import { Navigator, ContextExtractor } from "../../apps/cartographer/src/index";
+import { MapperClient } from "../../apps/mapper/src/client";
+import { PageSchema, PageStructure } from "@marrow/schema";
+import { buildDiscoveryPrompt } from "../../apps/mapper/src/prompts/discovery";
 
 export class MarrowClient {
   private registry: ConvexHttpClient;
@@ -71,7 +71,8 @@ export class MarrowClient {
     const prompt = buildDiscoveryPrompt(fullUrl, html.slice(0, 15000), axeSummary);
     const result = await this.mapper.generate(prompt, PageSchema);
     
-    await navigator.close();
+    await navigator.cleanup();
     return result;
   }
 }
+
