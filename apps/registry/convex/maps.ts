@@ -21,10 +21,6 @@ export const getMap = query({
       .first();
     
     if (exactMatch) {
-      await ctx.db.patch(exactMatch._id, {
-        usage_count: exactMatch.usage_count + 1,
-      });
-      await incrementMetric(ctx, "total_requests");
       return exactMatch;
     }
     
@@ -37,13 +33,8 @@ export const getMap = query({
       return null;
     }
     
-    domainMaps.sort((a: any, b: any) => b.usage_count - a.usage_count);
+    domainMaps.sort((a, b) => b.usage_count - a.usage_count);
     const mostPopular = domainMaps[0];
-    
-    await ctx.db.patch(mostPopular._id, {
-      usage_count: mostPopular.usage_count + 1,
-    });
-    await incrementMetric(ctx, "total_requests");
     
     return mostPopular;
   },
@@ -71,7 +62,7 @@ export const getElement = query({
       return null;
     }
     
-    const element = map.elements.find((el: any) => el.name === elementName);
+    const element = map.elements.find((el) => el.name === elementName);
     return element || null;
   },
 });
@@ -88,10 +79,10 @@ export const getManifest = query({
     
     return {
       domain: normalizedDomain,
-      pages: maps.map((map: any) => ({
+      pages: maps.map((map) => ({
         url: map.url,
         page_type: map.page_type,
-        elements: map.elements.map((el: any) => ({
+        elements: map.elements.map((el) => ({
           name: el.name,
           description: el.description,
         })),
@@ -153,7 +144,7 @@ export const getStats = query({
     
     const domainCounts = new Map<string, number>();
     for (const map of allMaps) {
-      domainCounts.set((map as any).domain, (domainCounts.get((map as any).domain) || 0) + 1);
+      domainCounts.set(map.domain, (domainCounts.get(map.domain) || 0) + 1);
     }
     
     const topDomains = Array.from(domainCounts.entries())

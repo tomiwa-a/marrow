@@ -1,8 +1,8 @@
 import { ConvexHttpClient } from "convex/browser";
-import { Navigator, ContextExtractor } from "../../apps/cartographer/src/index";
-import { MapperClient } from "../../apps/mapper/src/client";
-import { PageSchema, PageStructure } from "@marrow/schema";
-import { buildDiscoveryPrompt } from "../../apps/mapper/src/prompts/discovery";
+import { MapperClient, PageSchema, PageStructure } from "../../../apps/mapper/src";
+import { ContextExtractor } from "../../../apps/cartographer/src";
+import { buildDiscoveryPrompt } from "../../../apps/mapper/src/prompts/discovery";
+
 
 export class MarrowClient {
   private registry: ConvexHttpClient;
