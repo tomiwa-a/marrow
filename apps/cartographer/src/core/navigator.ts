@@ -1,0 +1,53 @@
+
+import { Page } from 'playwright';
+import { StealthBrowser } from './stealth';
+
+export class Navigator {
+  private stealth: StealthBrowser;
+  public page: Page | null = null;
+
+  constructor() {
+    this.stealth = new StealthBrowser();
+  }
+
+  async init(headless: boolean = false) {
+    await this.stealth.launch(headless);
+    const { page } = await this.stealth.createPage();
+    this.page = page;
+    return page;
+  }
+
+  async goto(url: string) {
+    if (!this.page) throw new Error('Page not initialized');
+
+    console.log(`Navigating to: ${url}`);
+    await this.page.goto(url, { waitUntil: 'domcontentloaded', timeout: 30000 });
+    
+    await this.delay(1000, 3000);
+  }
+
+  async scrollDown(count: number = 3) {
+    if (!this.page) throw new Error('Page not initialized');
+
+    console.log('Scrolling page...');
+    for (let i = 0; i < count; i++) {
+        await this.page.evaluate(() => {
+            window.scrollBy({
+                top: window.innerHeight * 0.7,
+                behavior: 'smooth'
+            });
+        });
+        
+        await this.delay(800, 2500);
+    }
+  }
+
+  async close() {
+    await this.stealth.close();
+  }
+
+  private async delay(min: number, max: number) {
+    const time = Math.floor(Math.random() * (max - min + 1)) + min;
+    await new Promise(res => setTimeout(res, time));
+  }
+}
