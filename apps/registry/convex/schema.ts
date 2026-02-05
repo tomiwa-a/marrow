@@ -27,16 +27,11 @@ export default defineSchema({
     .index("by_domain", ["domain"])
     .index("by_usage", ["usage_count"]),
 
-  users: defineTable({
-    user_id: v.string(),
-    email: v.optional(v.string()),
-    
-    total_requests: v.number(),
-    maps_created: v.number(),
-    
-    created_at: v.string(),
-    last_active: v.string(),
+  analytics: defineTable({
+    metric: v.string(),
+    value: v.number(),
+    timestamp: v.string(),
   })
-    .index("by_user_id", ["user_id"])
-    .index("by_last_active", ["last_active"]),
+    .index("by_metric", ["metric"])
+    .index("by_timestamp", ["timestamp"]),
 });
