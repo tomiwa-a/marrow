@@ -33,9 +33,27 @@ async function playground() {
         const { run: runBrowse } = await import("./playground/jobs-browsing");
         await runBrowse(page);
         break;
+      case "brain":
+        const { Coordinator } = await import("./modules/linkedin/coordinator");
+        const { LLMClient } = await import("./core/llm");
+        const path = await import("path");
+        
+        // Initialize AI
+        console.log("🧠 Initializing AI Brain...");
+        const llm = new LLMClient();
+        
+        // Initialize Coordinator
+        const modulePath = path.resolve(__dirname, "modules/linkedin");
+        const coordinator = new Coordinator(page, llm, { 
+          modulePath,
+          maxSteps: 10 
+        });
+        
+        await coordinator.run();
+        break;
       default:
         console.error(`Unknown module: ${moduleName}`);
-        console.log("Available modules: linkedin, demo, browse");
+        console.log("Available modules: linkedin, demo, browse, brain");
         break;
     }
   } catch (error) {

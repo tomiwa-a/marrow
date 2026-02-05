@@ -18,6 +18,10 @@ export class LinkedInNavigator {
     this.stealth = new StealthEngine(page);
   }
 
+  async delay(min: number = 2000, max: number = 4000): Promise<void> {
+    await this.stealth.randomDelay(min, max);
+  }
+
   /**
    * Navigates to the LinkedIn Jobs dashboard.
    */
