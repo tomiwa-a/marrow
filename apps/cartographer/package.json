@@ -7,11 +7,10 @@
     "dev": "tsx watch src/index.ts"
   },
   "dependencies": {
+    "@axe-core/playwright": "^4.11.1",
     "dotenv": "^16.4.1",
     "fs-extra": "^11.2.0",
-    "playwright": "^1.58.1",
-    "playwright-extra": "^4.3.6",
-    "puppeteer-extra-plugin-stealth": "^2.11.2"
+    "playwright": "^1.58.1"
   },
   "devDependencies": {
     "@types/fs-extra": "^11.0.4",

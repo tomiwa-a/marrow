@@ -16,9 +16,13 @@ async function main() {
     console.log('Visiting Hacker News...');
     await navigator.goto('https://news.ycombinator.com/');
     
-    const tree = await extractor.getAXTree(navigator.page!);
-    console.log('AXTree Captured (First 5 nodes):');
-    console.log(JSON.stringify(tree?.children?.slice(0, 5), null, 2));
+    const results = await extractor.getAXTree(navigator.page!);
+    console.log('Axe Analysis Complete:');
+    console.log(`Violations: ${results.violations.length}`);
+    console.log(`Passes: ${results.passes.length}`);
+    if (results.violations.length > 0) {
+        console.log('First Violation:', JSON.stringify(results.violations[0], null, 2));
+    }
 
   } catch (error) {
     console.error('Error:', error);

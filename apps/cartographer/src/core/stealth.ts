@@ -53,6 +53,20 @@ export class StealthBrowser {
       Object.defineProperty(navigator, 'plugins', {
         get: () => [1, 2, 3],
       });
+
+      // SPOOF WebGL (Fixes ANGLE/SwiftShader Red Flag)
+      const getParameter = WebGLRenderingContext.prototype.getParameter;
+      WebGLRenderingContext.prototype.getParameter = function(parameter) {
+        // 37445: UNMASKED_VENDOR_WEBGL
+        // 37446: UNMASKED_RENDERER_WEBGL
+        if (parameter === 37445) {
+          return 'Intel Inc.';
+        }
+        if (parameter === 37446) {
+          return 'Intel Iris OpenGL Engine';
+        }
+        return getParameter.apply(this, [parameter]);
+      };
     });
 
     return { page, context: this.context };

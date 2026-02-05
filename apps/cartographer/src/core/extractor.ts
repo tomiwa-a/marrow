@@ -1,5 +1,6 @@
 
 import { Page } from 'playwright';
+import { AxeBuilder } from '@axe-core/playwright';
 
 export class ContextExtractor {
   
@@ -7,12 +8,12 @@ export class ContextExtractor {
     if (!page) {
         throw new Error("Page is undefined");
     }
+    
+    const results = await new AxeBuilder({ page })
+      .include('body') 
+      .analyze();
 
-    const snapshot = await page.accessibility.snapshot({
-      interestingOnly: true 
-    });
-
-    return snapshot;
+    return results; 
   }
 
   async getCleanHTML(page: Page) {
