@@ -1,19 +1,18 @@
 import { ConvexHttpClient } from "convex/browser";
-import { Navigator, ContextExtractor } from "@marrow/cartographer";
-import { MapperClient } from "@marrow/mapper";
-import { PageSchema, PageStructure } from "@marrow/schema";
-import { buildDiscoveryPrompt } from "@marrow/mapper/prompts";
+import { Cartographer } from "@marrow/cartographer";
+import { Mapper } from "@marrow/mapper";
+import { PageStructure } from "@marrow/schema";
 
 export class MarrowClient {
   private registry: ConvexHttpClient;
-  private mapper: MapperClient;
+  private mapper: Mapper;
   
   constructor(config: {
     geminiKey: string;
     registryUrl: string;
   }) {
     this.registry = new ConvexHttpClient(config.registryUrl);
-    this.mapper = new MapperClient(config.geminiKey);
+    this.mapper = new Mapper(config.geminiKey);
   }
   
   async getMap(urlPattern: string): Promise<PageStructure | null> {
@@ -51,28 +50,13 @@ export class MarrowClient {
   }
   
   private async mapLocally(urlPattern: string): Promise<PageStructure> {
-    const navigator = new Navigator();
-    const extractor = new ContextExtractor();
-    
-    await navigator.init(false);
-    
     const fullUrl = urlPattern.startsWith("http") ? urlPattern : `https://${urlPattern}`;
-    await navigator.goto(fullUrl);
     
-    const html = await extractor.getCleanHTML(navigator.page!);
-    const axTree = await extractor.getAXTree(navigator.page!);
+    const snapshot = await Cartographer.snap(fullUrl);
+    const result = await this.mapper.analyze(fullUrl, snapshot);
     
-    const axeSummary = JSON.stringify({
-      violations: axTree.violations.slice(0, 3),
-      passes: axTree.passes.length,
-      incomplete: axTree.incomplete.length,
-    }, null, 2);
-    
-    const prompt = buildDiscoveryPrompt(fullUrl, html.slice(0, 15000), axeSummary);
-    const result = await this.mapper.generate(prompt, PageSchema);
-    
-    await navigator.close();
     return result;
   }
 }
+
 

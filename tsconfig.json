@@ -16,7 +16,7 @@
     "paths": {
       "@marrow/schema": ["packages/schema/src/index.ts"],
       "@marrow/cartographer": ["apps/cartographer/src/index.ts"],
-      "@marrow/mapper": ["apps/mapper/src/client.ts"],
+      "@marrow/mapper": ["apps/mapper/src/index.ts"],
       "@marrow/mapper/prompts": ["apps/mapper/src/prompts/discovery.ts"]
     }
   },
