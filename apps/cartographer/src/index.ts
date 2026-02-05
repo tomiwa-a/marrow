@@ -1,6 +1,7 @@
-
 import { Navigator } from './core/navigator';
 import { ContextExtractor } from './core/extractor';
+
+export { Navigator, ContextExtractor };
 
 async function main() {
   const navigator = new Navigator();
@@ -32,4 +33,6 @@ async function main() {
   }
 }
 
-main();
+if (require.main === module) {
+  main();
+}

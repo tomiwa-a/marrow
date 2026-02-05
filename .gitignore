@@ -5,3 +5,4 @@ phases.md
 dist/
 artifacts/
 .agent/
+data/snapshots
