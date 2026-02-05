@@ -1,4 +1,4 @@
-import { MarrowClient } from '../packages/client/src/index';
+import { MarrowClient } from '../apps/client/src/index';
 import fs from 'fs';
 import path from 'path';
 
