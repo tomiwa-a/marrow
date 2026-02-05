@@ -33,5 +33,36 @@ export class Cartographer {
       await navigator.close();
     }
   }
+
+  static async extract(url: string, selectors: string[], headless = true): Promise<Record<string, string | null>> {
+    const navigator = new Navigator();
+    try {
+      await navigator.init(headless);
+      await navigator.goto(url);
+      
+      if (!navigator.page) throw new Error("Page not initialized");
+
+      const results: Record<string, string | null> = {};
+
+      for (const selector of selectors) {
+        try {
+          // Robust extraction: handle missing elements gracefully
+          const content = await navigator.page.evaluate((sel) => {
+            const el = document.querySelector(sel);
+            return el ? (el as HTMLElement).innerText.trim() : null;
+          }, selector);
+          results[selector] = content;
+        } catch (e) {
+          console.error(`Failed to extract selector: ${selector}`, e);
+          results[selector] = null;
+        }
+      }
+
+      return results;
+
+    } finally {
+      await navigator.close();
+    }
+  }
 }
 

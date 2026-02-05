@@ -59,6 +59,11 @@ export class MarrowClient {
     
     return result;
   }
+
+  async extractContent(url: string, selectors: string[]): Promise<Record<string, string | null>> {
+    const fullUrl = url.startsWith("http") ? url : `https://${url}`;
+    return await Cartographer.extract(fullUrl, selectors);
+  }
 }
 
 
