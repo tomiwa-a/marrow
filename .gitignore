@@ -1,6 +1,6 @@
 node_modules/
 .env
-phases.md
+# phases.md
 .DS_Store
 dist/
 artifacts/

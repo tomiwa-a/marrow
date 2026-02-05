@@ -6,7 +6,8 @@ async function runIntegration() {
   const targetUrl = process.argv[2] || 'https://news.ycombinator.com/';
   console.log(`\n=== Starting Integration Test: ${targetUrl} ===\n`);
 
-  const registryUrl = process.env.CONVEX_URL || 'http://localhost:3000';
+  // Default to the dev deployment if not specified
+  const registryUrl = process.env.CONVEX_URL || 'https://jovial-ibis-732.convex.cloud';
   const geminiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_GENERATIVE_AI_API_KEY;
 
   if (!geminiKey) {
@@ -28,20 +29,20 @@ async function runIntegration() {
       process.exit(1);
     }
 
-    const snapshotDir = path.resolve(__dirname, '../data/snapshots');
-    if (!fs.existsSync(snapshotDir)) {
-      fs.mkdirSync(snapshotDir, { recursive: true });
-    }
+    // const snapshotDir = path.resolve(__dirname, '../data/snapshots');
+    // if (!fs.existsSync(snapshotDir)) {
+    //   fs.mkdirSync(snapshotDir, { recursive: true });
+    // }
 
-    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-    const filename = `snapshot-${timestamp}.json`;
-    const filepath = path.join(snapshotDir, filename);
+    // const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+    // const filename = `snapshot-${timestamp}.json`;
+    // const filepath = path.join(snapshotDir, filename);
 
-    fs.writeFileSync(filepath, JSON.stringify(result, null, 2));
+    // fs.writeFileSync(filepath, JSON.stringify(result, null, 2));
 
-    console.log(`\n=== SUCCESS ===`);
-    console.log(`Output saved to: ${filepath}`);
-    console.log(`Elements Found: ${result.elements.length}`);
+    // console.log(`\n=== SUCCESS ===`);
+    // console.log(`Output saved to: ${filepath}`);
+    // console.log(`Elements Found: ${result.elements.length}`);
     result.elements.forEach(el => console.log(` - [${el.confidence_score}] ${el.name}: ${el.description}`));
 
   } catch (error) {
