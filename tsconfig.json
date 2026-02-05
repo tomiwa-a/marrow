@@ -11,7 +11,14 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "baseUrl": ".",
+    "paths": {
+      "@marrow/schema": ["packages/schema/src/index.ts"],
+      "@marrow/cartographer": ["apps/cartographer/src/index.ts"],
+      "@marrow/mapper": ["apps/mapper/src/client.ts"],
+      "@marrow/mapper/prompts": ["apps/mapper/src/prompts/discovery.ts"]
+    }
   },
   "exclude": ["node_modules", "dist", "v1_agent"]
 }
