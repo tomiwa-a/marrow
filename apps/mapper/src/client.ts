@@ -4,7 +4,7 @@ import zodToJsonSchema from 'zod-to-json-schema';
 import dotenv from 'dotenv';
 import path from 'path';
 
-dotenv.config({ path: path.resolve(__dirname, '../../../../.env') });
+dotenv.config({ path: path.resolve(__dirname, '../../../.env') });
 
 export class MapperClient {
   private genAI: GoogleGenerativeAI;
@@ -15,7 +15,7 @@ export class MapperClient {
       throw new Error("GEMINI_API_KEY is required. Set it in .env");
     }
     this.genAI = new GoogleGenerativeAI(apiKey);
-    this.modelName = "gemini-2.0-flash-exp";
+    this.modelName = process.env.GEMINI_MODEL || "gemini-2.0-flash";
   }
 
   async generate<T>(prompt: string, schema: z.ZodType<T>): Promise<T> {

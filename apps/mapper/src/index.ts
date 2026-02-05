@@ -1,6 +1,5 @@
-
 import { MapperClient } from './client';
-import { PageSchema, PageStructure } from './schema';
+import { PageSchema, PageStructure } from '@marrow/schema';
 
 export { MapperClient, PageSchema };
 export type { PageStructure };
