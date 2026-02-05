@@ -1,45 +1,30 @@
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import { google } from '@ai-sdk/google';
+import { generateObject } from 'ai';
 import { z } from 'zod';
-import zodToJsonSchema from 'zod-to-json-schema';
 import dotenv from 'dotenv';
 import path from 'path';
 
 dotenv.config({ path: path.resolve(__dirname, '../../../.env') });
 
 export class MapperClient {
-  private genAI: GoogleGenerativeAI;
   private modelName: string;
 
   constructor(apiKey: string = process.env.GEMINI_API_KEY || "") {
     if (!apiKey) {
       throw new Error("GEMINI_API_KEY is required. Set it in .env");
     }
-    this.genAI = new GoogleGenerativeAI(apiKey);
+    // The AI SDK looks for this specific env var
+    process.env.GOOGLE_GENERATIVE_AI_API_KEY = apiKey;
     this.modelName = process.env.GEMINI_MODEL || "gemini-2.0-flash";
   }
 
   async generate<T>(prompt: string, schema: z.ZodType<T>): Promise<T> {
-    const model = this.genAI.getGenerativeModel({
-      model: this.modelName,
-      generationConfig: {
-        responseMimeType: "application/json",
-        responseSchema: this.convertZodToGeminiSchema(schema),
-      },
+    const { object } = await generateObject({
+      model: google(this.modelName),
+      schema: schema,
+      prompt: prompt,
     });
 
-    const result = await model.generateContent(prompt);
-    const responseText = result.response.text();
-
-    try {
-      const json = JSON.parse(responseText);
-      return schema.parse(json);
-    } catch (error) {
-      console.error("Failed to parse or validate JSON response:", responseText);
-      throw new Error(`AI response invalid: ${error}`);
-    }
-  }
-
-  private convertZodToGeminiSchema(schema: z.ZodType<any>): any {
-    return zodToJsonSchema(schema as any, { target: "openApi3" });
+    return object;
   }
 }
