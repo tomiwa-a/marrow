@@ -1,0 +1,11 @@
+{
+  "name": "@marrow/client",
+  "version": "1.0.0",
+  "main": "src/index.ts",
+  "dependencies": {
+    "convex": "^1.18.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0"
+  }
+}
