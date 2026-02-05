@@ -137,6 +137,25 @@ export const saveMap = mutation({
   },
 });
 
+export const trackView = mutation({
+  args: { urlPattern: v.string() },
+  handler: async (ctx, { urlPattern }) => {
+    const { domain, url } = parseUrl(urlPattern);
+
+    const map = await ctx.db
+      .query("page_maps")
+      .withIndex("by_url", (q) => q.eq("url", url))
+      .first();
+
+    if (map) {
+      await ctx.db.patch(map._id, {
+        usage_count: (map.usage_count || 0) + 1,
+      });
+      await incrementMetric(ctx, "total_requests");
+    }
+  },
+});
+
 export const getStats = query({
   handler: async (ctx) => {
     const allMaps = await ctx.db.query("page_maps").collect();

@@ -20,6 +20,8 @@ export class MarrowClient {
     
     if (cached) {
       console.log("✓ Cache hit");
+      // Fire-and-forget analytics
+      this.registry.mutation("maps:trackView" as any, { urlPattern }).catch(() => {});
       return cached as PageStructure;
     }
     
