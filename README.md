@@ -109,6 +109,44 @@ cp .env.example .env
 npx tsx scripts/test-integration.ts https://news.ycombinator.com
 ```
 
+## Use Cases
+
+### 1. AI Coding Assistants (Claude Code, Cursor, Windsurf)
+
+**Problem**: AI assistants hallucinate selectors when navigating documentation or web apps.
+
+**Solution**: Marrow MCP Server provides reliable selectors.
+
+```typescript
+// Claude Code calls Marrow via MCP:
+const map = await marrow.getMap("stripe.com/docs");
+await page.click(map.elements.search_input.strategies[0].value);
+```
+
+### 2. Browser Automation (OpenClaw, Skyvern, Browserbase)
+
+**Problem**: Automation scripts break when websites change CSS.
+
+**Solution**: Tools query Marrow for current selectors.
+
+```typescript
+// OpenClaw sends Instagram DM:
+const map = await marrow.getMap("instagram.com/direct");
+await page.click(map.elements.new_message_button.strategies[0].value);
+```
+
+### 3. Data Extraction (Apify, Bright Data)
+
+Reduce scraper maintenance by 90% with shared, auto-healing maps.
+
+### 4. AI Agents (AutoGPT, BabyAGI)
+
+Save tokens by using cached maps instead of re-analyzing pages.
+
+### 5. QA Testing (Playwright, Cypress)
+
+Write resilient tests that survive CSS refactors.
+
 ## Roadmap
 
 See [phases.md](./phases.md) for the full roadmap.
