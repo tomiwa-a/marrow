@@ -5,7 +5,6 @@ import { PageSchema, PageStructure } from './schema';
 export { MapperClient, PageSchema };
 export type { PageStructure };
 
-// Simple test run if executed directly
 if (require.main === module) {
   (async () => {
     try {
