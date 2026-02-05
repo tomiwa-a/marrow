@@ -1,7 +1,7 @@
-
 import { Navigator, ContextExtractor } from '../apps/cartographer/src/index';
 import { MapperClient } from '../apps/mapper/src/client';
-import { PageSchema, PageStructure } from '@marrow/schema';
+import { PageSchema } from '@marrow/schema';
+import { buildDiscoveryPrompt } from '../apps/mapper/src/prompts/discovery';
 import fs from 'fs';
 import path from 'path';
 
@@ -27,19 +27,18 @@ async function runIntegration() {
     
     // 2. Mapper: AI Analysis
     console.log('4. [Mapper] Analyzing with Gemini 2.0...');
-    const prompt = `
-      You are an intelligent web scraper (Marrow V2).
-      Analyze the webpage context below and identify key interactive components.
-      
-      TARGET: ${targetUrl}
-      GOAL: Identify universal elements like lists of items, navigation buttons, and main content areas.
-      
-      HTML Snippet (Truncated):
-      ${html.slice(0, 15000)}
-
-      Accessibility Tree (Summary):
-      ${JSON.stringify(axTree.violations.slice(0, 3))}
-    `;
+    
+    const axeSummary = JSON.stringify({
+      violations: axTree.violations.slice(0, 3),
+      passes: axTree.passes.length,
+      incomplete: axTree.incomplete.length
+    }, null, 2);
+    
+    const prompt = buildDiscoveryPrompt(
+      targetUrl,
+      html.slice(0, 15000),
+      axeSummary
+    );
 
     const result = await mapper.generate(prompt, PageSchema);
     
