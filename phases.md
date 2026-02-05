@@ -109,6 +109,7 @@ Users provide their own Gemini API key. Marrow provides:
 - [ ] Expose REST endpoints:
   - `GET /v1/map?url=...`
   - `POST /v1/validate` (test selectors)
+  - `POST /v1/extract` (get content using selectors)
 - [ ] Add CORS support
 - [ ] Implement rate limiting
 

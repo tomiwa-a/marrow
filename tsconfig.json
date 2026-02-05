@@ -17,7 +17,9 @@
       "@marrow/schema": ["packages/schema/src/index.ts"],
       "@marrow/cartographer": ["apps/cartographer/src/index.ts"],
       "@marrow/mapper": ["apps/mapper/src/index.ts"],
-      "@marrow/mapper/prompts": ["apps/mapper/src/prompts/discovery.ts"]
+      "@marrow/mapper/prompts": ["apps/mapper/src/prompts/discovery.ts"],
+      "@marrow/client": ["apps/client/src/index.ts"],
+      "@marrow/mcp": ["apps/mcp/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "dist", "v1_agent"]

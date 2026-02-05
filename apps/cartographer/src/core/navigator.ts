@@ -20,7 +20,7 @@ export class Navigator {
   async goto(url: string) {
     if (!this.page) throw new Error('Page not initialized');
 
-    console.log(`Navigating to: ${url}`);
+    console.error(`Navigating to: ${url}`);
     await this.page.goto(url, { waitUntil: 'domcontentloaded', timeout: 30000 });
     
     await this.delay(1000, 3000);
@@ -29,7 +29,7 @@ export class Navigator {
   async scrollDown(count: number = 3) {
     if (!this.page) throw new Error('Page not initialized');
 
-    console.log('Scrolling page...');
+    console.error('Scrolling page...');
     for (let i = 0; i < count; i++) {
         await this.page.evaluate(() => {
             window.scrollBy({

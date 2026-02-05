@@ -1,3 +1,5 @@
+console.log = console.error;
+
 import { Server } from "@modelcontextprotocol/sdk/server/index.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { MarrowClient } from "@marrow/client";
@@ -78,8 +80,11 @@ server.setRequestHandler(
                isError: true,
              };
           }
+          const jsonString = JSON.stringify(map, null, 2);
+          const cleanJson = jsonString.replace(/[^\x20-\x7E]/g, '');
+
           return {
-            content: [{ type: "text", text: JSON.stringify(map, null, 2) }],
+            content: [{ type: "text", text: cleanJson }],
           };
         } catch (error: any) {
           return {
@@ -94,8 +99,10 @@ server.setRequestHandler(
         try {
            console.error(`[Marrow] Mapping page: ${url}`);
            const map = await marrow.getMap(url);
+           const jsonString = JSON.stringify(map, null, 2);
+           const cleanJson = jsonString.replace(/[^\x20-\x7E]/g, '');
            return {
-             content: [{ type: "text", text: JSON.stringify(map, null, 2) }],
+             content: [{ type: "text", text: cleanJson }],
            };
         } catch (error: any) {
           return {

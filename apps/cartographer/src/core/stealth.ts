@@ -10,7 +10,7 @@ export class StealthBrowser {
   private context: BrowserContext | null = null;
 
   async launch(headless: boolean = false): Promise<Browser> {
-    console.log(`Launching Stealth Browser (Plugin Mode, Headless: ${headless})`);
+    console.error(`Launching Stealth Browser (Plugin Mode, Headless: ${headless})`);
 
     this.browser = await chromiumExtra.launch({
       headless,

@@ -19,13 +19,13 @@ export class MarrowClient {
     const cached = await this.registry.query("maps:getMap" as any, { urlPattern });
     
     if (cached) {
-      console.log("✓ Cache hit");
+      console.error("✓ Cache hit");
       // Fire-and-forget analytics
       this.registry.mutation("maps:trackView" as any, { urlPattern }).catch(() => {});
       return cached as PageStructure;
     }
     
-    console.log("✗ Cache miss - mapping locally...");
+    console.error("✗ Cache miss - mapping locally...");
     const map = await this.mapLocally(urlPattern);
     
     await this.registry.mutation("maps:saveMap" as any, {
@@ -34,7 +34,7 @@ export class MarrowClient {
       page_type: map.page_type,
       elements: map.elements,
     });
-    console.log("✓ Uploaded to registry");
+    console.error("✓ Uploaded to registry");
     
     return map;
   }
