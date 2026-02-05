@@ -1,5 +1,5 @@
 
-import { chromium, Browser, BrowserContext, Page } from 'playwright';
+import { Browser, BrowserContext, Page } from 'playwright';
 import stealthPlugin from 'puppeteer-extra-plugin-stealth';
 
 const { chromium: chromiumExtra } = require('playwright-extra');
