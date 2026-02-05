@@ -71,7 +71,7 @@ export class MarrowClient {
     const prompt = buildDiscoveryPrompt(fullUrl, html.slice(0, 15000), axeSummary);
     const result = await this.mapper.generate(prompt, PageSchema);
     
-    await navigator.cleanup();
+    await navigator.close();
     return result;
   }
 }
