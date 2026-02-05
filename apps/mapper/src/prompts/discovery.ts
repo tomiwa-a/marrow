@@ -12,13 +12,18 @@ CRITICAL HEURISTICS:
    - The parent container holding them (name it "list_container" or "items_wrapper")
    - The scrollable area if pagination exists
    
-2. MULTIPLE STRATEGIES REQUIRED: For EVERY element, provide at least 2 distinct strategies:
+2. INDIVIDUAL CLICKABLE ITEMS: Do NOT group similar links or buttons.
+   - Each navigation link must be identified separately (e.g., "nav_new", "nav_past", "nav_comments")
+   - Each button must have its own entry with its specific purpose
+   - Generic selectors like "navigation_link" are NOT acceptable
+   
+3. MULTIPLE STRATEGIES REQUIRED: For EVERY element, provide at least 2 distinct strategies:
    - Primary: CSS Selector (preferred for stability)
    - Backup: XPath, ARIA label, or data-testid attribute
    
-3. ELEMENT PRIORITY:
+4. ELEMENT PRIORITY:
    - Structural containers (lists, grids, scrollable areas)
-   - Navigation elements (buttons, links, menus)
+   - Individual navigation elements (each link/button separately)
    - Interactive components (forms, inputs, buttons)
    - Content elements (titles, text, images)
 
