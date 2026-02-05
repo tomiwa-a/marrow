@@ -147,10 +147,6 @@ Save tokens by using cached maps instead of re-analyzing pages.
 
 Write resilient tests that survive CSS refactors.
 
-## Roadmap
-
-See [phases.md](./phases.md) for the full roadmap.
-
 **Next Milestones:**
 
 - [ ] Phase 4: JIT Registry (Convex backend)
