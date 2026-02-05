@@ -1,14 +1,18 @@
 
 import { chromium, Browser, BrowserContext, Page } from 'playwright';
+import stealthPlugin from 'puppeteer-extra-plugin-stealth';
+
+const { chromium: chromiumExtra } = require('playwright-extra');
+chromiumExtra.use(stealthPlugin());
 
 export class StealthBrowser {
   private browser: Browser | null = null;
   private context: BrowserContext | null = null;
 
   async launch(headless: boolean = false): Promise<Browser> {
-    console.log(`Launching Stealth Browser (Headless: ${headless})`);
+    console.log(`Launching Stealth Browser (Plugin Mode, Headless: ${headless})`);
 
-    this.browser = await chromium.launch({
+    this.browser = await chromiumExtra.launch({
       headless,
       args: [
         '--no-sandbox',
@@ -21,7 +25,7 @@ export class StealthBrowser {
       ],
     });
 
-    return this.browser;
+    return this.browser as unknown as Browser;
   }
 
   async createPage(): Promise<{ page: Page; context: BrowserContext }> {
@@ -38,38 +42,7 @@ export class StealthBrowser {
     });
 
     const page = await this.context.newPage();
-
-    await page.addInitScript(() => {
-      Object.defineProperty(navigator, 'webdriver', {
-        get: () => undefined,
-      });
-      // @ts-ignore
-      window.chrome = { runtime: {} };
-      // @ts-ignore
-      Object.defineProperty(navigator, 'languages', {
-        get: () => ['en-US', 'en'],
-      });
-      // @ts-ignore
-      Object.defineProperty(navigator, 'plugins', {
-        get: () => [1, 2, 3],
-      });
-
-      // SPOOF WebGL (Fixes ANGLE/SwiftShader Red Flag)
-      const getParameter = WebGLRenderingContext.prototype.getParameter;
-      WebGLRenderingContext.prototype.getParameter = function(parameter) {
-        // 37445: UNMASKED_VENDOR_WEBGL
-        // 37446: UNMASKED_RENDERER_WEBGL
-        if (parameter === 37445) {
-          return 'Intel Inc.';
-        }
-        if (parameter === 37446) {
-          return 'Intel Iris OpenGL Engine';
-        }
-        return getParameter.apply(this, [parameter]);
-      };
-    });
-
-    return { page, context: this.context };
+    return { page: page as unknown as Page, context: this.context };
   }
 
   async close() {
