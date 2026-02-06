@@ -51,7 +51,7 @@ const NODES_DATA = [
 
 const TEAL = "#0D9488";
 const TEAL_LIGHT = "#14B8A6";
-const TEAL_GLOW = "rgba(13, 148, 136, 0.15)";
+
 
 export function initNodeGraph(): void {
   const canvas = document.getElementById(
@@ -69,7 +69,6 @@ export function initNodeGraph(): void {
   let nodes: Node[] = [];
   let edges: Edge[] = [];
   let hoveredNode: number = -1;
-  let animationId: number;
   let isVisible = true;
 
   function resize() {
@@ -300,7 +299,7 @@ export function initNodeGraph(): void {
       update();
       draw();
     }
-    animationId = requestAnimationFrame(animate);
+    requestAnimationFrame(animate);
   }
 
   // Mouse interaction

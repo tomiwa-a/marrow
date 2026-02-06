@@ -30,7 +30,7 @@ Marrow is a CLI-based autonomous agent that navigates job sites like LinkedIn, m
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/marrow.git
+git clone https://github.com/tomiwa-a/marrow.git
 cd marrow
 
 # Install dependencies
