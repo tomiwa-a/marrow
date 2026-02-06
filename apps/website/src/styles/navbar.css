@@ -1,24 +1,32 @@
-/* ── Navbar ── */
+/* ═══ Navbar — Frosted glass, Linear-style ═══ */
+
 .navbar {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
+  z-index: 1000;
   height: var(--nav-height);
-  z-index: 100;
-  background: rgba(250, 251, 252, 0.8);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  transition: all var(--duration-slow) var(--ease-out);
+}
+
+.navbar::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(250, 250, 250, 0.7);
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
   border-bottom: 1px solid transparent;
-  transition: border-color var(--transition-base), box-shadow var(--transition-base);
+  transition: border-color var(--duration-slow) var(--ease-out);
 }
 
-.navbar.scrolled {
+.navbar.scrolled::before {
   border-bottom-color: var(--color-border);
-  box-shadow: var(--shadow-sm);
 }
 
-.navbar .container {
+.navbar > .container {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -29,149 +37,160 @@
   display: flex;
   align-items: center;
   gap: var(--space-2);
-  font-size: var(--text-xl);
+  font-size: var(--text-base);
   font-weight: var(--weight-bold);
+  letter-spacing: var(--tracking-tight);
   color: var(--color-text);
+  z-index: 10;
 }
 
-.nav-logo .logo-icon {
-  width: 28px;
-  height: 28px;
-  background: var(--color-accent);
-  border-radius: var(--radius-sm);
+.logo-icon {
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-sm);
+  background: linear-gradient(135deg, var(--color-accent), #0F766E);
+  flex-shrink: 0;
 }
 
-.nav-logo .logo-icon svg {
+.logo-icon svg {
   width: 16px;
   height: 16px;
 }
 
-.nav-links {
+.nav-center {
   display: flex;
   align-items: center;
-  gap: var(--space-8);
+  gap: var(--space-1);
 }
 
-.nav-links a {
+.nav-center a {
   font-size: var(--text-sm);
   font-weight: var(--weight-medium);
   color: var(--color-text-secondary);
-  transition: color var(--transition-fast);
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  transition: color var(--duration-fast), background var(--duration-fast);
 }
 
-.nav-links a:hover {
+.nav-center a:hover {
   color: var(--color-text);
+  background: var(--color-bg-subtle);
 }
 
 .nav-actions {
   display: flex;
   align-items: center;
-  gap: var(--space-4);
+  gap: var(--space-3);
+  z-index: 10;
 }
 
 .nav-github {
   display: flex;
   align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
   color: var(--color-text-secondary);
-  transition: color var(--transition-fast);
+  transition: color var(--duration-fast), background var(--duration-fast);
 }
 
 .nav-github:hover {
   color: var(--color-text);
+  background: var(--color-bg-subtle);
 }
 
 .nav-github svg {
-  width: 22px;
-  height: 22px;
+  width: 18px;
+  height: 18px;
 }
 
-/* Buttons */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
-  padding: var(--space-2) var(--space-5);
+.nav-cta {
   font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-  border-radius: var(--radius-pill);
-  transition: all var(--transition-fast);
-  white-space: nowrap;
-}
-
-.btn-primary {
-  background: var(--color-accent);
+  font-weight: var(--weight-medium);
+  padding: 7px 16px;
+  border-radius: var(--radius-md);
+  background: var(--color-text);
   color: var(--color-text-inverse);
-  box-shadow: var(--shadow-sm);
+  transition: all var(--duration-fast) var(--ease-out);
 }
 
-.btn-primary:hover {
-  background: var(--color-accent-hover);
-  box-shadow: var(--shadow-glow);
-  transform: translateY(-1px);
+.nav-cta:hover {
+  opacity: 0.85;
 }
 
-.btn-outline {
-  border: 1.5px solid var(--color-border);
-  color: var(--color-text);
-  background: var(--color-bg-alt);
-}
-
-.btn-outline:hover {
-  border-color: var(--color-accent);
-  color: var(--color-accent);
-  transform: translateY(-1px);
-}
-
-.btn-lg {
-  padding: var(--space-3) var(--space-8);
-  font-size: var(--text-base);
-}
-
-.btn svg {
-  width: 16px;
-  height: 16px;
-}
-
-/* Mobile Nav Toggle */
+/* ─── Mobile Toggle ─── */
 .nav-toggle {
   display: none;
   flex-direction: column;
-  gap: 5px;
-  padding: var(--space-2);
+  justify-content: center;
+  gap: 4px;
+  width: 32px;
+  height: 32px;
+  z-index: 10;
 }
 
 .nav-toggle span {
   display: block;
-  width: 20px;
-  height: 2px;
+  width: 18px;
+  height: 1.5px;
   background: var(--color-text);
   border-radius: 2px;
-  transition: all var(--transition-base);
+  transition: all var(--duration-base) var(--ease-out);
+  transform-origin: center;
 }
 
+/* ─── Mobile Overlay ─── */
 @media (max-width: 768px) {
-  .nav-links {
-    display: none;
-    position: absolute;
-    top: var(--nav-height);
-    left: 0;
-    right: 0;
+  .nav-center {
+    position: fixed;
+    inset: 0;
     flex-direction: column;
-    background: var(--color-bg-alt);
-    border-bottom: 1px solid var(--color-border);
-    padding: var(--space-6);
-    gap: var(--space-6);
-    box-shadow: var(--shadow-lg);
+    justify-content: center;
+    align-items: center;
+    gap: var(--space-2);
+    background: rgba(250, 250, 250, 0.96);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity var(--duration-slow) var(--ease-out),
+                visibility var(--duration-slow);
+    z-index: 5;
   }
 
-  .nav-links.open {
-    display: flex;
+  .nav-center.open {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .nav-center a {
+    font-size: var(--text-2xl);
+    font-weight: var(--weight-semibold);
+    color: var(--color-text);
+    padding: var(--space-3) var(--space-6);
   }
 
   .nav-toggle {
     display: flex;
+  }
+
+  .nav-toggle.active span:nth-child(1) {
+    transform: rotate(45deg) translate(2px, 2px);
+  }
+
+  .nav-toggle.active span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .nav-toggle.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(2px, -2px);
+  }
+
+  .nav-cta {
+    display: none;
   }
 }

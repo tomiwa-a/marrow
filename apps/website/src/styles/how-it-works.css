@@ -1,139 +1,128 @@
-/* ── How It Works Section ── */
-.how-it-works {
-  background: var(--color-bg);
-  overflow: hidden;
+/* ═══ BYOK (Bring Your Own Key) ═══ */
+
+.byok {
+  background: var(--color-bg-elevated);
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
 }
 
-.hiw-timeline {
+.byok-layout {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: var(--space-8);
-  position: relative;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-16);
+  align-items: center;
 }
 
-/* Connecting line between steps */
-.hiw-timeline::before {
-  content: '';
-  position: absolute;
-  top: 52px;
-  left: calc(16.667% + var(--space-4));
-  right: calc(16.667% + var(--space-4));
-  height: 2px;
-  background: linear-gradient(90deg, var(--color-accent-light), var(--color-accent), var(--color-accent-light));
-  z-index: 0;
+.byok-content h2 {
+  font-size: var(--text-3xl);
+  font-weight: var(--weight-bold);
+  letter-spacing: var(--tracking-tight);
+  margin-bottom: var(--space-4);
 }
 
-.hiw-step {
+.byok-content > p {
+  font-size: var(--text-lg);
+  color: var(--color-text-secondary);
+  line-height: var(--leading-relaxed);
+  margin-bottom: var(--space-8);
+}
+
+.byok-badges {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  text-align: center;
-  position: relative;
-  z-index: 1;
+  gap: var(--space-4);
 }
 
-.hiw-step-number {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
+.byok-badge {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.byok-badge-icon {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: var(--text-xl);
-  font-weight: var(--weight-bold);
-  margin-bottom: var(--space-6);
-  transition: all var(--transition-base);
-  position: relative;
-}
-
-.hiw-step-number::before {
-  content: '';
-  position: absolute;
-  inset: -4px;
-  border-radius: 50%;
-  border: 2px solid var(--color-accent-light);
-  transition: all var(--transition-base);
-}
-
-.hiw-step:hover .hiw-step-number::before {
-  border-color: var(--color-accent);
-  box-shadow: var(--shadow-glow);
-}
-
-.hiw-step-number {
-  background: var(--color-accent);
-  color: var(--color-text-inverse);
-}
-
-.hiw-step-icon {
-  width: 64px;
-  height: 64px;
-  border-radius: var(--radius-lg);
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
   background: var(--color-accent-lighter);
+  color: var(--color-accent);
+  flex-shrink: 0;
+}
+
+.byok-badge-icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.byok-badge-text {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  color: var(--color-text-secondary);
+}
+
+/* Model logos grid */
+.byok-models {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.byok-model-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-3);
+}
+
+.byok-model-card {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background: var(--color-bg);
+  transition: all var(--duration-base) var(--ease-out);
+}
+
+.byok-model-card:hover {
+  border-color: var(--color-border-strong);
+  box-shadow: var(--shadow-sm);
+}
+
+.byok-model-icon {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: var(--space-4);
-  color: var(--color-accent);
-  transition: all var(--transition-base);
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  background: var(--color-bg-subtle);
+  font-size: var(--text-lg);
+  flex-shrink: 0;
 }
 
-.hiw-step:hover .hiw-step-icon {
-  background: var(--color-accent-light);
-  box-shadow: var(--shadow-glow);
-  transform: scale(1.05);
-}
-
-.hiw-step-icon svg {
-  width: 28px;
-  height: 28px;
-}
-
-.hiw-step-title {
-  font-size: var(--text-xl);
-  font-weight: var(--weight-bold);
-  margin-bottom: var(--space-2);
-}
-
-.hiw-step-desc {
+.byok-model-name {
   font-size: var(--text-sm);
-  color: var(--color-text-secondary);
-  max-width: 280px;
-  line-height: 1.6;
+  font-weight: var(--weight-medium);
 }
 
-@media (max-width: 768px) {
-  .hiw-timeline {
+.byok-model-sub {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+.byok-models-note {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  font-style: italic;
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 900px) {
+  .byok-layout {
     grid-template-columns: 1fr;
-    gap: var(--space-12);
-  }
-
-  .hiw-timeline::before {
-    top: 0;
-    bottom: 0;
-    left: 23px;
-    right: auto;
-    width: 2px;
-    height: auto;
-    background: linear-gradient(180deg, var(--color-accent-light), var(--color-accent), var(--color-accent-light));
-  }
-
-  .hiw-step {
-    flex-direction: row;
-    text-align: left;
-    gap: var(--space-6);
-  }
-
-  .hiw-step-number {
-    flex-shrink: 0;
-    margin-bottom: 0;
-  }
-
-  .hiw-step-icon {
-    display: none;
-  }
-
-  .hiw-step-desc {
-    max-width: none;
+    gap: var(--space-10);
   }
 }

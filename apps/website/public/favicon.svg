@@ -1,8 +1,22 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-    <rect width="32" height="32" rx="6" fill="#0D9488" />
-    <path d="M16 6L8 10.5l8 4.5 8-4.5L16 6z" fill="white" opacity="0.9" />
-    <path d="M8 15.5l8 4.5 8-4.5" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round"
-        stroke-linejoin="round" opacity="0.7" />
-    <path d="M8 20.5l8 4.5 8-4.5" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round"
-        stroke-linejoin="round" opacity="0.5" />
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+    <defs>
+        <linearGradient id="bg" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#0D9488" />
+            <stop offset="100%" stop-color="#065F5B" />
+        </linearGradient>
+        <linearGradient id="glow" x1="16" y1="6" x2="16" y2="28" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#5EEAD4" />
+            <stop offset="100%" stop-color="#14B8A6" />
+        </linearGradient>
+    </defs>
+    <rect width="32" height="32" rx="8" fill="url(#bg)" />
+    <!-- Map pin / route marker -->
+    <path d="M16 6C12.13 6 9 9.13 9 13c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" fill="white" opacity="0.9" />
+    <circle cx="16" cy="13" r="3" fill="url(#bg)" />
+    <!-- Network dots representing shared registry -->
+    <circle cx="8" cy="24" r="1.5" fill="url(#glow)" opacity="0.8" />
+    <circle cx="16" cy="27" r="1.5" fill="url(#glow)" opacity="0.6" />
+    <circle cx="24" cy="24" r="1.5" fill="url(#glow)" opacity="0.8" />
+    <line x1="8" y1="24" x2="16" y2="27" stroke="url(#glow)" stroke-width="0.8" opacity="0.5" />
+    <line x1="16" y1="27" x2="24" y2="24" stroke="url(#glow)" stroke-width="0.8" opacity="0.5" />
 </svg>

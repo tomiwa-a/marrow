@@ -4,7 +4,7 @@ export function initPreview(): void {
   const tabs = document.querySelectorAll(".preview-tab");
   const panels = document.querySelectorAll(".preview-code");
   const copyBtn = document.querySelector(
-    ".preview-copy",
+    ".preview-copy"
   ) as HTMLButtonElement | null;
 
   tabs.forEach((tab) => {
@@ -37,10 +37,12 @@ export function initPreview(): void {
     });
   });
 
-  // Quick start copy buttons
+  // Quick start copy button
   document.querySelectorAll(".qs-copy-btn").forEach((btn) => {
     btn.addEventListener("click", () => {
-      const codeBlock = btn.parentElement?.querySelector("code");
+      const codeBlock =
+        btn.closest(".qs-code-window")?.querySelector("pre") ??
+        btn.parentElement?.querySelector("code");
       if (!codeBlock) return;
 
       const text = codeBlock.textContent || "";

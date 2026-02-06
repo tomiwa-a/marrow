@@ -1,4 +1,4 @@
-// Navbar scroll behavior + mobile toggle
+// Navbar — scroll behavior + mobile full-screen overlay
 
 export function initNavbar(): void {
   const navbar = document.getElementById("navbar");
@@ -7,27 +7,31 @@ export function initNavbar(): void {
 
   if (!navbar) return;
 
-  // Scroll — add .scrolled class
+  // Scroll — frosted glass effect
   let ticking = false;
   window.addEventListener("scroll", () => {
     if (!ticking) {
       requestAnimationFrame(() => {
-        navbar.classList.toggle("scrolled", window.scrollY > 20);
+        navbar.classList.toggle("scrolled", window.scrollY > 10);
         ticking = false;
       });
       ticking = true;
     }
   });
 
-  // Mobile toggle
+  // Mobile toggle — full-screen overlay
   toggle?.addEventListener("click", () => {
-    links?.classList.toggle("open");
+    const isOpen = links?.classList.toggle("open");
+    toggle.classList.toggle("active", isOpen);
+    document.body.style.overflow = isOpen ? "hidden" : "";
   });
 
   // Close mobile menu on link click
   links?.querySelectorAll("a").forEach((link) => {
     link.addEventListener("click", () => {
       links.classList.remove("open");
+      toggle?.classList.remove("active");
+      document.body.style.overflow = "";
     });
   });
 
@@ -40,12 +44,21 @@ export function initNavbar(): void {
       const target = document.querySelector(href);
       if (target) {
         e.preventDefault();
-        const offsetTop = (target as HTMLElement).offsetTop - 80;
+        const offsetTop = (target as HTMLElement).offsetTop - 72;
         window.scrollTo({
           top: offsetTop,
           behavior: "smooth",
         });
       }
     });
+  });
+
+  // Close mobile nav on escape
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && links?.classList.contains("open")) {
+      links.classList.remove("open");
+      toggle?.classList.remove("active");
+      document.body.style.overflow = "";
+    }
   });
 }
