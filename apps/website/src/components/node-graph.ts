@@ -19,26 +19,49 @@ interface Edge {
 }
 
 const NODES_DATA = [
-  { label: 'linkedin.com/jobs', elements: ['apply_button', 'job_card', 'search_input'] },
-  { label: 'github.com/issues', elements: ['issue_title', 'label_badge', 'comment_box'] },
-  { label: 'stripe.com/docs', elements: ['search_input', 'nav_sidebar', 'code_block'] },
-  { label: 'news.ycombinator.com', elements: ['story_title', 'upvote_btn', 'more_link'] },
-  { label: 'instagram.com/dm', elements: ['message_input', 'send_button', 'chat_list'] },
-  { label: 'twitter.com/home', elements: ['tweet_box', 'like_button', 'retweet_btn'] },
-  { label: 'reddit.com/r/all', elements: ['post_card', 'vote_arrows', 'comment_link'] },
+  {
+    label: "linkedin.com/jobs",
+    elements: ["apply_button", "job_card", "search_input"],
+  },
+  {
+    label: "github.com/issues",
+    elements: ["issue_title", "label_badge", "comment_box"],
+  },
+  {
+    label: "stripe.com/docs",
+    elements: ["search_input", "nav_sidebar", "code_block"],
+  },
+  {
+    label: "news.ycombinator.com",
+    elements: ["story_title", "upvote_btn", "more_link"],
+  },
+  {
+    label: "instagram.com/dm",
+    elements: ["message_input", "send_button", "chat_list"],
+  },
+  {
+    label: "twitter.com/home",
+    elements: ["tweet_box", "like_button", "retweet_btn"],
+  },
+  {
+    label: "reddit.com/r/all",
+    elements: ["post_card", "vote_arrows", "comment_link"],
+  },
 ];
 
-const TEAL = '#0D9488';
-const TEAL_LIGHT = '#14B8A6';
-const TEAL_GLOW = 'rgba(13, 148, 136, 0.15)';
+const TEAL = "#0D9488";
+const TEAL_LIGHT = "#14B8A6";
+const TEAL_GLOW = "rgba(13, 148, 136, 0.15)";
 
 export function initNodeGraph(): void {
-  const canvas = document.getElementById('hero-canvas') as HTMLCanvasElement | null;
-  const tooltip = document.getElementById('node-tooltip') as HTMLElement | null;
+  const canvas = document.getElementById(
+    "hero-canvas",
+  ) as HTMLCanvasElement | null;
+  const tooltip = document.getElementById("node-tooltip") as HTMLElement | null;
 
   if (!canvas || !tooltip) return;
 
-  const ctx = canvas.getContext('2d');
+  const ctx = canvas.getContext("2d");
   if (!ctx) return;
 
   let width = 0;
@@ -104,10 +127,18 @@ export function initNodeGraph(): void {
       node.y += node.vy;
 
       // Soft boundary
-      if (node.x < padding) { node.vx += 0.05; }
-      if (node.x > width - padding) { node.vx -= 0.05; }
-      if (node.y < padding) { node.vy += 0.05; }
-      if (node.y > height - padding) { node.vy -= 0.05; }
+      if (node.x < padding) {
+        node.vx += 0.05;
+      }
+      if (node.x > width - padding) {
+        node.vx -= 0.05;
+      }
+      if (node.y < padding) {
+        node.vy += 0.05;
+      }
+      if (node.y > height - padding) {
+        node.vy -= 0.05;
+      }
 
       // Gentle pull toward center
       node.vx += (cx - node.x) * 0.0002;
@@ -153,7 +184,7 @@ export function initNodeGraph(): void {
       ctx!.beginPath();
       ctx!.moveTo(from.x, from.y);
       ctx!.lineTo(endX, endY);
-      ctx!.strokeStyle = 'rgba(13, 148, 136, 0.15)';
+      ctx!.strokeStyle = "rgba(13, 148, 136, 0.15)";
       ctx!.lineWidth = 1.5;
       ctx!.stroke();
 
@@ -176,11 +207,15 @@ export function initNodeGraph(): void {
       // Glow
       if (isHovered || i === 0) {
         const gradient = ctx!.createRadialGradient(
-          node.x, node.y, drawRadius,
-          node.x, node.y, drawRadius * 2.5
+          node.x,
+          node.y,
+          drawRadius,
+          node.x,
+          node.y,
+          drawRadius * 2.5,
         );
-        gradient.addColorStop(0, 'rgba(13, 148, 136, 0.2)');
-        gradient.addColorStop(1, 'rgba(13, 148, 136, 0)');
+        gradient.addColorStop(0, "rgba(13, 148, 136, 0.2)");
+        gradient.addColorStop(1, "rgba(13, 148, 136, 0)");
         ctx!.beginPath();
         ctx!.arc(node.x, node.y, drawRadius * 2.5, 0, Math.PI * 2);
         ctx!.fillStyle = gradient;
@@ -192,8 +227,12 @@ export function initNodeGraph(): void {
       ctx!.arc(node.x, node.y, drawRadius, 0, Math.PI * 2);
 
       const nodeGradient = ctx!.createRadialGradient(
-        node.x - drawRadius * 0.3, node.y - drawRadius * 0.3, 0,
-        node.x, node.y, drawRadius
+        node.x - drawRadius * 0.3,
+        node.y - drawRadius * 0.3,
+        0,
+        node.x,
+        node.y,
+        drawRadius,
       );
       nodeGradient.addColorStop(0, TEAL_LIGHT);
       nodeGradient.addColorStop(1, TEAL);
@@ -202,32 +241,49 @@ export function initNodeGraph(): void {
       ctx!.fill();
 
       // White border
-      ctx!.strokeStyle = isHovered ? '#fff' : 'rgba(255, 255, 255, 0.6)';
+      ctx!.strokeStyle = isHovered ? "#fff" : "rgba(255, 255, 255, 0.6)";
       ctx!.lineWidth = isHovered ? 2.5 : 1.5;
       ctx!.stroke();
 
       // Label
       const fontSize = i === 0 ? 11 : 9;
       ctx!.font = `${isHovered ? 600 : 500} ${fontSize}px Inter, sans-serif`;
-      ctx!.textAlign = 'center';
-      ctx!.textBaseline = 'middle';
+      ctx!.textAlign = "center";
+      ctx!.textBaseline = "middle";
 
       // Label background
-      const label = node.label.length > 18 ? node.label.substring(0, 16) + '...' : node.label;
+      const label =
+        node.label.length > 18
+          ? node.label.substring(0, 16) + "..."
+          : node.label;
       const textWidth = ctx!.measureText(label).width;
       const labelY = node.y + drawRadius + 14;
 
-      ctx!.fillStyle = 'rgba(250, 251, 252, 0.9)';
+      ctx!.fillStyle = "rgba(250, 251, 252, 0.9)";
       ctx!.beginPath();
-      roundRect(ctx!, node.x - textWidth / 2 - 6, labelY - 8, textWidth + 12, 16, 4);
+      roundRect(
+        ctx!,
+        node.x - textWidth / 2 - 6,
+        labelY - 8,
+        textWidth + 12,
+        16,
+        4,
+      );
       ctx!.fill();
 
-      ctx!.fillStyle = isHovered ? TEAL : '#536471';
+      ctx!.fillStyle = isHovered ? TEAL : "#536471";
       ctx!.fillText(label, node.x, labelY);
     }
   }
 
-  function roundRect(ctx: CanvasRenderingContext2D, x: number, y: number, w: number, h: number, r: number) {
+  function roundRect(
+    ctx: CanvasRenderingContext2D,
+    x: number,
+    y: number,
+    w: number,
+    h: number,
+    r: number,
+  ) {
     ctx.moveTo(x + r, y);
     ctx.lineTo(x + w - r, y);
     ctx.quadraticCurveTo(x + w, y, x + w, y + r);
@@ -248,7 +304,7 @@ export function initNodeGraph(): void {
   }
 
   // Mouse interaction
-  canvas.addEventListener('mousemove', (e) => {
+  canvas.addEventListener("mousemove", (e) => {
     const rect = canvas!.getBoundingClientRect();
     const mx = e.clientX - rect.left;
     const my = e.clientY - rect.top;
@@ -267,12 +323,12 @@ export function initNodeGraph(): void {
 
     if (hoveredNode >= 0) {
       const node = nodes[hoveredNode];
-      canvas!.style.cursor = 'pointer';
+      canvas!.style.cursor = "pointer";
 
-      const titleEl = tooltip!.querySelector('.node-tooltip-title')!;
-      const elemsEl = tooltip!.querySelector('.node-tooltip-elements')!;
+      const titleEl = tooltip!.querySelector(".node-tooltip-title")!;
+      const elemsEl = tooltip!.querySelector(".node-tooltip-elements")!;
       titleEl.textContent = node.label;
-      elemsEl.textContent = node.elements.join(', ');
+      elemsEl.textContent = node.elements.join(", ");
 
       const wrapperRect = canvas!.parentElement!.getBoundingClientRect();
       tooltip!.style.left = `${node.x + node.radius + 12}px`;
@@ -284,17 +340,17 @@ export function initNodeGraph(): void {
         tooltip!.style.left = `${node.x - node.radius - tooltipRect.width - 12}px`;
       }
 
-      tooltip!.classList.add('active');
+      tooltip!.classList.add("active");
     } else {
-      canvas!.style.cursor = 'default';
-      tooltip!.classList.remove('active');
+      canvas!.style.cursor = "default";
+      tooltip!.classList.remove("active");
     }
   });
 
-  canvas.addEventListener('mouseleave', () => {
+  canvas.addEventListener("mouseleave", () => {
     hoveredNode = -1;
-    tooltip!.classList.remove('active');
-    canvas!.style.cursor = 'default';
+    tooltip!.classList.remove("active");
+    canvas!.style.cursor = "default";
   });
 
   // Visibility observer — pause animation when off-screen
@@ -302,12 +358,12 @@ export function initNodeGraph(): void {
     ([entry]) => {
       isVisible = entry.isIntersecting;
     },
-    { threshold: 0 }
+    { threshold: 0 },
   );
   visObserver.observe(canvas);
 
   // Init
   resize();
-  window.addEventListener('resize', resize);
+  window.addEventListener("resize", resize);
   animate();
 }

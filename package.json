@@ -10,7 +10,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "cartographer": "npm start --workspace=apps/cartographer",
-    "mapper": "npm start --workspace=apps/mapper"
+    "mapper": "npm start --workspace=apps/mapper",
+    "website": "npm run dev --workspace=apps/website",
+    "website:build": "npm run build --workspace=apps/website"
   },
   "repository": {
     "type": "git",
