@@ -45,7 +45,7 @@ const DOMAINS = [
 
 export function initDataFlow(): void {
   const canvas = document.getElementById(
-    "hero-canvas"
+    "hero-canvas",
   ) as HTMLCanvasElement | null;
 
   if (!canvas) return;
@@ -83,7 +83,7 @@ export function initDataFlow(): void {
         elements: d.elements,
         opacity: 0.5 + Math.random() * 0.5,
         y: dbY + 40 + i * rowH,
-      })
+      }),
     );
 
     // Store dbX for packet targeting
@@ -95,13 +95,9 @@ export function initDataFlow(): void {
     const startSide = Math.random() > 0.5 ? "left" : "top";
 
     const startX =
-      startSide === "left"
-        ? -20
-        : width * 0.1 + Math.random() * width * 0.25;
+      startSide === "left" ? -20 : width * 0.1 + Math.random() * width * 0.25;
     const startY =
-      startSide === "left"
-        ? height * 0.2 + Math.random() * height * 0.5
-        : -20;
+      startSide === "left" ? height * 0.2 + Math.random() * height * 0.5 : -20;
 
     const dbX = width * 0.55;
     const dbY = height * 0.15 + Math.random() * height * 0.5;
@@ -194,8 +190,7 @@ export function initDataFlow(): void {
       }
 
       // Domain name
-      ctx!.fillStyle =
-        row.opacity > 0.8 ? TEXT_BRIGHT : TEXT_MED;
+      ctx!.fillStyle = row.opacity > 0.8 ? TEXT_BRIGHT : TEXT_MED;
       ctx!.font = `400 12px 'Geist Mono', monospace`;
       ctx!.fillText(row.domain, dbX + 16, ry + rowH / 2 + 4);
 
@@ -296,17 +291,12 @@ export function initDataFlow(): void {
         0,
         p.x,
         p.y,
-        p.size * 4
+        p.size * 4,
       );
       gradient.addColorStop(0, `rgba(13, 148, 136, ${alpha * 0.4})`);
       gradient.addColorStop(1, "rgba(13, 148, 136, 0)");
       ctx!.fillStyle = gradient;
-      ctx!.fillRect(
-        p.x - p.size * 4,
-        p.y - p.size * 4,
-        p.size * 8,
-        p.size * 8
-      );
+      ctx!.fillRect(p.x - p.size * 4, p.y - p.size * 4, p.size * 8, p.size * 8);
 
       // Core dot
       ctx!.beginPath();
@@ -326,7 +316,7 @@ export function initDataFlow(): void {
 
     // Remove dead packets
     packets = packets.filter(
-      (p) => p.progress < 1.5 && p.x < width + 20 && p.y < height + 20
+      (p) => p.progress < 1.5 && p.x < width + 20 && p.y < height + 20,
     );
   }
 
@@ -375,7 +365,7 @@ export function initDataFlow(): void {
     ([entry]) => {
       isVisible = entry.isIntersecting;
     },
-    { threshold: 0.1 }
+    { threshold: 0.1 },
   );
 
   if (canvas.parentElement) {

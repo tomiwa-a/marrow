@@ -237,20 +237,21 @@
               <div class="qs-code-body">
                 <pre><span class="t-kw">import</span> { MarrowClient } <span class="t-kw">from</span> <span class="t-str">"@marrow/client"</span>;
 
-<span class="t-comment">// Bring your own key — any major LLM provider</span>
+<span class="t-comment">// Bring your own key — any major LLM</span>
 <span class="t-kw">const</span> marrow = <span class="t-kw">new</span> <span class="t-type">MarrowClient</span>({
+  <span class="t-prop">model</span>: <span class="t-str">"gpt-4o"</span>,
   <span class="t-prop">apiKey</span>: process.env.<span class="t-prop">AI_API_KEY</span>,
   <span class="t-prop">registryUrl</span>: process.env.<span class="t-prop">REGISTRY_URL</span>,
 });
 
 <span class="t-comment">// Get a map — cache hit or JIT generation</span>
-<span class="t-kw">const</span> map = <span class="t-kw">await</span> marrow.<span class="t-method">getMap</span>(<span class="t-str">"linkedin.com/jobs"</span>);
+<span class="t-kw">const</span> map = <span class="t-kw">await</span> marrow.<span class="t-method">getMap</span>(
+  <span class="t-str">"linkedin.com/jobs"</span>
+);
 
 <span class="t-comment">// Use semantic selectors</span>
 <span class="t-kw">const</span> btn = map.elements.<span class="t-prop">apply_button</span>;
-<span class="t-kw">await</span> page.<span class="t-method">click</span>(btn.strategies[<span class="t-num">0</span>].value);
-
-<span class="t-comment">// Cost: ~$0.004 per new map, $0.00 for cache hits</span></pre>
+<span class="t-kw">await</span> page.<span class="t-method">click</span>(btn.strategies[<span class="t-num">0</span>].value);</pre>
               </div>
             </div>
           </div>
@@ -394,8 +395,9 @@
 }</pre>
             <pre class="preview-code" data-panel="sdk"><span class="t-kw">import</span> { MarrowClient } <span class="t-kw">from</span> <span class="t-str">"@marrow/client"</span>;
 
-<span class="t-comment">// Works with any major LLM provider</span>
+<span class="t-comment">// Works with any major LLM</span>
 <span class="t-kw">const</span> marrow = <span class="t-kw">new</span> <span class="t-type">MarrowClient</span>({
+  <span class="t-prop">model</span>: <span class="t-str">"claude-sonnet-4-20250514"</span>,
   <span class="t-prop">apiKey</span>: process.env.<span class="t-prop">AI_API_KEY</span>,
   <span class="t-prop">registryUrl</span>: process.env.<span class="t-prop">REGISTRY_URL</span>,
 });

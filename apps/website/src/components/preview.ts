@@ -4,7 +4,7 @@ export function initPreview(): void {
   const tabs = document.querySelectorAll(".preview-tab");
   const panels = document.querySelectorAll(".preview-code");
   const copyBtn = document.querySelector(
-    ".preview-copy"
+    ".preview-copy",
   ) as HTMLButtonElement | null;
 
   tabs.forEach((tab) => {

@@ -62,6 +62,8 @@
   overflow: hidden;
   box-shadow: var(--shadow-xl);
   border: 1px solid rgba(255, 255, 255, 0.06);
+  max-width: 100%;
+  min-width: 0;
 }
 
 .qs-code-header {
@@ -125,8 +127,6 @@
   color: #E4E4E7;
   overflow-x: auto;
   white-space: pre;
-  max-width: 100%;
-  word-break: break-all;
 }
 
 .qs-note {
@@ -164,5 +164,12 @@
 
   .qs-code-body pre {
     font-size: 11px;
+    white-space: pre-wrap;
+    word-break: break-word;
   }
+}
+
+.qs-right {
+  min-width: 0;
+  overflow: hidden;
 }
