@@ -1,0 +1,139 @@
+/* ── How It Works Section ── */
+.how-it-works {
+  background: var(--color-bg);
+  overflow: hidden;
+}
+
+.hiw-timeline {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: var(--space-8);
+  position: relative;
+}
+
+/* Connecting line between steps */
+.hiw-timeline::before {
+  content: '';
+  position: absolute;
+  top: 52px;
+  left: calc(16.667% + var(--space-4));
+  right: calc(16.667% + var(--space-4));
+  height: 2px;
+  background: linear-gradient(90deg, var(--color-accent-light), var(--color-accent), var(--color-accent-light));
+  z-index: 0;
+}
+
+.hiw-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.hiw-step-number {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--text-xl);
+  font-weight: var(--weight-bold);
+  margin-bottom: var(--space-6);
+  transition: all var(--transition-base);
+  position: relative;
+}
+
+.hiw-step-number::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 2px solid var(--color-accent-light);
+  transition: all var(--transition-base);
+}
+
+.hiw-step:hover .hiw-step-number::before {
+  border-color: var(--color-accent);
+  box-shadow: var(--shadow-glow);
+}
+
+.hiw-step-number {
+  background: var(--color-accent);
+  color: var(--color-text-inverse);
+}
+
+.hiw-step-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: var(--radius-lg);
+  background: var(--color-accent-lighter);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--space-4);
+  color: var(--color-accent);
+  transition: all var(--transition-base);
+}
+
+.hiw-step:hover .hiw-step-icon {
+  background: var(--color-accent-light);
+  box-shadow: var(--shadow-glow);
+  transform: scale(1.05);
+}
+
+.hiw-step-icon svg {
+  width: 28px;
+  height: 28px;
+}
+
+.hiw-step-title {
+  font-size: var(--text-xl);
+  font-weight: var(--weight-bold);
+  margin-bottom: var(--space-2);
+}
+
+.hiw-step-desc {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  max-width: 280px;
+  line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+  .hiw-timeline {
+    grid-template-columns: 1fr;
+    gap: var(--space-12);
+  }
+
+  .hiw-timeline::before {
+    top: 0;
+    bottom: 0;
+    left: 23px;
+    right: auto;
+    width: 2px;
+    height: auto;
+    background: linear-gradient(180deg, var(--color-accent-light), var(--color-accent), var(--color-accent-light));
+  }
+
+  .hiw-step {
+    flex-direction: row;
+    text-align: left;
+    gap: var(--space-6);
+  }
+
+  .hiw-step-number {
+    flex-shrink: 0;
+    margin-bottom: 0;
+  }
+
+  .hiw-step-icon {
+    display: none;
+  }
+
+  .hiw-step-desc {
+    max-width: none;
+  }
+}

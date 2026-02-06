@@ -1,0 +1,133 @@
+/* ── Live Output Preview Section ── */
+.live-preview {
+  background: var(--color-bg);
+}
+
+.preview-window {
+  max-width: 800px;
+  margin-inline: auto;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-xl);
+  border: 1px solid var(--color-border);
+}
+
+.preview-tabs {
+  display: flex;
+  background: #1E293B;
+  border-bottom: 1px solid #334155;
+}
+
+.preview-tab {
+  padding: var(--space-3) var(--space-5);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  color: #94A3B8;
+  cursor: pointer;
+  border: none;
+  background: none;
+  transition: all var(--transition-fast);
+  position: relative;
+}
+
+.preview-tab:hover {
+  color: #CBD5E1;
+}
+
+.preview-tab.active {
+  color: var(--color-text-inverse);
+}
+
+.preview-tab.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--color-accent);
+}
+
+.preview-body {
+  background: var(--color-bg-code);
+  padding: var(--space-6);
+  min-height: 320px;
+  position: relative;
+}
+
+.preview-code {
+  display: none;
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  color: #E2E8F0;
+  line-height: 1.7;
+  white-space: pre;
+  overflow-x: auto;
+}
+
+.preview-code.active {
+  display: block;
+}
+
+/* Syntax tokens */
+.t-key { color: #7DD3FC; }
+.t-str { color: #34D399; }
+.t-num { color: #FBBF24; }
+.t-brace { color: #94A3B8; }
+.t-bracket { color: #94A3B8; }
+.t-kw { color: #C084FC; }
+.t-method { color: #60A5FA; }
+.t-comment { color: #64748B; font-style: italic; }
+.t-type { color: #F9A8D4; }
+.t-prop { color: #7DD3FC; }
+
+/* Typing cursor */
+.typing-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1.1em;
+  background: var(--color-accent);
+  margin-left: 2px;
+  animation: blink 1s step-end infinite;
+  vertical-align: text-bottom;
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+/* Copy button */
+.preview-copy {
+  position: absolute;
+  top: var(--space-3);
+  right: var(--space-3);
+  padding: var(--space-1) var(--space-3);
+  font-size: var(--text-xs);
+  color: #94A3B8;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid #334155;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.preview-copy:hover {
+  color: var(--color-text-inverse);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.preview-copy.copied {
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+@media (max-width: 768px) {
+  .preview-body {
+    padding: var(--space-4);
+    min-height: 280px;
+  }
+
+  .preview-code {
+    font-size: var(--text-xs);
+  }
+}

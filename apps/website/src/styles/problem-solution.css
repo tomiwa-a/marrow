@@ -1,0 +1,143 @@
+/* ── Problem / Solution Section ── */
+.problem-solution {
+  background: var(--color-bg-alt);
+}
+
+.problem-solution-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-8);
+}
+
+.ps-card {
+  border-radius: var(--radius-lg);
+  padding: var(--space-10);
+  border: 1px solid var(--color-border);
+  transition: box-shadow var(--transition-base), transform var(--transition-base);
+}
+
+.ps-card:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-2px);
+}
+
+.ps-card--problem {
+  background: var(--color-danger-light);
+  border-color: rgba(239, 68, 68, 0.15);
+}
+
+.ps-card--solution {
+  background: var(--color-accent-lighter);
+  border-color: rgba(13, 148, 136, 0.15);
+}
+
+.ps-card-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-6);
+}
+
+.ps-card-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ps-card--problem .ps-card-icon {
+  background: rgba(239, 68, 68, 0.1);
+  color: var(--color-danger);
+}
+
+.ps-card--solution .ps-card-icon {
+  background: var(--color-accent-glow);
+  color: var(--color-accent);
+}
+
+.ps-card-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.ps-card-label {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.ps-card--problem .ps-card-label {
+  color: var(--color-danger-text);
+}
+
+.ps-card--solution .ps-card-label {
+  color: var(--color-accent);
+}
+
+/* Code block inside problem/solution */
+.ps-code {
+  background: var(--color-bg-code);
+  border-radius: var(--radius-md);
+  padding: var(--space-4) var(--space-5);
+  margin-bottom: var(--space-6);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  color: #E2E8F0;
+  overflow-x: auto;
+  position: relative;
+}
+
+.ps-code .line-strike {
+  text-decoration: line-through;
+  color: #EF4444;
+  opacity: 0.7;
+}
+
+.ps-code .token-keyword { color: #C084FC; }
+.ps-code .token-string { color: #34D399; }
+.ps-code .token-method { color: #60A5FA; }
+.ps-code .token-comment { color: #64748B; font-style: italic; }
+.ps-code .token-variable { color: #F9A8D4; }
+
+.ps-points {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.ps-point {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+}
+
+.ps-point-icon {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  margin-top: 1px;
+}
+
+.ps-card--problem .ps-point-icon {
+  color: var(--color-danger);
+}
+
+.ps-card--solution .ps-point-icon {
+  color: var(--color-accent);
+}
+
+@media (max-width: 768px) {
+  .problem-solution-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ps-card {
+    padding: var(--space-6);
+  }
+}

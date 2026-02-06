@@ -1,0 +1,121 @@
+/* ── Use Cases Section ── */
+.use-cases {
+  background: var(--color-bg-alt);
+}
+
+.uc-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-6);
+}
+
+.uc-card {
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-8);
+  transition: all var(--transition-base);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.uc-card:hover {
+  border-color: var(--color-accent);
+  box-shadow: var(--shadow-glow);
+  transform: translateY(-4px);
+}
+
+.uc-card-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-md);
+  background: var(--color-accent-lighter);
+  color: var(--color-accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.uc-card-icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+.uc-card-title {
+  font-size: var(--text-lg);
+  font-weight: var(--weight-bold);
+}
+
+.uc-card-tools {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.uc-tool-tag {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  padding: var(--space-1) var(--space-2);
+  background: var(--color-bg-alt);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  color: var(--color-text-secondary);
+}
+
+.uc-card-desc {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+}
+
+/* CTA card variant */
+.uc-card--cta {
+  border-style: dashed;
+  border-color: var(--color-accent);
+  background: var(--color-accent-lighter);
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  cursor: pointer;
+  min-height: 200px;
+}
+
+.uc-card--cta:hover {
+  background: var(--color-accent-light);
+}
+
+.uc-cta-plus {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 2px dashed var(--color-accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-accent);
+  font-size: var(--text-2xl);
+  transition: all var(--transition-base);
+}
+
+.uc-card--cta:hover .uc-cta-plus {
+  background: var(--color-accent);
+  color: var(--color-text-inverse);
+  border-style: solid;
+}
+
+@media (max-width: 1024px) {
+  .uc-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .uc-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .uc-card {
+    padding: var(--space-6);
+  }
+}
