@@ -43,7 +43,7 @@ server.setRequestHandler(
       {
         name: "get_page_map",
         description:
-          "Get the semantic map of a website. Use this to understand the page structure and find selectors.",
+          "Get the semantic map of a website (cache-first). Use this to understand the page structure and find selectors.",
         inputSchema: {
           type: "object",
           properties: {
@@ -60,7 +60,7 @@ server.setRequestHandler(
       {
         name: "map_page",
         description:
-          "Trigger a fresh map for a page (use if get_page_map returns nothing).",
+          "Map a page (cache-first). Use if get_page_map returns nothing.",
         inputSchema: {
           type: "object",
           properties: {
@@ -72,6 +72,18 @@ server.setRequestHandler(
             },
           },
           required: ["url"],
+        },
+      },
+      {
+        name: "get_manifest",
+        description:
+          "Get known page types and element names for a domain (cache-first).",
+        inputSchema: {
+          type: "object",
+          properties: {
+            domain: { type: "string" },
+          },
+          required: ["domain"],
         },
       },
       {
@@ -178,6 +190,24 @@ server.setRequestHandler(
           }
           const payload = debug ? result : result.map;
           const jsonString = JSON.stringify(payload, null, 2);
+          const cleanJson = jsonString.replace(/[^\x20-\x7E]/g, "");
+          return {
+            content: [{ type: "text", text: cleanJson }],
+          };
+        } catch (error: any) {
+          return {
+            content: [{ type: "text", text: `Error: ${error.message}` }],
+            isError: true,
+          };
+        }
+      }
+
+      case "get_manifest": {
+        const domain = String(request.params.arguments?.domain);
+        try {
+          console.error(`[Marrow] Fetching manifest for: ${domain}`);
+          const manifest = await marrow.getManifest(domain);
+          const jsonString = JSON.stringify(manifest, null, 2);
           const cleanJson = jsonString.replace(/[^\x20-\x7E]/g, "");
           return {
             content: [{ type: "text", text: cleanJson }],
@@ -299,7 +329,12 @@ server.setRequestHandler(
 
           if (selectorPlan.length === 0) {
             return {
-              content: [{ type: "text", text: "Error: No selectors available for extraction." }],
+              content: [
+                {
+                  type: "text",
+                  text: "Error: No selectors available for extraction.",
+                },
+              ],
               isError: true,
             };
           }

@@ -159,9 +159,7 @@ export class MarrowClient {
     return result;
   }
 
-  private async mapLocallyDetailed(
-    urlPattern: string,
-  ): Promise<{
+  private async mapLocallyDetailed(urlPattern: string): Promise<{
     map: PageStructure;
     snapshotDebug: SnapDebug;
     timingsMs: { snapshot: number; model: number };
