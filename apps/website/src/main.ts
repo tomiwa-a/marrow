@@ -1,24 +1,26 @@
-import './style.css'
-import typescriptLogo from './typescript.svg'
-import viteLogo from '/vite.svg'
-import { setupCounter } from './counter.ts'
+// Styles
+import './styles/reset.css';
+import './styles/variables.css';
+import './styles/navbar.css';
+import './styles/hero.css';
+import './styles/problem-solution.css';
+import './styles/how-it-works.css';
+import './styles/architecture.css';
+import './styles/live-preview.css';
+import './styles/use-cases.css';
+import './styles/quickstart.css';
+import './styles/footer.css';
 
-document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
-  <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="${viteLogo}" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://www.typescriptlang.org/" target="_blank">
-      <img src="${typescriptLogo}" class="logo vanilla" alt="TypeScript logo" />
-    </a>
-    <h1>Vite + TypeScript</h1>
-    <div class="card">
-      <button id="counter" type="button"></button>
-    </div>
-    <p class="read-the-docs">
-      Click on the Vite and TypeScript logos to learn more
-    </p>
-  </div>
-`
+// Components
+import { initNavbar } from './components/navbar';
+import { initNodeGraph } from './components/node-graph';
+import { initScrollAnimations } from './components/observer';
+import { initPreview } from './components/preview';
 
-setupCounter(document.querySelector<HTMLButtonElement>('#counter')!)
+// Initialize everything when DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+  initNavbar();
+  initNodeGraph();
+  initScrollAnimations();
+  initPreview();
+});

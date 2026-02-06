@@ -2,12 +2,617 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>website</title>
+    <title>Marrow — Waze for Web Scraping</title>
+    <meta name="description" content="A shared registry that maps the structure of the web on-demand, making AI agents resilient to UI changes." />
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   </head>
   <body>
-    <div id="app"></div>
+    <!-- ═══ Navbar ═══ -->
+    <nav class="navbar" id="navbar">
+      <div class="container">
+        <a href="#" class="nav-logo">
+          <span class="logo-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2L2 7l10 5 10-5-10-5z" /><path d="M2 17l10 5 10-5" /><path d="M2 12l10 5 10-5" />
+            </svg>
+          </span>
+          Marrow
+        </a>
+
+        <div class="nav-links" id="nav-links">
+          <a href="#features">Features</a>
+          <a href="#how-it-works">How It Works</a>
+          <a href="#use-cases">Use Cases</a>
+          <a href="#quickstart">Quick Start</a>
+        </div>
+
+        <div class="nav-actions">
+          <a href="https://github.com/yourusername/marrow" target="_blank" rel="noopener" class="nav-github" aria-label="GitHub">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          </a>
+          <a href="#quickstart" class="btn btn-primary">Get Started</a>
+          <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- ═══ Hero ═══ -->
+    <section class="hero section" id="hero">
+      <div class="container">
+        <div class="hero-content">
+          <span class="hero-badge" data-animate="fade-up">
+            <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8zm3.54 5.46l-4 4a.75.75 0 01-1.06 0l-2-2a.75.75 0 011.06-1.06L7 7.94l3.47-3.47a.75.75 0 011.06 1.06z"/></svg>
+            Open Source · MIT Licensed
+          </span>
+
+          <h1 class="hero-title" data-animate="fade-up">
+            <span class="gradient-text">Waze</span> for<br/>Web Scraping
+          </h1>
+
+          <p class="hero-subtitle" data-animate="fade-up">
+            A shared registry that maps the structure of the web on-demand, making AI agents resilient to UI changes.
+          </p>
+
+          <div class="hero-ctas" data-animate="fade-up">
+            <a href="#quickstart" class="btn btn-primary btn-lg">
+              Get Started
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+            </a>
+            <a href="https://github.com/yourusername/marrow" target="_blank" rel="noopener" class="btn btn-outline btn-lg">
+              <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+              View on GitHub
+            </a>
+          </div>
+
+          <div class="hero-stats" data-animate="fade-up">
+            <div class="hero-stat">
+              <span class="hero-stat-value" data-count="0.004" data-prefix="$">$0.004</span>
+              <span class="hero-stat-label">Per Map</span>
+            </div>
+            <div class="hero-stat">
+              <span class="hero-stat-value" data-count="50" data-suffix="ms">&lt;50ms</span>
+              <span class="hero-stat-label">Cache Hit</span>
+            </div>
+            <div class="hero-stat">
+              <span class="hero-stat-value" data-count="2" data-suffix="+">2+</span>
+              <span class="hero-stat-label">Fallback Strategies</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-visual" data-animate="scale">
+          <div class="hero-canvas-wrapper">
+            <canvas id="hero-canvas"></canvas>
+            <div class="node-tooltip" id="node-tooltip">
+              <div class="node-tooltip-title"></div>
+              <div class="node-tooltip-elements"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ Problem / Solution ═══ -->
+    <section class="problem-solution section" id="features">
+      <div class="container">
+        <h2 class="section-title" data-animate="fade-up">The Problem Marrow Solves</h2>
+        <p class="section-subtitle" data-animate="fade-up">
+          AI agents scrape blindly. Marrow gives them a map.
+        </p>
+
+        <div class="problem-solution-grid" data-stagger>
+          <!-- Problem Card -->
+          <div class="ps-card ps-card--problem" data-animate="fade-left">
+            <div class="ps-card-header">
+              <span class="ps-card-icon">
+                <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z" clip-rule="evenodd"/></svg>
+              </span>
+              <span class="ps-card-label">The Problem</span>
+            </div>
+
+            <div class="ps-code">
+              <span class="token-comment">// Brittle — breaks when CSS changes</span><br/>
+              <span class="token-keyword">await</span> page.<span class="token-method">click</span>(<span class="token-string line-strike">".btn-primary"</span>);<br/>
+              <span class="token-comment">// ❌ ElementNotFound after UI update</span>
+            </div>
+
+            <div class="ps-points">
+              <div class="ps-point">
+                <svg class="ps-point-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z" clip-rule="evenodd"/></svg>
+                <span>CSS selectors break when websites update</span>
+              </div>
+              <div class="ps-point">
+                <svg class="ps-point-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z" clip-rule="evenodd"/></svg>
+                <span>Tokens wasted re-analyzing the same HTML</span>
+              </div>
+              <div class="ps-point">
+                <svg class="ps-point-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z" clip-rule="evenodd"/></svg>
+                <span>Every developer reinvents the wheel</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Solution Card -->
+          <div class="ps-card ps-card--solution" data-animate="fade-right">
+            <div class="ps-card-header">
+              <span class="ps-card-icon">
+                <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd"/></svg>
+              </span>
+              <span class="ps-card-label">The Marrow Way</span>
+            </div>
+
+            <div class="ps-code">
+              <span class="token-keyword">const</span> <span class="token-variable">map</span> = <span class="token-keyword">await</span> marrow.<span class="token-method">getMap</span>(<span class="token-string">"linkedin.com/jobs"</span>);<br/>
+              <span class="token-keyword">await</span> page.<span class="token-method">click</span>(<span class="token-variable">map</span>.elements.apply_button.strategies[0].value);<br/>
+              <span class="token-comment">// ✅ Semantic, multi-strategy, self-healing</span>
+            </div>
+
+            <div class="ps-points">
+              <div class="ps-point">
+                <svg class="ps-point-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd"/></svg>
+                <span>Semantic, self-healing selectors with fallbacks</span>
+              </div>
+              <div class="ps-point">
+                <svg class="ps-point-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd"/></svg>
+                <span>Cached maps served in under 50ms</span>
+              </div>
+              <div class="ps-point">
+                <svg class="ps-point-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd"/></svg>
+                <span>Community-mapped, shared registry</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ How It Works ═══ -->
+    <section class="how-it-works section" id="how-it-works">
+      <div class="container">
+        <h2 class="section-title" data-animate="fade-up">How It Works</h2>
+        <p class="section-subtitle" data-animate="fade-up">
+          Three steps. One API call. The first user maps it — everyone else benefits.
+        </p>
+
+        <div class="hiw-timeline" data-stagger>
+          <div class="hiw-step" data-animate="fade-up">
+            <div class="hiw-step-number">1</div>
+            <div class="hiw-step-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/>
+                <path d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.66 0 3-4.03 3-9s-1.34-9-3-9m0 18c-1.66 0-3-4.03-3-9s1.34-9 3-9"/>
+              </svg>
+            </div>
+            <div>
+              <h3 class="hiw-step-title">Map</h3>
+              <p class="hiw-step-desc">Stealth browser visits the page, extracts HTML and a full accessibility tree. No bot detection.</p>
+            </div>
+          </div>
+
+          <div class="hiw-step" data-animate="fade-up">
+            <div class="hiw-step-number">2</div>
+            <div class="hiw-step-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2a4 4 0 014 4c0 1.95-1.4 3.57-3.25 3.93a1 1 0 00-.75.97V13"/><path d="M12 17h.01"/><path d="M4.5 9A7.5 7.5 0 0112 4.5 7.5 7.5 0 0119.5 9a7.5 7.5 0 01-4.37 6.82"/><path d="M8.87 15.82A7.5 7.5 0 014.5 9"/>
+              </svg>
+            </div>
+            <div>
+              <h3 class="hiw-step-title">Analyze</h3>
+              <p class="hiw-step-desc">Gemini 2.0 Flash identifies every element — buttons, forms, containers — with multi-strategy selectors.</p>
+            </div>
+          </div>
+
+          <div class="hiw-step" data-animate="fade-up">
+            <div class="hiw-step-number">3</div>
+            <div class="hiw-step-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/>
+              </svg>
+            </div>
+            <div>
+              <h3 class="hiw-step-title">Share</h3>
+              <p class="hiw-step-desc">Map cached in the shared registry. Next request for same page: instant hit, $0.00 cost.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ Architecture ═══ -->
+    <section class="architecture section">
+      <div class="container">
+        <h2 class="section-title" data-animate="fade-up">Architecture</h2>
+        <p class="section-subtitle" data-animate="fade-up">
+          Three components, one pipeline. Each does one thing extremely well.
+        </p>
+
+        <div class="arch-grid" data-stagger>
+          <div class="arch-card" data-animate="fade-up">
+            <div class="arch-card-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/>
+              </svg>
+            </div>
+            <h3 class="arch-card-title">Cartographer</h3>
+            <span class="arch-card-role">Stealth Crawler</span>
+            <div class="arch-card-features">
+              <div class="arch-feature">
+                <svg viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M8 16A8 8 0 108 0a8 8 0 000 16zm3.78-9.72a.75.75 0 00-1.06-1.06L7 8.94 5.28 7.22a.75.75 0 00-1.06 1.06l2.5 2.5a.75.75 0 001.06 0l4-4z"/></svg>
+                <span>Playwright + stealth plugins</span>
+              </div>
+              <div class="arch-feature">
+                <svg viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M8 16A8 8 0 108 0a8 8 0 000 16zm3.78-9.72a.75.75 0 00-1.06-1.06L7 8.94 5.28 7.22a.75.75 0 00-1.06 1.06l2.5 2.5a.75.75 0 001.06 0l4-4z"/></svg>
+                <span>Extracts HTML + accessibility tree</span>
+              </div>
+              <div class="arch-feature">
+                <svg viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M8 16A8 8 0 108 0a8 8 0 000 16zm3.78-9.72a.75.75 0 00-1.06-1.06L7 8.94 5.28 7.22a.75.75 0 00-1.06 1.06l2.5 2.5a.75.75 0 001.06 0l4-4z"/></svg>
+                <span>Anti-detection fingerprinting</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="arch-card" data-animate="fade-up">
+            <div class="arch-card-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2a4 4 0 014 4c0 1.95-1.4 3.57-3.25 3.93a1 1 0 00-.75.97V13"/><path d="M12 17h.01"/><circle cx="12" cy="12" r="10"/>
+              </svg>
+            </div>
+            <h3 class="arch-card-title">Mapper</h3>
+            <span class="arch-card-role">AI Analysis</span>
+            <div class="arch-card-features">
+              <div class="arch-feature">
+                <svg viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M8 16A8 8 0 108 0a8 8 0 000 16zm3.78-9.72a.75.75 0 00-1.06-1.06L7 8.94 5.28 7.22a.75.75 0 00-1.06 1.06l2.5 2.5a.75.75 0 001.06 0l4-4z"/></svg>
+                <span>Gemini 2.0 Flash structured output</span>
+              </div>
+              <div class="arch-feature">
+                <svg viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M8 16A8 8 0 108 0a8 8 0 000 16zm3.78-9.72a.75.75 0 00-1.06-1.06L7 8.94 5.28 7.22a.75.75 0 00-1.06 1.06l2.5 2.5a.75.75 0 001.06 0l4-4z"/></svg>
+                <span>CSS + XPath + ARIA strategies</span>
+              </div>
+              <div class="arch-feature">
+                <svg viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M8 16A8 8 0 108 0a8 8 0 000 16zm3.78-9.72a.75.75 0 00-1.06-1.06L7 8.94 5.28 7.22a.75.75 0 00-1.06 1.06l2.5 2.5a.75.75 0 001.06 0l4-4z"/></svg>
+                <span>Semantic naming with confidence</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="arch-card" data-animate="fade-up">
+            <div class="arch-card-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/>
+              </svg>
+            </div>
+            <h3 class="arch-card-title">Registry</h3>
+            <span class="arch-card-role">Shared Cache</span>
+            <div class="arch-card-features">
+              <div class="arch-feature">
+                <svg viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M8 16A8 8 0 108 0a8 8 0 000 16zm3.78-9.72a.75.75 0 00-1.06-1.06L7 8.94 5.28 7.22a.75.75 0 00-1.06 1.06l2.5 2.5a.75.75 0 001.06 0l4-4z"/></svg>
+                <span>Convex real-time database</span>
+              </div>
+              <div class="arch-feature">
+                <svg viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M8 16A8 8 0 108 0a8 8 0 000 16zm3.78-9.72a.75.75 0 00-1.06-1.06L7 8.94 5.28 7.22a.75.75 0 00-1.06 1.06l2.5 2.5a.75.75 0 001.06 0l4-4z"/></svg>
+                <span>Fuzzy URL + domain fallback</span>
+              </div>
+              <div class="arch-feature">
+                <svg viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M8 16A8 8 0 108 0a8 8 0 000 16zm3.78-9.72a.75.75 0 00-1.06-1.06L7 8.94 5.28 7.22a.75.75 0 00-1.06 1.06l2.5 2.5a.75.75 0 001.06 0l4-4z"/></svg>
+                <span>Usage analytics & tracking</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ Live Output Preview ═══ -->
+    <section class="live-preview section">
+      <div class="container">
+        <h2 class="section-title" data-animate="fade-up">See It In Action</h2>
+        <p class="section-subtitle" data-animate="fade-up">
+          Real output from mapping Hacker News. Semantic names, multiple strategies, confidence scores.
+        </p>
+
+        <div class="preview-window" data-animate="scale">
+          <div class="preview-tabs">
+            <button class="preview-tab active" data-tab="cli">CLI Output</button>
+            <button class="preview-tab" data-tab="sdk">SDK Usage</button>
+            <button class="preview-tab" data-tab="mcp">MCP Tool</button>
+          </div>
+          <div class="preview-body">
+            <button class="preview-copy" data-copy>Copy</button>
+            <pre class="preview-code active" data-panel="cli">{
+  <span class="t-key">"domain"</span>: <span class="t-str">"news.ycombinator.com"</span>,
+  <span class="t-key">"page_type"</span>: <span class="t-str">"story_list"</span>,
+  <span class="t-key">"elements"</span>: [
+    {
+      <span class="t-key">"name"</span>: <span class="t-str">"story_title_link"</span>,
+      <span class="t-key">"description"</span>: <span class="t-str">"Link to the story"</span>,
+      <span class="t-key">"strategies"</span>: [
+        { <span class="t-key">"type"</span>: <span class="t-str">"selector"</span>, <span class="t-key">"value"</span>: <span class="t-str">".titleline > a"</span> },
+        { <span class="t-key">"type"</span>: <span class="t-str">"xpath"</span>, <span class="t-key">"value"</span>: <span class="t-str">"//span[@class='titleline']/a"</span> }
+      ],
+      <span class="t-key">"confidence_score"</span>: <span class="t-num">0.9</span>
+    },
+    {
+      <span class="t-key">"name"</span>: <span class="t-str">"upvote_button"</span>,
+      <span class="t-key">"description"</span>: <span class="t-str">"Upvote arrow for a story"</span>,
+      <span class="t-key">"strategies"</span>: [
+        { <span class="t-key">"type"</span>: <span class="t-str">"selector"</span>, <span class="t-key">"value"</span>: <span class="t-str">".votearrow"</span> },
+        { <span class="t-key">"type"</span>: <span class="t-str">"xpath"</span>, <span class="t-key">"value"</span>: <span class="t-str">"//a[@class='clicky votearrow']"</span> }
+      ],
+      <span class="t-key">"confidence_score"</span>: <span class="t-num">0.8</span>
+    }
+  ]
+}</pre>
+            <pre class="preview-code" data-panel="sdk"><span class="t-kw">import</span> { MarrowClient } <span class="t-kw">from</span> <span class="t-str">"@marrow/client"</span>;
+
+<span class="t-comment">// Initialize with your Gemini key (BYOK)</span>
+<span class="t-kw">const</span> marrow = <span class="t-kw">new</span> <span class="t-type">MarrowClient</span>({
+  geminiKey: process.env.<span class="t-prop">GEMINI_API_KEY</span>,
+  registryUrl: process.env.<span class="t-prop">CONVEX_URL</span>,
+});
+
+<span class="t-comment">// Get a map — cache hit or JIT generation</span>
+<span class="t-kw">const</span> map = <span class="t-kw">await</span> marrow.<span class="t-method">getMap</span>(<span class="t-str">"linkedin.com/jobs"</span>);
+
+<span class="t-comment">// Use semantic selectors</span>
+<span class="t-kw">const</span> btn = map.elements.<span class="t-prop">apply_button</span>;
+<span class="t-kw">await</span> page.<span class="t-method">click</span>(btn.strategies[<span class="t-num">0</span>].value);</pre>
+            <pre class="preview-code" data-panel="mcp"><span class="t-comment">// MCP Server exposes 3 tools for AI assistants</span>
+<span class="t-comment">// Works with Claude Code, Cursor, Windsurf</span>
+
+<span class="t-comment">// Tool 1: Get cached map</span>
+<span class="t-method">get_page_map</span>({ <span class="t-prop">url</span>: <span class="t-str">"stripe.com/docs"</span> })
+
+<span class="t-comment">// Tool 2: Trigger fresh mapping</span>
+<span class="t-method">map_page</span>({ <span class="t-prop">url</span>: <span class="t-str">"github.com/issues"</span> })
+
+<span class="t-comment">// Tool 3: Extract content using selectors</span>
+<span class="t-method">extract_content</span>({
+  <span class="t-prop">url</span>: <span class="t-str">"news.ycombinator.com"</span>,
+  <span class="t-prop">selectors</span>: [<span class="t-str">".titleline > a"</span>, <span class="t-str">".score"</span>]
+})</pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ Use Cases ═══ -->
+    <section class="use-cases section" id="use-cases">
+      <div class="container">
+        <h2 class="section-title" data-animate="fade-up">Use Cases</h2>
+        <p class="section-subtitle" data-animate="fade-up">
+          From AI assistants to QA testing — anyone navigating the web benefits.
+        </p>
+
+        <div class="uc-grid" data-stagger>
+          <div class="uc-card" data-animate="fade-up">
+            <div class="uc-card-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 18l6-6-6-6"/><path d="M8 6l-6 6 6 6"/></svg>
+            </div>
+            <h3 class="uc-card-title">AI Coding Assistants</h3>
+            <div class="uc-card-tools">
+              <span class="uc-tool-tag">Claude Code</span>
+              <span class="uc-tool-tag">Cursor</span>
+              <span class="uc-tool-tag">Windsurf</span>
+            </div>
+            <p class="uc-card-desc">Reliable selectors via MCP — no more hallucinated CSS classes.</p>
+          </div>
+
+          <div class="uc-card" data-animate="fade-up">
+            <div class="uc-card-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/></svg>
+            </div>
+            <h3 class="uc-card-title">Browser Automation</h3>
+            <div class="uc-card-tools">
+              <span class="uc-tool-tag">Playwright</span>
+              <span class="uc-tool-tag">Puppeteer</span>
+              <span class="uc-tool-tag">Selenium</span>
+            </div>
+            <p class="uc-card-desc">Scripts that survive CSS refactors. Multi-strategy fallbacks built in.</p>
+          </div>
+
+          <div class="uc-card" data-animate="fade-up">
+            <div class="uc-card-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            </div>
+            <h3 class="uc-card-title">Data Extraction</h3>
+            <div class="uc-card-tools">
+              <span class="uc-tool-tag">Apify</span>
+              <span class="uc-tool-tag">Bright Data</span>
+            </div>
+            <p class="uc-card-desc">Reduce scraper maintenance by 90% with shared, auto-healing maps.</p>
+          </div>
+
+          <div class="uc-card" data-animate="fade-up">
+            <div class="uc-card-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a4 4 0 014 4c0 1.95-1.4 3.57-3.25 3.93a1 1 0 00-.75.97V13"/><path d="M12 17h.01"/><circle cx="12" cy="12" r="10"/></svg>
+            </div>
+            <h3 class="uc-card-title">AI Agents</h3>
+            <div class="uc-card-tools">
+              <span class="uc-tool-tag">AutoGPT</span>
+              <span class="uc-tool-tag">BabyAGI</span>
+              <span class="uc-tool-tag">LangChain</span>
+            </div>
+            <p class="uc-card-desc">Save tokens by using cached maps instead of re-analyzing pages.</p>
+          </div>
+
+          <div class="uc-card" data-animate="fade-up">
+            <div class="uc-card-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+            </div>
+            <h3 class="uc-card-title">QA Testing</h3>
+            <div class="uc-card-tools">
+              <span class="uc-tool-tag">Playwright</span>
+              <span class="uc-tool-tag">Cypress</span>
+            </div>
+            <p class="uc-card-desc">Write resilient tests that survive UI refactors and CSS changes.</p>
+          </div>
+
+          <a href="https://github.com/yourusername/marrow/discussions" target="_blank" rel="noopener" class="uc-card uc-card--cta" data-animate="fade-up">
+            <div class="uc-cta-plus">+</div>
+            <h3 class="uc-card-title">Your Use Case</h3>
+            <p class="uc-card-desc">Have an idea? Tell us on GitHub Discussions.</p>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ Quick Start ═══ -->
+    <section class="quickstart section" id="quickstart">
+      <div class="container">
+        <h2 class="section-title" data-animate="fade-up">Quick Start</h2>
+        <p class="section-subtitle" data-animate="fade-up">
+          Three steps to your first map. Use your own Gemini API key.
+        </p>
+
+        <div class="qs-steps" data-stagger>
+          <div class="qs-step" data-animate="fade-up">
+            <div class="qs-step-label">
+              <span class="qs-step-num">1</span>
+              <span class="qs-step-name">Install</span>
+            </div>
+            <div class="qs-code-block">
+              <button class="qs-copy-btn" data-copy-code>Copy</button>
+              <code>npm install @marrow/client</code>
+            </div>
+          </div>
+
+          <div class="qs-step" data-animate="fade-up">
+            <div class="qs-step-label">
+              <span class="qs-step-num">2</span>
+              <span class="qs-step-name">Initialize</span>
+            </div>
+            <div class="qs-code-block">
+              <button class="qs-copy-btn" data-copy-code>Copy</button>
+              <code><span class="t-kw">const</span> marrow = <span class="t-kw">new</span> <span class="t-type">MarrowClient</span>({
+  <span class="t-prop">geminiKey</span>: <span class="t-str">"YOUR_KEY"</span>,
+  <span class="t-prop">registryUrl</span>: <span class="t-str">"CONVEX_URL"</span>,
+});</code>
+            </div>
+          </div>
+
+          <div class="qs-step" data-animate="fade-up">
+            <div class="qs-step-label">
+              <span class="qs-step-num">3</span>
+              <span class="qs-step-name">Map</span>
+            </div>
+            <div class="qs-code-block">
+              <button class="qs-copy-btn" data-copy-code>Copy</button>
+              <code><span class="t-kw">const</span> map = <span class="t-kw">await</span> marrow.<span class="t-method">getMap</span>(
+  <span class="t-str">"linkedin.com/jobs"</span>
+);
+<span class="t-comment">// Returns cached or JIT-mapped</span></code>
+            </div>
+          </div>
+        </div>
+
+        <p class="qs-note" data-animate="fade-up">
+          Cost: <strong>~$0.004</strong> per map · Your Gemini key, your costs · <strong>$0.00</strong> for cached lookups
+        </p>
+      </div>
+    </section>
+
+    <!-- ═══ BYOK ═══ -->
+    <section class="byok section">
+      <div class="container">
+        <div class="byok-layout">
+          <div class="byok-content" data-animate="fade-right">
+            <h2>Bring Your Own Key</h2>
+            <p>
+              Marrow never charges for AI. You provide your Gemini API key, pay Google directly,
+              and get the full power of AI-generated web maps. The shared registry is free for everyone.
+            </p>
+            <div class="byok-badges">
+              <div class="byok-badge">
+                <span class="byok-badge-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+                </span>
+                <span class="byok-badge-text">Zero AI costs for Marrow</span>
+              </div>
+              <div class="byok-badge">
+                <span class="byok-badge-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+                </span>
+                <span class="byok-badge-text">Your key stays local — never stored</span>
+              </div>
+              <div class="byok-badge">
+                <span class="byok-badge-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                </span>
+                <span class="byok-badge-text">Maps structure, never content</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="byok-flow" data-animate="fade-left">
+            <div class="byok-flow-node byok-flow-node--user">
+              👤 Your Gemini API Key
+            </div>
+            <span class="byok-flow-arrow">↓</span>
+            <span class="byok-flow-label">geminiKey: "YOUR_KEY"</span>
+            <div class="byok-flow-node byok-flow-node--marrow">
+              ⚡ Marrow Pipeline
+            </div>
+            <span class="byok-flow-arrow">↓</span>
+            <span class="byok-flow-label">Selectors only — no content</span>
+            <div class="byok-flow-node byok-flow-node--output">
+              🗺️ Shared Registry Map
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ CTA ═══ -->
+    <section class="cta-section">
+      <div class="container">
+        <h2 class="cta-title" data-animate="fade-up">Stop fighting brittle selectors.</h2>
+        <p class="cta-subtitle" data-animate="fade-up">Start mapping the web.</p>
+        <div class="cta-buttons" data-animate="fade-up">
+          <a href="#quickstart" class="btn btn-primary btn-lg">
+            Get Started Free
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </a>
+          <a href="https://docs.marrow.dev" target="_blank" rel="noopener" class="btn btn-outline btn-lg">
+            Read the Docs
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ Footer ═══ -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-left">
+          <span class="footer-logo">Marrow</span>
+          <span class="footer-copy">MIT License · Built by <a href="https://twitter.com/tomiwa_amole" target="_blank" rel="noopener" style="color: var(--color-accent);">@tomiwa_amole</a></span>
+        </div>
+        <div class="footer-links">
+          <a href="https://github.com/yourusername/marrow" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+            GitHub
+          </a>
+          <a href="https://twitter.com/tomiwa_amole" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            Twitter
+          </a>
+          <a href="https://docs.marrow.dev" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+            Docs
+          </a>
+        </div>
+      </div>
+    </footer>
+
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
