@@ -125,6 +125,8 @@
   color: #E4E4E7;
   overflow-x: auto;
   white-space: pre;
+  max-width: 100%;
+  word-break: break-all;
 }
 
 .qs-note {
@@ -148,5 +150,19 @@
 
   .qs-left {
     position: static;
+  }
+}
+
+@media (max-width: 480px) {
+  .qs-code-window {
+    border-radius: var(--radius-md);
+  }
+
+  .qs-code-body {
+    padding: var(--space-4);
+  }
+
+  .qs-code-body pre {
+    font-size: 11px;
   }
 }
