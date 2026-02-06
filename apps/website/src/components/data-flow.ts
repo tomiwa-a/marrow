@@ -33,14 +33,14 @@ const BG_CARD = "rgba(255, 255, 255, 0.04)";
 const BORDER = "rgba(255, 255, 255, 0.06)";
 
 const DOMAINS = [
-  { label: "linkedin.com/jobs", elements: 24 },
-  { label: "github.com/issues", elements: 18 },
-  { label: "stripe.com/docs", elements: 31 },
-  { label: "news.ycombinator.com", elements: 12 },
-  { label: "twitter.com/home", elements: 22 },
-  { label: "reddit.com/r/all", elements: 16 },
-  { label: "instagram.com/dm", elements: 19 },
-  { label: "amazon.com/search", elements: 28 },
+  { label: "linkedin.com/jobs", short: "linkedin.com", elements: 24 },
+  { label: "github.com/issues", short: "github.com", elements: 18 },
+  { label: "stripe.com/docs", short: "stripe.com", elements: 31 },
+  { label: "news.ycombinator.com", short: "ycombinator", elements: 12 },
+  { label: "twitter.com/home", short: "twitter.com", elements: 22 },
+  { label: "reddit.com/r/all", short: "reddit.com", elements: 16 },
+  { label: "instagram.com/dm", short: "instagram", elements: 19 },
+  { label: "amazon.com/search", short: "amazon.com", elements: 28 },
 ];
 
 export function initDataFlow(): void {
@@ -59,6 +59,7 @@ export function initDataFlow(): void {
   let rows: RegistryRow[] = [];
   let frameCount = 0;
   let isVisible = true;
+  let isMobile = false;
 
   function resize(): void {
     const wrapper = canvas!.parentElement!;
@@ -69,25 +70,23 @@ export function initDataFlow(): void {
     canvas!.width = width * dpr;
     canvas!.height = height * dpr;
     ctx!.setTransform(dpr, 0, 0, dpr, 0, 0);
+    isMobile = width < 400;
     initRows();
   }
 
   function initRows(): void {
-    const dbX = width * 0.55;
     const dbY = height * 0.15;
     const rowH = Math.min(32, height * 0.08);
+    const maxRows = isMobile ? 4 : Math.min(6, Math.floor((height * 0.7) / rowH));
 
-    rows = DOMAINS.slice(0, Math.min(6, Math.floor((height * 0.7) / rowH))).map(
+    rows = DOMAINS.slice(0, maxRows).map(
       (d, i) => ({
-        domain: d.label,
+        domain: isMobile ? d.short : d.label,
         elements: d.elements,
         opacity: 0.5 + Math.random() * 0.5,
         y: dbY + 40 + i * rowH,
       }),
     );
-
-    // Store dbX for packet targeting
-    (canvas as HTMLCanvasElement & { _dbX?: number })._dbX = dbX;
   }
 
   function spawnPacket(): void {
@@ -150,9 +149,10 @@ export function initDataFlow(): void {
 
     // Header text
     ctx.fillStyle = TEXT_MED;
-    ctx.font = `500 11px 'Geist Mono', monospace`;
-    ctx.fillText("DOMAIN", dbX + 16, dbY + 23);
-    ctx.fillText("ELEMENTS", dbX + dbW - 80, dbY + 23);
+    const headerFont = isMobile ? 9 : 11;
+    ctx.font = `500 ${headerFont}px 'Geist Mono', monospace`;
+    ctx.fillText("DOMAIN", dbX + 12, dbY + 23);
+    ctx.fillText("ELEMENTS", dbX + dbW - (isMobile ? 64 : 80), dbY + 23);
 
     // Database icon in header
     ctx.fillStyle = TEAL_DIM;
@@ -191,8 +191,9 @@ export function initDataFlow(): void {
 
       // Domain name
       ctx!.fillStyle = row.opacity > 0.8 ? TEXT_BRIGHT : TEXT_MED;
-      ctx!.font = `400 12px 'Geist Mono', monospace`;
-      ctx!.fillText(row.domain, dbX + 16, ry + rowH / 2 + 4);
+      const domainFont = isMobile ? 10 : 12;
+      ctx!.font = `400 ${domainFont}px 'Geist Mono', monospace`;
+      ctx!.fillText(row.domain, dbX + (isMobile ? 12 : 16), ry + rowH / 2 + 4);
 
       // Element count badge
       const badgeText = `${row.elements}`;
@@ -257,7 +258,7 @@ export function initDataFlow(): void {
     ctx.fillStyle = TEXT_DIM;
     ctx.font = `500 9px 'Geist Mono', monospace`;
     ctx.textAlign = "center";
-    ctx.fillText("AI MAPPER", (arrowStartX + arrowEndX) / 2, arrowY - 10);
+    ctx.fillText("MARROW", (arrowStartX + arrowEndX) / 2, arrowY - 10);
     ctx.textAlign = "left";
   }
 
