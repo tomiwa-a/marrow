@@ -2,12 +2,23 @@ import { query, mutation } from "./_generated/server";
 import { v } from "convex/values";
 
 function parseUrl(input: string): { domain: string; url: string } {
-  let cleaned = input.toLowerCase().trim();
-  cleaned = cleaned.replace(/^https?:\/\//, "");
-  cleaned = cleaned.replace(/\/$/, "");
+  const withProtocol = input.match(/^https?:\/\//) ? input : `https://${input}`;
   
-  const domain = cleaned.split("/")[0];
-  return { domain, url: cleaned };
+  try {
+    const urlObj = new URL(withProtocol);
+    const domain = urlObj.hostname.replace(/^www\./, "");
+    
+    let displayUrl = domain + urlObj.pathname + urlObj.search;
+    
+    if (displayUrl.endsWith("/") && urlObj.pathname === "/") {
+      displayUrl = displayUrl.slice(0, -1);
+    }
+
+    return { domain, url: displayUrl };
+  } catch (e) {
+    const clean = input.toLowerCase().trim();
+    return { domain: clean.split(/[/?#]/)[0], url: clean };
+  }
 }
 
 export const getMap = query({
@@ -23,20 +34,8 @@ export const getMap = query({
     if (exactMatch) {
       return exactMatch;
     }
-    
-    const domainMaps = await ctx.db
-      .query("page_maps")
-      .withIndex("by_domain", (q) => q.eq("domain", domain))
-      .collect();
-    
-    if (domainMaps.length === 0) {
-      return null;
-    }
-    
-    domainMaps.sort((a, b) => b.usage_count - a.usage_count);
-    const mostPopular = domainMaps[0];
-    
-    return mostPopular;
+
+    return null;
   },
 });
 
@@ -175,6 +174,23 @@ export const getStats = query({
       total_maps: allMaps.length,
       total_requests: totalRequests,
       top_domains: topDomains,
+    };
+  },
+});
+
+export const debugListMapsByDomain = query({
+  args: { domain: v.string() },
+  handler: async (ctx, { domain }) => {
+    const normalizedDomain = parseUrl(domain).domain;
+    const maps = await ctx.db
+      .query("page_maps")
+      .withIndex("by_domain", (q) => q.eq("domain", normalizedDomain))
+      .collect();
+
+    return {
+      domain: normalizedDomain,
+      count: maps.length,
+      urls: maps.map((map) => map.url).sort(),
     };
   },
 });

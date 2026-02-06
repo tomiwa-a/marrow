@@ -29,7 +29,7 @@ export class MarrowClient {
     const map = await this.mapLocally(urlPattern);
     
     await this.registry.mutation("maps:saveMap" as any, {
-      url: map.domain,
+      url: urlPattern,
       domain: map.domain,
       page_type: map.page_type,
       elements: map.elements,

@@ -46,7 +46,6 @@ export class Cartographer {
 
       for (const selector of selectors) {
         try {
-          // Robust extraction: handle missing elements gracefully
           const content = await navigator.page.evaluate((sel) => {
             const el = document.querySelector(sel);
             return el ? (el as HTMLElement).innerText.trim() : null;
