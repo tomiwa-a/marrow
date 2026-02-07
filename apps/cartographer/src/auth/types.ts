@@ -8,3 +8,23 @@ export interface StoredSession {
   metadata: SessionMetadata;
   storageState: any;
 }
+
+export interface AuthSignal {
+  type: "http_status" | "url_redirect" | "dom_element" | "content_pattern";
+  description: string;
+  weight: number;
+}
+
+export interface AuthDetectionResult {
+  required: boolean;
+  confidence: number;
+  signals: AuthSignal[];
+  redirectChain: string[];
+  finalUrl: string;
+}
+
+export interface AuthDetectorOptions {
+  confidenceThreshold?: number;
+  loginFormSelectors?: string[];
+  authWallSelectors?: string[];
+}

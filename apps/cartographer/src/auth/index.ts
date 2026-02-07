@@ -1,2 +1,9 @@
 export { SessionVault } from "./SessionVault";
-export type { SessionMetadata, StoredSession } from "./types";
+export { AuthDetector } from "./AuthDetector";
+export type {
+  SessionMetadata,
+  StoredSession,
+  AuthSignal,
+  AuthDetectionResult,
+  AuthDetectorOptions
+} from "./types";
