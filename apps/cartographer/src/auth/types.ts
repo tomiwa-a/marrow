@@ -28,3 +28,16 @@ export interface AuthDetectorOptions {
   loginFormSelectors?: string[];
   authWallSelectors?: string[];
 }
+
+export interface EscalationOptions {
+  timeoutMs?: number;
+  pollIntervalMs?: number;
+  successIndicators?: string[];
+}
+
+export interface EscalationResult {
+  success: boolean;
+  domain: string;
+  sessionCaptured: boolean;
+  error?: string;
+}
