@@ -1,0 +1,154 @@
+/* ═══ Problem + How It Works — Side by Side Grid ═══ */
+
+.problem-how {
+  background: var(--color-bg-elevated);
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.problem-how > .container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+}
+
+/* ─── Problem Side ─── */
+.problem-panel {
+  padding-right: var(--space-16);
+  border-right: 1px solid var(--color-border);
+}
+
+.problem-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  margin-top: var(--space-8);
+}
+
+.problem-item {
+  display: flex;
+  gap: var(--space-4);
+  align-items: flex-start;
+}
+
+.problem-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  background: #FEF2F2;
+  color: #EF4444;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.problem-icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.problem-item h4 {
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
+  margin-bottom: var(--space-1);
+}
+
+.problem-item p {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  line-height: var(--leading-relaxed);
+}
+
+/* ─── How It Works Side ─── */
+.how-panel {
+  padding-left: var(--space-16);
+}
+
+.how-steps {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+  margin-top: var(--space-8);
+  position: relative;
+}
+
+/* Vertical line connector */
+.how-steps::before {
+  content: '';
+  position: absolute;
+  left: 17px;
+  top: 36px;
+  bottom: 10px;
+  width: 1px;
+  background: linear-gradient(to bottom, var(--color-accent), var(--color-border));
+}
+
+.how-step {
+  display: flex;
+  gap: var(--space-4);
+  align-items: flex-start;
+  position: relative;
+}
+
+.how-step-num {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--color-accent-lighter);
+  color: var(--color-accent);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-bold);
+  flex-shrink: 0;
+  border: 2px solid var(--color-bg-elevated);
+  position: relative;
+  z-index: 1;
+}
+
+.how-step h4 {
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
+  margin-bottom: var(--space-1);
+}
+
+.how-step p {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  line-height: var(--leading-relaxed);
+}
+
+.how-step-tag {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--color-accent);
+  background: var(--color-accent-50);
+  border: 1px solid var(--color-border-accent);
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  margin-top: var(--space-2);
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 900px) {
+  .problem-how > .container {
+    grid-template-columns: 1fr;
+    gap: var(--space-16);
+  }
+
+  .problem-panel {
+    padding-right: 0;
+    border-right: none;
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: var(--space-16);
+  }
+
+  .how-panel {
+    padding-left: 0;
+  }
+}

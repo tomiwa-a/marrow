@@ -95,7 +95,7 @@ Users provide their own Gemini API key. Marrow provides the infrastructure.
 
 ```bash
 # Clone the repo
-git clone https://github.com/yourusername/marrow.git
+git clone https://github.com/tomiwa-a/marrow.git
 cd marrow
 
 # Install dependencies

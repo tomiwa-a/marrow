@@ -1,0 +1,121 @@
+/* ═══ Architecture Section ═══ */
+
+.architecture {
+  background: var(--color-bg-elevated);
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.arch-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-6);
+}
+
+.arch-card {
+  padding: var(--space-8);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  background: var(--color-bg);
+  transition: all var(--duration-slow) var(--ease-out);
+  position: relative;
+}
+
+.arch-card:hover {
+  border-color: var(--color-border-strong);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.arch-card-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-md);
+  background: var(--color-accent-lighter);
+  color: var(--color-accent);
+  margin-bottom: var(--space-5);
+}
+
+.arch-card-icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+.arch-card-title {
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  margin-bottom: var(--space-1);
+}
+
+.arch-card-role {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--color-accent);
+  background: var(--color-accent-50);
+  border: 1px solid var(--color-border-accent);
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  margin-bottom: var(--space-5);
+}
+
+.arch-card-features {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.arch-feature {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+.arch-feature svg {
+  width: 16px;
+  height: 16px;
+  color: var(--color-accent);
+  flex-shrink: 0;
+}
+
+/* Connection lines between cards */
+.arch-flow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4) 0;
+}
+
+.arch-flow-arrow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+}
+
+.arch-flow-arrow::before,
+.arch-flow-arrow::after {
+  content: '';
+  width: 40px;
+  height: 1px;
+  background: var(--color-border-strong);
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 900px) {
+  .arch-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+
+  .arch-card {
+    padding: var(--space-6);
+  }
+}

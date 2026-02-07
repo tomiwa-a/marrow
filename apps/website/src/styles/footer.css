@@ -1,0 +1,135 @@
+/* ═══ CTA Section ═══ */
+
+.cta-section {
+  padding-block: var(--space-32);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-section::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(600px, 100vw);
+  height: 400px;
+  background: radial-gradient(ellipse, var(--color-accent-glow) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.cta-section > .container {
+  position: relative;
+}
+
+.cta-title {
+  font-size: var(--text-4xl);
+  font-weight: var(--weight-bold);
+  letter-spacing: var(--tracking-tight);
+  line-height: var(--leading-tight);
+  margin-bottom: var(--space-3);
+}
+
+.cta-subtitle {
+  font-size: var(--text-lg);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-8);
+}
+
+.cta-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+}
+
+/* ═══ Footer ═══ */
+
+.footer {
+  padding-block: var(--space-10);
+  border-top: 1px solid var(--color-border);
+}
+
+.footer > .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.footer-left {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.footer-logo {
+  font-size: var(--text-base);
+  font-weight: var(--weight-bold);
+  letter-spacing: var(--tracking-tight);
+}
+
+.footer-copy {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.footer-copy a {
+  color: var(--color-accent);
+  transition: opacity var(--duration-fast);
+}
+
+.footer-copy a:hover {
+  opacity: 0.8;
+}
+
+.footer-links {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+}
+
+.footer-links a {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  transition: color var(--duration-fast);
+}
+
+.footer-links a:hover {
+  color: var(--color-text);
+}
+
+.footer-links svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 768px) {
+  .cta-buttons {
+    flex-direction: column;
+  }
+
+  .cta-buttons .btn {
+    width: 100%;
+    max-width: 280px;
+  }
+
+  .footer > .container {
+    flex-direction: column;
+    gap: var(--space-6);
+    text-align: center;
+  }
+
+  .footer-left {
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .footer-links {
+    gap: var(--space-4);
+  }
+}

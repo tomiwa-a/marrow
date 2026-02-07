@@ -11,6 +11,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "cartographer": "npm start --workspace=apps/cartographer",
     "mapper": "npm start --workspace=apps/mapper",
+    "website": "npm run dev --workspace=apps/website",
+    "website:build": "npm run build --workspace=apps/website",
     "api": "npm run dev --workspace=apps/api",
     "api:build": "npm run build --workspace=apps/api",
     "api:start": "npm start --workspace=apps/api"
