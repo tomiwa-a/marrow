@@ -1,7 +1,8 @@
 import express from "express";
 import cors from "cors";
 import rateLimit from "express-rate-limit";
-import { ValidateController, ExtractController, HealthController, RegistryController } from "./controllers";
+import { createRouter } from "./routes";
+import { errorHandler, requestLogger } from "./middleware";
 
 const port = parseInt(process.env.PORT || "3000", 10);
 const convexUrl = process.env.CONVEX_URL || "https://jovial-ibis-732.convex.cloud";
@@ -30,30 +31,11 @@ const limiter = rateLimit({
 });
 app.use(limiter);
 
-app.use((req, _res, next) => {
-  console.log(`${new Date().toISOString()} ${req.method} ${req.path}`);
-  next();
-});
+app.use(requestLogger);
 
-const healthController = new HealthController();
-const validateController = new ValidateController();
-const extractController = new ExtractController();
-const registryController = new RegistryController(convexUrl);
+app.use(createRouter(convexUrl));
 
-app.get("/", healthController.info.bind(healthController));
-app.get("/health", healthController.health.bind(healthController));
-
-app.get("/v1/map", registryController.getMap.bind(registryController));
-app.get("/v1/manifest", registryController.getManifest.bind(registryController));
-app.get("/v1/stats", registryController.getStats.bind(registryController));
-
-app.post("/v1/validate", validateController.validate.bind(validateController));
-app.post("/v1/extract", extractController.extract.bind(extractController));
-
-app.use((err: Error, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
-  console.error("Unhandled error:", err);
-  res.status(500).json({ error: "Internal server error" });
-});
+app.use(errorHandler);
 
 app.listen(port, () => {
   console.log(`[Marrow API] Server running on http://localhost:${port}`);
