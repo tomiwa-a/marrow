@@ -25,7 +25,7 @@ export class ValidateController {
       return res.json({ valid, results });
     } catch (error: any) {
       if (error instanceof z.ZodError) {
-        return res.status(400).json({ error: error.errors });
+        return res.status(400).json({ error: error.message });
       }
       return res.status(500).json({ error: error.message });
     }

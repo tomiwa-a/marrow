@@ -32,7 +32,7 @@ export class RegistryController {
       return res.json(map);
     } catch (error: any) {
       if (error instanceof z.ZodError) {
-        return res.status(400).json({ error: error.errors });
+        return res.status(400).json({ error: error.message });
       }
       return res.status(500).json({ error: error.message });
     }
@@ -49,7 +49,7 @@ export class RegistryController {
       return res.json(manifest);
     } catch (error: any) {
       if (error instanceof z.ZodError) {
-        return res.status(400).json({ error: error.errors });
+        return res.status(400).json({ error: error.message });
       }
       return res.status(500).json({ error: error.message });
     }

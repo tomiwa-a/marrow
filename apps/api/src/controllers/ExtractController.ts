@@ -20,7 +20,7 @@ export class ExtractController {
       return res.json(result);
     } catch (error: any) {
       if (error instanceof z.ZodError) {
-        return res.status(400).json({ error: error.errors });
+        return res.status(400).json({ error: error.message });
       }
       return res.status(500).json({ error: error.message });
     }
