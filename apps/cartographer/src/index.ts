@@ -1,45 +1,8 @@
 import { Navigator } from "./core/navigator";
 import { ContextExtractor } from "./core/extractor";
+import { PageSnapshot, SnapDebug, ExtractDebug, ExtractSelectorDebug } from "./types";
 
-export interface PageSnapshot {
-  html: string;
-  axeSummary: string;
-}
-
-export interface SnapDebug {
-  timingsMs: {
-    init: number;
-    goto: number;
-    html: number;
-    axe: number;
-    total: number;
-  };
-  finalUrl: string;
-  htmlLength: number;
-  axeCounts: {
-    violations: number;
-    passes: number;
-    incomplete: number;
-  };
-}
-
-export interface ExtractSelectorDebug {
-  selector: string;
-  found: boolean;
-  textLength: number;
-  error?: string;
-}
-
-export interface ExtractDebug {
-  timingsMs: {
-    init: number;
-    goto: number;
-    extract: number;
-    total: number;
-  };
-  finalUrl: string;
-  selectors: ExtractSelectorDebug[];
-}
+export type { PageSnapshot, SnapDebug, ExtractDebug, ExtractSelectorDebug };
 
 export class Cartographer {
   static async snap(url: string, headless = true): Promise<PageSnapshot> {
@@ -152,7 +115,7 @@ export class Cartographer {
       t = Date.now();
       for (const selector of selectors) {
         try {
-          const content = await navigator.page.evaluate((sel) => {
+          const content = await navigator.page.evaluate((sel: string) => {
             const el = document.querySelector(sel);
             return el ? (el as HTMLElement).innerText.trim() : null;
           }, selector);
