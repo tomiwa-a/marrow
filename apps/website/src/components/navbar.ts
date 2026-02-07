@@ -44,9 +44,13 @@ export function initNavbar(): void {
       const target = document.querySelector(href);
       if (target) {
         e.preventDefault();
-        const offsetTop = (target as HTMLElement).offsetTop - 72;
+        const navbarHeight = navbar.getBoundingClientRect().height;
+        const targetTop =
+          (target as HTMLElement).getBoundingClientRect().top +
+          window.scrollY -
+          navbarHeight;
         window.scrollTo({
-          top: offsetTop,
+          top: targetTop,
           behavior: "smooth",
         });
       }
