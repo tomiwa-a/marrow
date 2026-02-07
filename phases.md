@@ -101,17 +101,18 @@ Users provide their own Gemini API key. Marrow provides:
 - [ ] Create video walkthrough
 - [ ] Publish to NPM (beta)
 
-## Phase 8: HTTP API (Optional)
+## Phase 8: HTTP API (Optional) ✅
 
 **Goal:** Allow non-JS clients to use Marrow.
 
-- [ ] Build Express/Hono wrapper around Convex
-- [ ] Expose REST endpoints:
-  - `GET /v1/map?url=...`
-  - `POST /v1/validate` (test selectors)
-  - `POST /v1/extract` (get content using selectors)
-- [ ] Add CORS support
-- [ ] Implement rate limiting
+- [x] Build Express wrapper around Cartographer
+- [x] Expose REST endpoints:
+  - ~~`GET /v1/map?url=...`~~ (removed - violates BYOK)
+  - [x] `POST /v1/validate` (test selectors)
+  - [x] `POST /v1/extract` (get content using selectors)
+- [x] Add CORS support
+- [x] Implement rate limiting
+- [x] **Note:** Removed map/manifest/stats endpoints (require API keys, violate BYOK principle)
 
 ## Phase 9: Authentication & Session Management (Probe & Escalate)
 
