@@ -1,9 +1,10 @@
 import express from "express";
 import cors from "cors";
 import rateLimit from "express-rate-limit";
-import { ValidateController, ExtractController, HealthController } from "./controllers";
+import { ValidateController, ExtractController, HealthController, RegistryController } from "./controllers";
 
 const port = parseInt(process.env.PORT || "3000", 10);
+const convexUrl = process.env.CONVEX_URL || "https://jovial-ibis-732.convex.cloud";
 
 const app = express();
 
@@ -37,9 +38,14 @@ app.use((req, _res, next) => {
 const healthController = new HealthController();
 const validateController = new ValidateController();
 const extractController = new ExtractController();
+const registryController = new RegistryController(convexUrl);
 
 app.get("/", healthController.info.bind(healthController));
 app.get("/health", healthController.health.bind(healthController));
+
+app.get("/v1/map", registryController.getMap.bind(registryController));
+app.get("/v1/manifest", registryController.getManifest.bind(registryController));
+app.get("/v1/stats", registryController.getStats.bind(registryController));
 
 app.post("/v1/validate", validateController.validate.bind(validateController));
 app.post("/v1/extract", extractController.extract.bind(extractController));
@@ -51,5 +57,6 @@ app.use((err: Error, _req: express.Request, res: express.Response, _next: expres
 
 app.listen(port, () => {
   console.log(`[Marrow API] Server running on http://localhost:${port}`);
+  console.log(`[Marrow API] Registry: ${convexUrl}`);
   console.log(`[Marrow API] BYOK - Bring Your Own Key (no server-side API keys)`);
 });
