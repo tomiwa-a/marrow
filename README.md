@@ -93,6 +93,9 @@ Users provide their own Gemini API key. Marrow provides the infrastructure.
 
 ## Quick Start
 
+**Requirements:**
+- Node.js `^18.0.0 || ^20.0.0 || >=22.0.0`
+
 ```bash
 # Clone the repo
 git clone https://github.com/tomiwa-a/marrow.git
