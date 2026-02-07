@@ -148,16 +148,6 @@ export class MarrowClient {
     return await this.registry.query("maps:getStats" as any);
   }
 
-  private async mapLocally(urlPattern: string): Promise<PageStructure> {
-    const fullUrl = urlPattern.startsWith("http")
-      ? urlPattern
-      : `https://${urlPattern}`;
-
-    const snapshot = await Cartographer.snap(fullUrl);
-    const result = await this.mapper.analyze(fullUrl, snapshot);
-
-    return result;
-  }
 
   private async mapLocallyDetailed(urlPattern: string): Promise<{
     map: PageStructure;
