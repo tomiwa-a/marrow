@@ -141,20 +141,44 @@ curl -X POST http://localhost:3000/v1/extract \
 
 ## Architecture
 
+### File Structure
+
+```
+apps/api/
+├── src/
+│   ├── controllers/
+│   │   ├── HealthController.ts      # Health check and API info
+│   │   ├── ValidateController.ts    # Selector validation
+│   │   ├── ExtractController.ts     # Content extraction
+│   │   └── RegistryController.ts    # Registry queries
+│   ├── middleware/
+│   │   ├── errorHandler.ts          # Error handling
+│   │   ├── requestLogger.ts         # Request logging
+│   │   └── index.ts                 # Middleware exports
+│   ├── routes/
+│   │   └── index.ts                 # Route definitions
+│   └── index.ts                     # App initialization
+├── package.json
+├── tsconfig.json
+└── README.md
+```
+
 ### Controllers
 
 - **HealthController** - Health check and API info
 - **ValidateController** - Selector validation
 - **ExtractController** - Content extraction
+- **RegistryController** - Convex registry queries (getMap, getManifest, getStats)
 
-All controllers use dependency injection and follow OOP principles.
+All controllers follow OOP principles with dependency injection where needed.
 
-### Middleware
+### Middleware Stack
 
-- **CORS** - Configurable cross-origin requests
-- **Rate Limiting** - 100 requests/minute per IP (configurable)
-- **Request Logging** - Timestamps and request paths
-- **Error Handling** - Centralized error responses
+1. **JSON Parser** - `express.json()`
+2. **CORS** - Configurable origins (default: `*`)
+3. **Rate Limiting** - 100 req/min per IP (configurable)
+4. **Request Logger** - Timestamps and request paths
+5. **Error Handler** - Centralized error responses
 
 ## Development
 
