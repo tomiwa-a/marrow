@@ -1,9 +1,7 @@
 import express from "express";
 import cors from "cors";
 import rateLimit from "express-rate-limit";
-import { ValidateController } from "./controllers/ValidateController.js";
-import { ExtractController } from "./controllers/ExtractController.js";
-import { HealthController } from "./controllers/HealthController.js";
+import { ValidateController, ExtractController, HealthController } from "./controllers.js";
 
 const port = parseInt(process.env.PORT || "3000", 10);
 
