@@ -22,20 +22,23 @@ export function initPreview(): void {
   });
 
   // Copy button for preview
-  copyBtn?.addEventListener("click", () => {
-    const activePanel = document.querySelector(".preview-code.active");
-    if (!activePanel) return;
+  if (copyBtn) {
+    const btn = copyBtn;
+    btn.addEventListener("click", () => {
+      const activePanel = document.querySelector(".preview-code.active");
+      if (!activePanel) return;
 
-    const text = activePanel.textContent || "";
-    navigator.clipboard.writeText(text).then(() => {
-      copyBtn.textContent = "Copied!";
-      copyBtn.classList.add("copied");
-      setTimeout(() => {
-        copyBtn.textContent = "Copy";
-        copyBtn.classList.remove("copied");
-      }, 2000);
+      const text = activePanel.textContent || "";
+      navigator.clipboard.writeText(text).then(() => {
+        btn.textContent = "Copied!";
+        btn.classList.add("copied");
+        setTimeout(() => {
+          btn.textContent = "Copy";
+          btn.classList.remove("copied");
+        }, 2000);
+      });
     });
-  });
+  }
 
   // Quick start copy button
   document.querySelectorAll(".qs-copy-btn").forEach((btn) => {
